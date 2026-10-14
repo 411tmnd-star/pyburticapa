@@ -1,0 +1,9 @@
+{
+ "bytes": 168,
+ "file": "quillfin_notes_synthetic.md",
+ "format": "unknown",
+ "pipeline": "1.0",
+ "reason": "no role markers; treated as a document by decision (may contain prompts)",
+ "sha256": "fd8ebce42f5575871e346546905d119c40e45b7268a09499c946e3344bae67b1",
+ "status": "document"
+}

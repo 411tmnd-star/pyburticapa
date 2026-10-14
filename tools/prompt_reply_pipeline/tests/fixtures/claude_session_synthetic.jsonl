@@ -1,0 +1,6 @@
+{"type":"user","isMeta":false,"message":{"role":"user","content":"What is a fictional tool?"}}
+this line is not json and is counted as bad
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"text","text":"A fictional tool is a made-up helper."}]}}
+{"type":"user","isMeta":true,"message":{"role":"user","content":"meta record, skipped"}}
+{"type":"user","message":{"role":"user","content":"Name one."}}
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"text","text":"Example: the fictional Tool 9."}]}}

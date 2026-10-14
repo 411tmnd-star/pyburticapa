@@ -1,0 +1,3 @@
+# Store every file byte for byte. The Toolkit records SHA-256 hashes (MIGRATION_LOG.csv, INVENTORY.csv) and
+# deliberately mixes CRLF and LF files (for example discover/discover.py is CRLF), so Git must not convert line endings.
+* -text

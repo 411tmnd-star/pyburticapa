@@ -1,0 +1,15 @@
+MIME-Version: 1.0
+Content-Type: multipart/related; boundary="BOUNDARY01"
+
+--BOUNDARY01
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html><head><title>AI Mode conversation: Fictional gadget - Google Search</title></head><body>
+<h1>AI Mode conversation: Fictional gadget</h1>
+<div data-scope-id="turn"><h2>You said:</h2><div><p>What is a fictional gadget?</p></div>
+<div><h3>AI Mode reply for the question above</h3><div jsname="KFl8ub"><p>A fictional gadget is a made-up test object.</p></div></div></div>
+<div data-scope-id="turn"><h2>You said:</h2><div><p>Name its colour.</p></div>
+<div><h3>AI Mode reply for the question above</h3><div jsname="KFl8ub"><p>It is teal.</p></div></div></div>
+</body></html>
+--BOUNDARY01--

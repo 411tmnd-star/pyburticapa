@@ -1,0 +1,134 @@
+{
+ "convert chat transcript jsonl to markdown": {
+  "direct": 6,
+  "tentative": 30,
+  "toolkit_hits": 0,
+  "top3": [
+   [
+    "documented-workflow",
+    "ChatGPT export / session → Markdown converters",
+    "WORKFLOW_DISCOVERY_CATALOGUE.md"
+   ],
+   [
+    "python-capability",
+    "Format conversion framework",
+    "Browser-DevTools-Python-Research/research/python-executable-capabiliti"
+   ],
+   [
+    "documented-workflow",
+    "X chat links → notes → video transcripts (`links.md`, **runn",
+    "WORKFLOW_DISCOVERY_CATALOGUE.md"
+   ]
+  ]
+ },
+ "separate prompts from replies in chat exports": {
+  "direct": 2,
+  "tentative": 30,
+  "toolkit_hits": 0,
+  "top3": [
+   [
+    "documented-workflow",
+    "ChatGPT export / session → Markdown converters",
+    "WORKFLOW_DISCOVERY_CATALOGUE.md"
+   ],
+   [
+    "python-capability",
+    "Format conversion framework",
+    "Browser-DevTools-Python-Research/research/python-executable-capabiliti"
+   ],
+   [
+    "documented-workflow",
+    "Gemini shared-chat → Markdown toolchain",
+    "WORKFLOW_DISCOVERY_CATALOGUE.md"
+   ]
+  ]
+ },
+ "pdf to markdown converter": {
+  "direct": 4,
+  "tentative": 21,
+  "toolkit_hits": 0,
+  "top3": [
+   [
+    "documented-workflow",
+    "MHT / MHTML → Markdown converters (two versions)",
+    "WORKFLOW_DISCOVERY_CATALOGUE.md"
+   ],
+   [
+    "documented-workflow",
+    "ChatGPT export / session → Markdown converters",
+    "WORKFLOW_DISCOVERY_CATALOGUE.md"
+   ],
+   [
+    "python-capability",
+    "Format conversion framework",
+    "Browser-DevTools-Python-Research/research/python-executable-capabiliti"
+   ]
+  ]
+ },
+ "google ai mode mht conversation": {
+  "direct": 1,
+  "tentative": 29,
+  "toolkit_hits": 0,
+  "top3": [
+   [
+    "documented-workflow",
+    "MHT / MHTML → Markdown converters (two versions)",
+    "WORKFLOW_DISCOVERY_CATALOGUE.md"
+   ],
+   [
+    "tool",
+    "Google ADK",
+    "registry/tools.part2.json"
+   ],
+   [
+    "tool",
+    "Google AI Studio",
+    "registry/tools.part3.json"
+   ]
+  ]
+ },
+ "verify toolkit tests hashes": {
+  "direct": 3,
+  "tentative": 30,
+  "toolkit_hits": 0,
+  "top3": [
+   [
+    "python-capability",
+    "File hashing / integrity manifest",
+    "Browser-DevTools-Python-Research/research/python-executable-capabiliti"
+   ],
+   [
+    "documented-workflow",
+    "411 Harness run tracker and registry tooling (a script chain",
+    "WORKFLOW_DISCOVERY_CATALOGUE.md"
+   ],
+   [
+    "documented-workflow",
+    "KNOWLEDGE_EXTRACTION v1 corpus-preparation pipeline (frozen)",
+    "WORKFLOW_DISCOVERY_CATALOGUE.md"
+   ]
+  ]
+ },
+ "repository inspection read only report": {
+  "direct": 3,
+  "tentative": 30,
+  "toolkit_hits": 0,
+  "top3": [
+   [
+    "documented-workflow",
+    "KNOWLEDGE_EXTRACTION v1 corpus-preparation pipeline (frozen)",
+    "WORKFLOW_DISCOVERY_CATALOGUE.md"
+   ],
+   [
+    "tool",
+    "GitHub Repository Research",
+    "registry/tools.part1.json"
+   ],
+   [
+    "repo-record",
+    "dfVFS",
+    "assets/PY_LISTiNG/capability_decisions.csv"
+   ]
+  ]
+ }
+}

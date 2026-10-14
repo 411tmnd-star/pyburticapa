@@ -1,0 +1,172 @@
+# Motion plan configuration (v0.1). Everything here is an editable creative choice, not a rule
+# about music or a limit on what an animation may do. The plan reads one visual mapping (the
+# profile) and turns its control channels into abstract motion on abstract tracks.
+#
+# Tracks are abstract targets. Each declares which primitives it allows and, per property, how
+# simultaneous actions combine (add | max | priority | exclusive), an amplitude maximum and an
+# optional slew limit (max change per second of the sampled curve). All property values are in
+# [0, 1]: a renderer decides what 1 means for its scene.
+#
+# Rules turn mapping output into actions:
+#   responses     one action per mapping event response on a channel (e.g. each beat pulse)
+#   channel_peaks one action per local peak of a channel (e.g. a transition_weight peak)
+#   continuous    follows a channel while the scene is in an allowed state
+#   hold          a constant level while the scene is in an allowed state
+# Timing policies: reactive (starts at the source time), anticipatory (starts before it so the
+# peak lands on the source time), continuous (follows a signal). Override any value without
+# editing this file:  audiolab motion plan ... --set rules.transition_burst.anticipation_s=1.2
+
+name: default
+version: "1"
+description: Four abstract layers, a four-state scene machine, beat accents and anticipated transitions.
+
+scene:
+  # The scene state follows sections, not beats: a slow trailing average and long dwell times keep
+  # it from flickering with a jagged channel. The cost is a lag: a causal 2 s average recognises a
+  # sudden jump to a loud passage about 1-1.5 s after it happens (anticipated actions are not gated
+  # by this lag; they are placed from the source event itself).
+  signal: intensity         # the mapping channel the state machine watches
+  smooth_s: 2.0
+  slope_window_s: 2.0
+  rest_enter: 0.20
+  rest_exit: 0.35
+  active_enter: 0.65
+  active_exit: 0.50
+  build_slope: 0.08
+  fall_slope: 0.12
+  min_dwell_s: {rest: 2.0, build: 1.5, active: 3.0, settle: 2.0}
+  end_settle_s: 2.0
+  initial: auto
+
+tracks:
+  camera:
+    description: Overall viewpoint / framing.
+    primitives: [drift, pulse, burst]
+    properties:
+      push:  {description: "slow push in (0 = resting frame, 1 = fully pushed in)", combine: max, amplitude_max: 0.8, max_rate_per_s: 1.0}
+      punch: {description: "short impact push on accents (kept apart from the slow push so neither hides the other)", combine: add, amplitude_max: 0.6, max_rate_per_s: 30.0}
+      shake: {description: "restrained shake amount", combine: add, amplitude_max: 0.6, max_rate_per_s: 30.0}
+  main_element:
+    description: The principal subject of the composition.
+    primitives: [drift, sway, pulse, burst]
+    properties:
+      scale:  {description: "size relative to its base size", combine: max, amplitude_max: 1.0, max_rate_per_s: 15.0}
+      sway:   {description: "amount of sway / continuous movement", combine: max, amplitude_max: 1.0, max_rate_per_s: 3.0}
+      accent: {description: "impact accents: pulses and bursts", combine: priority, amplitude_max: 1.0}
+  background:
+    description: The environment behind the subject.
+    primitives: [drift, transition_out, transition_in]
+    properties:
+      drift:       {description: "speed of background drift / parallax", combine: max, amplitude_max: 1.0, max_rate_per_s: 2.0}
+      color_shift: {description: "colour-transition trigger (max: the outgoing and incoming looks cross smoothly)", combine: max, amplitude_max: 1.0}
+  particles:
+    description: Secondary decorative elements.
+    primitives: [drift, pulse, burst]
+    properties:
+      density: {description: "how many particles are present", combine: max, amplitude_max: 1.0, max_rate_per_s: 3.0}
+      sparkle: {description: "fine-detail activity", combine: max, amplitude_max: 1.0, max_rate_per_s: 20.0}
+      burst:   {description: "bursts of particles", combine: add, amplitude_max: 1.0}
+
+rules:
+  # -- continuous: follow the mapping's slow channels ---------------------------------------------
+  - {id: main_scale_follow, kind: continuous, track: main_element, property: scale, primitive: drift, channel: scale, fade_s: 0.5}
+  - {id: main_sway_follow, kind: continuous, track: main_element, property: sway, primitive: sway, channel: motion_weight, states: [build, active, settle]}
+  - {id: camera_push_follow, kind: continuous, track: camera, property: push, primitive: drift, channel: intensity, gain: 0.8, states: [build, active, settle]}
+  - {id: background_drift_follow, kind: continuous, track: background, property: drift, primitive: drift, channel: motion_weight, gain: 0.8}
+  - {id: particles_density_follow, kind: continuous, track: particles, property: density, primitive: drift, channel: density}
+  - {id: particles_sparkle_follow, kind: continuous, track: particles, property: sparkle, primitive: drift, channel: detail_activity, states: [build, active, settle]}
+
+  # -- beat-synchronised accents (one action per mapping pulse response) --------------------------
+  - id: beat_accent
+    kind: responses
+    track: main_element
+    property: accent
+    primitive: pulse
+    channel: pulse_strength
+    min_strength: 0.05
+    policy: anticipatory        # peak lands on the beat; the visual starts 30 ms earlier
+    anticipation_s: 0.03
+    release_s: 0.25
+    priority: 1
+  - id: beat_particles
+    kind: responses
+    track: particles
+    property: burst
+    primitive: pulse
+    channel: pulse_strength
+    min_strength: 0.5
+    policy: reactive
+    attack_s: 0.02
+    release_s: 0.3
+    gain: 0.6
+    states: [active]
+  - id: strong_beat_shake
+    kind: responses
+    track: camera
+    property: shake
+    primitive: pulse
+    channel: pulse_strength
+    min_strength: 0.9
+    policy: reactive
+    attack_s: 0.02
+    release_s: 0.15
+    gain: 0.5
+    states: [active]
+
+  # -- transitions (one set of actions per transition_weight peak) --------------------------------
+  - id: transition_burst
+    kind: channel_peaks
+    track: main_element
+    property: accent
+    primitive: burst
+    channel: transition_weight
+    min_height: 0.5
+    min_prominence: 0.3
+    min_distance_s: 2.0
+    policy: anticipatory
+    anticipation_s: 0.7
+    hold_s: 0.2
+    release_s: 1.0
+    priority: 2                 # outranks beat accents on this property
+  - id: transition_push
+    kind: channel_peaks
+    track: camera
+    property: punch
+    primitive: burst
+    channel: transition_weight
+    policy: anticipatory
+    anticipation_s: 1.0
+    hold_s: 0.3
+    release_s: 1.5
+    gain: 0.5
+  - id: transition_out
+    kind: channel_peaks
+    track: background
+    property: color_shift
+    primitive: transition_out
+    channel: transition_weight
+    policy: anticipatory
+    anticipation_s: 1.0
+    release_s: 0.3
+    priority: 1
+  - id: transition_in
+    kind: channel_peaks
+    track: background
+    property: color_shift
+    primitive: transition_in
+    channel: transition_weight
+    policy: reactive
+    attack_s: 0.4
+    hold_s: 0.2
+    release_s: 1.5
+    priority: 2
+  - id: transition_particles
+    kind: channel_peaks
+    track: particles
+    property: burst
+    primitive: burst
+    channel: transition_weight
+    policy: anticipatory
+    anticipation_s: 0.3
+    hold_s: 0.2
+    release_s: 1.0

@@ -1,0 +1,163 @@
+﻿(node:3784) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+▶ audio maths
+  ✔ maps frequencies to FFT bins (44.1 kHz, 2048 point FFT: about 21.5 Hz per bin) (3.1154ms)
+  ✔ splits the low end into sub and punch at the longer FFT size (0.4277ms)
+  ✔ averages power, not dB, across bins (0.5085ms)
+  ✔ maps dB into 0..1 and clamps (0.513ms)
+  ✔ follows targets faster on attack than on release (0.447ms)
+✔ audio maths (8.3017ms)
+▶ bass shaper
+  ✔ peaks on each kick, not late (kicks are not delayed by the spring) (6.9996ms)
+  ✔ returns toward rest between kicks, so each kick reads as a separate pulse (2.3387ms)
+  ✔ holds a steady, non-pulsing pull for sustained bass (2.2002ms)
+  ✔ sees bass re-entries that a loud steady sub would hide (the Swaguu case) (2.0886ms)
+  ✔ decays to rest in silence (1.8396ms)
+  ✔ uses the same range for quiet and loud material (1.7921ms)
+✔ bass shaper (18.2449ms)
+▶ delay line
+  ✔ returns the value from the requested moment, not the newest one (0.5472ms)
+  ✔ returns the first value before the history begins, and forgets what is older than its window (0.309ms)
+✔ delay line (1.2073ms)
+▶ onset detector
+  ✔ stays quiet on steady input (2.3609ms)
+  ✔ fires once on a sudden broadband rise (1.1853ms)
+  ✔ ignores a second onset inside the refractory period (0.7699ms)
+✔ onset detector (4.7215ms)
+▶ profiles map features to visual parameters
+  ✔ is calm in silence: no pull, swell, sparkle or shock, but it keeps a slow spin (0.6377ms)
+  ✔ pulls harder on bass, and the Pulse profile pulls harder than Drift (0.3523ms)
+  ✔ shifts colour with mid energy (0.7352ms)
+  ✔ passes the bass kick through as a flash, and it is zero in silence (0.315ms)
+  ✔ damps movement under reduced motion and switches off the flicker-like effects (0.2706ms)
+  ✔ keeps every parameter within its range for extreme inputs (0.3791ms)
+✔ profiles map features to visual parameters (3.1775ms)
+▶ constellation projection
+  ✔ places nodes on a unit sphere, deterministically (1.8779ms)
+  ✔ pulls the cluster inward as the pull parameter rises (1.9222ms)
+  ✔ produces identical frames for identical inputs (0.7757ms)
+  ✔ pushes nodes away from a hovering pointer, and pulls them in when attracting (1.8033ms)
+  ✔ only sparkles when the high band and the profile allow it (1.7268ms)
+✔ constellation projection (8.7721ms)
+(node:100) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+▶ the real exported bundle
+  ✔ parses the manifest, every timeline and every curves file (36.823ms)
+  ✔ decodes curves in the right order: the curve at a burst's peak equals the burst's amplitude (6.4931ms)
+  ✔ reads the scene state at any timestamp (3.8213ms)
+  ✔ shows the anticipation of Seyi's transition: preparing before the event, peaking on it (3.5652ms)
+  ✔ finds recurring beat accents across the song and keeps them on the beat (4.5141ms)
+  ✔ interpolates curves linearly and clamps outside the audio (2.7359ms)
+  ✔ agrees with the phases that the Python plan guarantees (25.5797ms)
+✔ the real exported bundle (86.4291ms)
+▶ the parser rejects bad bundles with the exact path
+  ✔ wrong or missing format (4.1471ms)
+  ✔ non-contiguous or short scene states (4.3053ms)
+  ✔ actions with impossible timing or unknown properties (7.3281ms)
+  ✔ non-finite numbers (2.0254ms)
+  ✔ a truncated or corrupt curves file (2.4607ms)
+✔ the parser rejects bad bundles with the exact path (20.9519ms)
+▶ ClockStore
+  ✔ notifies subscribers only when the time changes and stops after unsubscribe (0.5536ms)
+✔ ClockStore (0.7196ms)
+(node:14352) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+▶ the feature contract
+  ✔ clamps, makes finite and freezes (2.668ms)
+  ✔ the idle frame is valid, calm and at rest (0.3221ms)
+  ✔ reports problems in a hand-built frame (0.2128ms)
+✔ the feature contract (5.0106ms)
+▶ FeatureComputer
+  ✔ is deterministic (9.169ms)
+  ✔ answers a kick with a bass hit and leaves silence at zero (1.393ms)
+  ✔ relaxes every value to rest when decayed (1.175ms)
+✔ FeatureComputer (12.1748ms)
+▶ SceneTracker (live scene state)
+  ✔ stays at rest in silence (1.625ms)
+  ✔ goes rest, build, active, settle, rest across a swell and fade (1.7796ms)
+  ✔ does not flicker on a noisy plateau (1.219ms)
+  ✔ only produces the four contract states (1.0305ms)
+✔ SceneTracker (live scene state) (6.2336ms)
+▶ playhead
+  ✔ plays, pauses, seeks and stops at the end (1.1363ms)
+  ✔ an unbounded playhead cannot seek (0.2491ms)
+✔ playhead (1.656ms)
+▶ RealtimeSource
+  ✔ emits valid frames, silent when paused and calm at rest (4.5083ms)
+  ✔ delays what it shows by the device latency (1.1565ms)
+  ✔ applies a sync nudge (0.2871ms)
+✔ RealtimeSource (6.2095ms)
+▶ synthetic source
+  ✔ fires about two beats a second at 120 BPM and a bass hit on each (5.5776ms)
+  ✔ reports itself honestly (0.5122ms)
+✔ synthetic source (6.28ms)
+▶ offline source (the real exported bundle)
+  ✔ loads, validates and plays on a silent clock (64.8904ms)
+  ✔ seeks exactly and does not fire a beat across the jump (17.9041ms)
+  ✔ exposes the motion timeline and curves for consumers that want them (11.6899ms)
+  ✔ says what is wrong when a song, profile or bundle is missing (1.9812ms)
+  ✔ rejects a truncated features file with the field named (1.1597ms)
+  ✔ rejects a features file with the wrong format or channels (0.6069ms)
+✔ offline source (the real exported bundle) (98.8246ms)
+▶ one contract, two paths
+  ✔ the live path and the offline path give the same frames from the same readings (41.8181ms)
+✔ one contract, two paths (41.9987ms)
+▶ AudioPipeline
+  ✔ is idle with no source (0.6426ms)
+  ✔ a consumer works unchanged with live, synthetic and pre-computed sources (18.9047ms)
+  ✔ disposes the previous source when the source changes (0.3415ms)
+  ✔ publishes coarse state only when it changes, not once per frame (3.8204ms)
+  ✔ keeps the coarse state object stable between changes (1.1481ms)
+  ✔ reports a failed play() as an error without throwing (0.4828ms)
+  ✔ survives a source whose sample() throws (0.3499ms)
+  ✔ start and stop drive the loop through the scheduler (0.2057ms)
+  ✔ instance type check: OfflineSource is a FeatureSource (0.0746ms)
+✔ AudioPipeline (26.4375ms)
+(node:15900) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+▶ squall wind field
+  ✔ the jet is divergence-free (it is the curl of a stream function) (2.6054ms)
+  ✔ the jet's peak speed stays near params.jet (3.6078ms)
+  ✔ a storm turns anticlockwise on screen (y down), fastest at its core radius (0.6877ms)
+  ✔ inflow (the kick) points at the eye (0.4726ms)
+  ✔ a gust pushes air the way the pointer moved, and fades out (1.2908ms)
+  ✔ caps a flick so it cannot fling the map (0.3073ms)
+  ✔ storms can be found, seeded up to the limit, and removed but never all of them (1.0168ms)
+  ✔ storms drift east with the prevailing wind and wrap; a held storm stays put (1.3376ms)
+✔ squall wind field (14.4715ms)
+▶ squall weather mapping
+  ✔ silence is the doldrums: Force 0, no rain, slowed motion (1.0258ms)
+  ✔ bass deepens the storms and raises the Beaufort force (0.7418ms)
+  ✔ bass hits drive inflow, mids the jet, highs the rain, energy the trails (0.5087ms)
+  ✔ an approaching front deepens the storms before it arrives (0.3037ms)
+  ✔ reduced motion damps movement but keeps the readings (0.1936ms)
+  ✔ Beaufort, rain and barometer wording (1.8439ms)
+✔ squall weather mapping (5.3797ms)
+▶ squall lightning
+  ✔ strikes on onsets, at most three a second, and flashes at most once a second (1.3344ms)
+  ✔ no strikes when off, in silence or for weak onsets; no flash when soft or reduced (0.3724ms)
+  ✔ a pressure ring fires once per bass hit, not on every frame of it (0.492ms)
+  ✔ bolts branch from the strike point; markers age yellow to red (0.7806ms)
+✔ squall lightning (3.3811ms)
+▶ squall particles
+  ✔ advect deterministically with a seed and respawn instead of leaving the map (152.9148ms)
+  ✔ a speed scale of zero holds every particle still (0.3242ms)
+  ✔ rain follows the highs: more drops when loud, none after it stops (7.9465ms)
+✔ squall particles (161.4162ms)
+▶ squall forecast
+  ✔ finds the bass and the hiss in the right windows (0.2955ms)
+  ✔ the barometer falls before the loud part and rises after it (0.2081ms)
+  ✔ mixes channels and survives an empty file (0.5118ms)
+✔ squall forecast (1.2447ms)
+▶ squall forecast from pre-computed readings
+  ✔ keeps the readings' frame rate and length, normalised to 0..1 (0.3193ms)
+  ✔ gives the same barometer behaviour as a decoded file (0.1385ms)
+✔ squall forecast from pre-computed readings (0.646ms)
+ℹ tests 99
+ℹ suites 24
+ℹ pass 99
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 846.9474

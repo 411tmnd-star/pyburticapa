@@ -1,0 +1,44 @@
+
+== 0. hardware ==
+      [state] "no scene mounted"
+renderer: ANGLE (Intel, Intel(R) UHD Graphics (0x00009B41) Direct3D11 vs_5_0 ps_5_0, D3D11) | WebGL 2.0 (OpenGL ES 3.0 Chromium)
+PASS  hardware GPU in use (not software rendering)  ANGLE (Intel, Intel(R) UHD Graphics (0x00009B41) Direct3D11 vs_5_0 ps_5_0, D3D11)
+
+== 1. initialization ==
+      [state] {"status":"ready","frames":5,"contextLost":false,"animTime":0.13}
+PASS  host status is 'ready'
+PASS  exactly one live scene and one live host  {"scene":{"created":1,"disposed":0},"host":{"created":1,"disposed":0}}
+PASS  the scene owns 3 geometries, 0 textures  {"geometries":3,"textures":0,"programs":3}
+PASS  frames are drawn through the shared pipeline
+
+== 2. silence: the resting state ==
+      [state] {"status":"ready","frames":29,"contextLost":false,"animTime":0.66}
+      silent: frame mean 0.031, scene light above the clear colour 0.018, strips L 0.032 C 0.031 R 0.032
+PASS  silence is calm (params report calm)
+PASS  no ridge in silence
+PASS  R1 rest floor: the grid is readable in silence (scene light above the clear colour >= 0.006)  0.018
+PASS  the resting terrain is low but not flat (tallest value between 0.01 and 0.15)  0.070
+
+== 3. audio response (scripted synthetic input) ==
+      [state] {"status":"ready","frames":89,"contextLost":false,"animTime":3.21}
+PASS  the scripted source starts and is labelled synthetic
+PASS  R3 sustained input is clearly more active than rest (scene light >= 1.8x silence)  0.062 vs 0.018 = 3.46x
+PASS  params are not calm and exposure follows loudness above the floor (0.2 + 0.8 x 0.55 = 0.64)  0.640
+PASS  the terrain scrolls at the full rate while playing (about 14 rows per second)  14.0 rows/s
+      bass-only: strips L 0.093 C 0.061 R 0.063
+      high-only: strips L 0.044 C 0.044 R 0.075
+      mid-only: strips L 0.056 C 0.082 R 0.052
+FAIL  bass alone lights the left strip >= 1.5x the right strip  0.093 vs 0.063
+PASS  high alone lights the right strip >= 1.5x the left strip  0.075 vs 0.044
+FAIL  mid alone lights the centre strip >= 1.5x each side  C 0.082 L 0.056 R 0.052
+      ridge after the hit (first frames): 0.00 0.77 0.67 0.57 0.48 0.41 0.35 0.30; newest row max 0.64 before, 1.00 after; row minimum 0.07 before, 0.54 after
+PASS  a bass hit raises the ridge above 0.3 within 4 frames  0.768
+PASS  the injected row rises above the pre-hit row and never exceeds 1  1.000 vs 0.642
+PASS  the ridge spans the whole row: the row minimum rises by >= 0.3  0.538 vs 0.066
+PASS  no height anywhere exceeds 1
+PASS  the ridge decays back (< 0.05 within 1.8 s)  0.000
+PASS  after the source stops the scene returns to the calm resting state  scene light 0.018 vs 0.018
+
+== 4. reduced motion ==
+      [state] {"status":"ready","frames":1325,"contextLost":false,"animTime":53.51}
+PASS  the host reports reduced motion

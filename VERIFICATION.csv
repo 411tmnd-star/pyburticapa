@@ -1,0 +1,285 @@
+item,check,status,evidence,run_id
+all copied .py,ast.parse,PASS,47 files parsed; problems: none,R1-pre-cleanup
+third-party deps,find_spec (no install),INFO,"pymupdf=yes, bs4=yes, markdownify=yes, requests=yes, faster_whisper=yes, av=yes, websockets=yes, ijson=yes",R1-pre-cleanup
+discover copy,test_discover.py (against Harness root),PASS,ALL PASSED,R1-pre-cleanup
+discover copy,test_ollama_synthesis.py (mocked urlopen),PASS,OK,R1-pre-cleanup
+discover copy,output identical to original: 'extract text from documents ',PASS,rc 0/0; 4191 vs 4191 chars,R1-pre-cleanup
+discover copy,output identical to original: 'convert pdf to markdown --class python',PASS,rc 0/0; 3738 vs 3738 chars,R1-pre-cleanup
+discover copy,output identical to original: 'x twitter links --top 5',PASS,rc 0/0; 2920 vs 2920 chars,R1-pre-cleanup
+chat_reply_extractor copy,output vs existing markdown_files_cleaned (byte compare),PASS,rc=0; 19 files byte-identical to existing outputs; differences: none; 7 generated audit files have no existing reference to compare (informational),R1-pre-cleanup
+prompt_reply_pipeline copy,selftest,PASS,RESULT: ALL PASS,R1-pre-cleanup
+pdf_to_md,--help,PASS,usage: pdf_to_md.py [-h] [--overwrite] [--tables-only] input [output],R1-pre-cleanup
+knowledge_extraction v2 jsonl_to_md,--help,PASS,usage: jsonl_to_md.py [-h] [--out OUT] [--tools] path,R1-pre-cleanup
+knowledge_extraction v2 mht_to_md,--help,PASS,usage: mht_to_md.py [-h] [--out OUT] [input],R1-pre-cleanup
+mht_to_md_tool,--help,PASS,usage: mht_to_md.py [-h] --source SOURCE [--output OUTPUT],R1-pre-cleanup
+x_pipeline (network),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R1-pre-cleanup
+gemini_md2 (browser),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R1-pre-cleanup
+repo_inspect (network),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R1-pre-cleanup
+prompt_reply_pipeline copy,all 21 inputs classified; unknown -> documents,PASS,"rc=0; statuses={'ok': 11, 'document': 10}",R1-pre-cleanup
+discover copy,--extra-sources finds passages in pipeline documents/,PASS,rc=0; 'research_pipeline/documents' in output: True,R1-pre-cleanup
+Harness,"stat snapshot before/after (1_PY, notes, markdown folders)",PASS,changed=0 added=0 removed=0 [],R1-pre-cleanup
+all copied .py,ast.parse,PASS,48 files parsed; problems: none,R20261014-024115-local
+third-party deps,find_spec (no install),INFO,"pymupdf=yes, bs4=yes, markdownify=yes, requests=yes, faster_whisper=yes, av=yes, websockets=yes, ijson=yes",R20261014-024115-local
+prompt_reply_pipeline copy,selftest (synthetic fixtures),PASS,RESULT: ALL PASS,R20261014-024115-local
+pdf_to_md,--help,PASS,usage: pdf_to_md.py [-h] [--overwrite] [--tables-only] input [output],R20261014-024115-local
+knowledge_extraction v2 jsonl_to_md,--help,PASS,usage: jsonl_to_md.py [-h] [--out OUT] [--tools] path,R20261014-024115-local
+knowledge_extraction v2 mht_to_md,--help,PASS,usage: mht_to_md.py [-h] [--out OUT] [input],R20261014-024115-local
+mht_to_md_tool,--help,PASS,usage: mht_to_md.py [-h] --source SOURCE [--output OUTPUT],R20261014-024115-local
+x_pipeline (network),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-024115-local
+gemini_md2 (browser),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-024115-local
+repo_inspect (network),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-024115-local
+prompt_reply_pipeline copy,"unit tests, synthetic fixtures (test_pipeline.py)",PASS,Ran 12 tests in 1.115s; OK,R20261014-024115-local
+required scripts,every .py recorded as COPIED in MIGRATION_LOG still exists,PASS,44 recorded; missing: none,R20261014-024115-local
+x_pipeline,toolkit copy and Harness source both still match the logged SHA-256 (files hashed only; pipeline not run),PASS,8 files; mismatches: none,R20261014-024115-local
+quarantine,every moved file present in quarantine with its original SHA-256 and absent from the toolkit,PASS,69 files; problems: none,R20261014-024115-local
+toolkit scope,no workspace/ research output and no gemini output/ or logs/ folders remain,PASS,remaining: none,R20261014-024115-local
+toolkit scope,no active script/config still points at research_pipeline,FAIL,references in: ['_meta\\patch_verify2.py'],R20261014-024115-local
+toolkit scope,no generated __pycache__ folders,INFO,1 found,R20261014-024115-local
+Harness,"stat snapshot before/after (1_PY, notes, markdown folders)",PASS,changed=0 added=0 removed=0 [],R20261014-024115-local
+all copied .py,ast.parse,PASS,48 files parsed; problems: none,R20261014-024259-local
+third-party deps,find_spec (no install),INFO,"pymupdf=yes, bs4=yes, markdownify=yes, requests=yes, faster_whisper=yes, av=yes, websockets=yes, ijson=yes",R20261014-024259-local
+prompt_reply_pipeline copy,selftest (synthetic fixtures),PASS,RESULT: ALL PASS,R20261014-024259-local
+pdf_to_md,--help,PASS,usage: pdf_to_md.py [-h] [--overwrite] [--tables-only] input [output],R20261014-024259-local
+knowledge_extraction v2 jsonl_to_md,--help,PASS,usage: jsonl_to_md.py [-h] [--out OUT] [--tools] path,R20261014-024259-local
+knowledge_extraction v2 mht_to_md,--help,PASS,usage: mht_to_md.py [-h] [--out OUT] [input],R20261014-024259-local
+mht_to_md_tool,--help,PASS,usage: mht_to_md.py [-h] --source SOURCE [--output OUTPUT],R20261014-024259-local
+x_pipeline (network),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-024259-local
+gemini_md2 (browser),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-024259-local
+repo_inspect (network),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-024259-local
+prompt_reply_pipeline copy,"unit tests, synthetic fixtures (test_pipeline.py)",PASS,Ran 12 tests in 0.740s; OK,R20261014-024259-local
+required scripts,every .py recorded as COPIED in MIGRATION_LOG still exists,PASS,44 recorded; missing: none,R20261014-024259-local
+x_pipeline,toolkit copy and Harness source both still match the logged SHA-256 (files hashed only; pipeline not run),PASS,8 files; mismatches: none,R20261014-024259-local
+quarantine,every moved file present in quarantine with its original SHA-256 and absent from the toolkit,PASS,69 files; problems: none,R20261014-024259-local
+toolkit scope,no workspace/ research output and no gemini output/ or logs/ folders remain,PASS,remaining: none,R20261014-024259-local
+toolkit scope,no active script/config still points at research_pipeline,PASS,references in: none,R20261014-024259-local
+toolkit scope,no generated __pycache__ folders,INFO,1 found,R20261014-024259-local
+Harness,"stat snapshot before/after (1_PY, notes, markdown folders)",PASS,changed=0 added=0 removed=0 [],R20261014-024259-local
+all copied .py,ast.parse,PASS,49 files parsed; problems: none,R20261014-030502-local
+third-party deps,find_spec (no install),INFO,"pymupdf=yes, bs4=yes, markdownify=yes, requests=yes, faster_whisper=yes, av=yes, websockets=yes, ijson=yes",R20261014-030502-local
+prompt_reply_pipeline copy,selftest (synthetic fixtures),PASS,RESULT: ALL PASS,R20261014-030502-local
+pdf_to_md,--help,PASS,usage: pdf_to_md.py [-h] [--overwrite] [--tables-only] input [output],R20261014-030502-local
+knowledge_extraction v2 jsonl_to_md,--help,PASS,usage: jsonl_to_md.py [-h] [--out OUT] [--tools] path,R20261014-030502-local
+knowledge_extraction v2 mht_to_md,--help,PASS,usage: mht_to_md.py [-h] [--out OUT] [input],R20261014-030502-local
+mht_to_md_tool,--help,PASS,usage: mht_to_md.py [-h] --source SOURCE [--output OUTPUT],R20261014-030502-local
+x_pipeline (network),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-030502-local
+gemini_md2 (browser),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-030502-local
+repo_inspect (network),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-030502-local
+prompt_reply_pipeline copy,"unit tests, synthetic fixtures (test_pipeline.py)",PASS,Ran 21 tests in 4.072s; OK,R20261014-030502-local
+required scripts,every .py recorded as COPIED in MIGRATION_LOG still exists,PASS,44 recorded; missing: none,R20261014-030502-local
+x_pipeline,toolkit copy and Harness source both still match the logged SHA-256 (files hashed only; pipeline not run),PASS,8 files; mismatches: none,R20261014-030502-local
+quarantine,every moved file present in quarantine with its original SHA-256 and absent from the toolkit,PASS,69 files; problems: none,R20261014-030502-local
+toolkit scope,no workspace/ research output and no gemini output/ or logs/ folders remain,PASS,remaining: none,R20261014-030502-local
+toolkit scope,no active script/config still points at research_pipeline,PASS,references in: none,R20261014-030502-local
+toolkit scope,no generated __pycache__ folders,INFO,2 found,R20261014-030502-local
+Harness,"stat snapshot before/after (1_PY, notes, markdown folders)",PASS,changed=0 added=0 removed=0 [],R20261014-030502-local
+all copied .py,ast.parse,PASS,49 files parsed; problems: none,R20261014-030537-local
+third-party deps,find_spec (no install),INFO,"pymupdf=yes, bs4=yes, markdownify=yes, requests=yes, faster_whisper=yes, av=yes, websockets=yes, ijson=yes",R20261014-030537-local
+prompt_reply_pipeline copy,selftest (synthetic fixtures),PASS,RESULT: ALL PASS,R20261014-030537-local
+pdf_to_md,--help,PASS,usage: pdf_to_md.py [-h] [--overwrite] [--tables-only] input [output],R20261014-030537-local
+knowledge_extraction v2 jsonl_to_md,--help,PASS,usage: jsonl_to_md.py [-h] [--out OUT] [--tools] path,R20261014-030537-local
+knowledge_extraction v2 mht_to_md,--help,PASS,usage: mht_to_md.py [-h] [--out OUT] [input],R20261014-030537-local
+mht_to_md_tool,--help,PASS,usage: mht_to_md.py [-h] --source SOURCE [--output OUTPUT],R20261014-030537-local
+x_pipeline (network),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-030537-local
+gemini_md2 (browser),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-030537-local
+repo_inspect (network),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-030537-local
+prompt_reply_pipeline copy,"unit tests, synthetic fixtures (test_pipeline.py)",PASS,Ran 21 tests in 4.289s; OK,R20261014-030537-local
+required scripts,every .py recorded as COPIED in MIGRATION_LOG still exists,PASS,44 recorded; missing: none,R20261014-030537-local
+x_pipeline,toolkit copy and Harness source both still match the logged SHA-256 (files hashed only; pipeline not run),PASS,8 files; mismatches: none,R20261014-030537-local
+quarantine,every moved file present in quarantine with its original SHA-256 and absent from the toolkit,PASS,69 files; problems: none,R20261014-030537-local
+toolkit scope,no workspace/ research output and no gemini output/ or logs/ folders remain,PASS,remaining: none,R20261014-030537-local
+toolkit scope,no active script/config still points at research_pipeline,PASS,references in: none,R20261014-030537-local
+toolkit scope,no generated __pycache__ folders,INFO,2 found,R20261014-030537-local
+Harness,"stat snapshot before/after (1_PY, notes, markdown folders)",PASS,changed=0 added=0 removed=0 [],R20261014-030537-local
+all copied .py,ast.parse,PASS,50 files parsed; problems: none,R20261014-031158-local
+third-party deps,find_spec (no install),INFO,"pymupdf=yes, bs4=yes, markdownify=yes, requests=yes, faster_whisper=yes, av=yes, websockets=yes, ijson=yes",R20261014-031158-local
+prompt_reply_pipeline copy,selftest (synthetic fixtures),PASS,RESULT: ALL PASS,R20261014-031158-local
+pdf_to_md,--help,PASS,usage: pdf_to_md.py [-h] [--overwrite] [--tables-only] input [output],R20261014-031158-local
+knowledge_extraction v2 jsonl_to_md,--help,PASS,usage: jsonl_to_md.py [-h] [--out OUT] [--tools] path,R20261014-031158-local
+knowledge_extraction v2 mht_to_md,--help,PASS,usage: mht_to_md.py [-h] [--out OUT] [input],R20261014-031158-local
+mht_to_md_tool,--help,PASS,usage: mht_to_md.py [-h] --source SOURCE [--output OUTPUT],R20261014-031158-local
+x_pipeline (network),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-031158-local
+gemini_md2 (browser),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-031158-local
+repo_inspect (network),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-031158-local
+prompt_reply_pipeline copy,speaker-markdown cases (test_speaker_cases.py),PASS,Ran 3 tests in 0.035s; OK,R20261014-031158-local
+prompt_reply_pipeline copy,"unit tests, synthetic fixtures (test_pipeline.py)",PASS,Ran 20 tests in 2.561s; OK,R20261014-031158-local
+required scripts,every .py recorded as COPIED in MIGRATION_LOG still exists,PASS,44 recorded; missing: none,R20261014-031158-local
+x_pipeline,toolkit copy and Harness source both still match the logged SHA-256 (files hashed only; pipeline not run),PASS,8 files; mismatches: none,R20261014-031158-local
+quarantine,every moved file present in quarantine with its original SHA-256 and absent from the toolkit,PASS,69 files; problems: none,R20261014-031158-local
+toolkit scope,no workspace/ research output and no gemini output/ or logs/ folders remain,PASS,remaining: none,R20261014-031158-local
+toolkit scope,no active script/config still points at research_pipeline,PASS,references in: none,R20261014-031158-local
+toolkit scope,no generated __pycache__ folders,INFO,3 found,R20261014-031158-local
+Harness,"stat snapshot before/after (1_PY, notes, markdown folders)",PASS,changed=0 added=0 removed=0 [],R20261014-031158-local
+all copied .py,ast.parse,PASS,50 files parsed; problems: none,R20261014-031215-local
+third-party deps,find_spec (no install),INFO,"pymupdf=yes, bs4=yes, markdownify=yes, requests=yes, faster_whisper=yes, av=yes, websockets=yes, ijson=yes",R20261014-031215-local
+prompt_reply_pipeline copy,selftest (synthetic fixtures),PASS,RESULT: ALL PASS,R20261014-031215-local
+pdf_to_md,--help,PASS,usage: pdf_to_md.py [-h] [--overwrite] [--tables-only] input [output],R20261014-031215-local
+knowledge_extraction v2 jsonl_to_md,--help,PASS,usage: jsonl_to_md.py [-h] [--out OUT] [--tools] path,R20261014-031215-local
+knowledge_extraction v2 mht_to_md,--help,PASS,usage: mht_to_md.py [-h] [--out OUT] [input],R20261014-031215-local
+mht_to_md_tool,--help,PASS,usage: mht_to_md.py [-h] --source SOURCE [--output OUTPUT],R20261014-031215-local
+x_pipeline (network),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-031215-local
+gemini_md2 (browser),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-031215-local
+repo_inspect (network),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-031215-local
+prompt_reply_pipeline copy,speaker-markdown cases (test_speaker_cases.py),PASS,Ran 3 tests in 0.034s; OK,R20261014-031215-local
+prompt_reply_pipeline copy,"unit tests, synthetic fixtures (test_pipeline.py)",PASS,Ran 20 tests in 2.564s; OK,R20261014-031215-local
+required scripts,every .py recorded as COPIED in MIGRATION_LOG still exists,PASS,44 recorded; missing: none,R20261014-031215-local
+x_pipeline,toolkit copy and Harness source both still match the logged SHA-256 (files hashed only; pipeline not run),PASS,8 files; mismatches: none,R20261014-031215-local
+quarantine,every moved file present in quarantine with its original SHA-256 and absent from the toolkit,PASS,69 files; problems: none,R20261014-031215-local
+toolkit scope,no workspace/ research output and no gemini output/ or logs/ folders remain,PASS,remaining: none,R20261014-031215-local
+toolkit scope,no active script/config still points at research_pipeline,PASS,references in: none,R20261014-031215-local
+toolkit scope,no generated __pycache__ folders,INFO,3 found,R20261014-031215-local
+Harness,"stat snapshot before/after (1_PY, notes, markdown folders)",PASS,changed=0 added=0 removed=0 [],R20261014-031215-local
+all copied .py,ast.parse,PASS,52 files parsed; problems: none,R20261014-031702-local
+third-party deps,find_spec (no install),INFO,"pymupdf=yes, bs4=yes, markdownify=yes, requests=yes, faster_whisper=yes, av=yes, websockets=yes, ijson=yes",R20261014-031702-local
+prompt_reply_pipeline copy,selftest (synthetic fixtures),PASS,RESULT: ALL PASS,R20261014-031702-local
+pdf_to_md,--help,PASS,usage: pdf_to_md.py [-h] [--overwrite] [--tables-only] input [output],R20261014-031702-local
+knowledge_extraction v2 jsonl_to_md,--help,PASS,usage: jsonl_to_md.py [-h] [--out OUT] [--tools] path,R20261014-031702-local
+knowledge_extraction v2 mht_to_md,--help,PASS,usage: mht_to_md.py [-h] [--out OUT] [input],R20261014-031702-local
+mht_to_md_tool,--help,PASS,usage: mht_to_md.py [-h] --source SOURCE [--output OUTPUT],R20261014-031702-local
+x_pipeline (network),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-031702-local
+gemini_md2 (browser),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-031702-local
+repo_inspect (network),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-031702-local
+prompt_reply_pipeline copy,speaker-markdown cases (test_speaker_cases.py),PASS,Ran 3 tests in 0.047s; OK,R20261014-031702-local
+pipeline -> discover,synthetic pipeline output discoverable via --extra-sources; prompts excluded; empty root (no Harness read),PASS,Ran 6 tests in 1.169s; OK,R20261014-031702-local
+prompt_reply_pipeline copy,"unit tests, synthetic fixtures (test_pipeline.py)",FAIL,Ran 20 tests in 2.521s; FAILED (failures=1),R20261014-031702-local
+required scripts,every .py recorded as COPIED in MIGRATION_LOG still exists,PASS,44 recorded; missing: none,R20261014-031702-local
+x_pipeline,toolkit copy and Harness source both still match the logged SHA-256 (files hashed only; pipeline not run),PASS,8 files; mismatches: none,R20261014-031702-local
+quarantine,every moved file present in quarantine with its original SHA-256 and absent from the toolkit,PASS,69 files; problems: none,R20261014-031702-local
+toolkit scope,no workspace/ research output and no gemini output/ or logs/ folders remain,PASS,remaining: none,R20261014-031702-local
+toolkit scope,no active script/config still points at research_pipeline,PASS,references in: none,R20261014-031702-local
+toolkit scope,no generated __pycache__ folders,INFO,3 found,R20261014-031702-local
+Harness,"stat snapshot before/after (1_PY, notes, markdown folders)",PASS,changed=0 added=0 removed=0 [],R20261014-031702-local
+all copied .py,ast.parse,PASS,52 files parsed; problems: none,R20261014-031724-local
+third-party deps,find_spec (no install),INFO,"pymupdf=yes, bs4=yes, markdownify=yes, requests=yes, faster_whisper=yes, av=yes, websockets=yes, ijson=yes",R20261014-031724-local
+prompt_reply_pipeline copy,selftest (synthetic fixtures),PASS,RESULT: ALL PASS,R20261014-031724-local
+pdf_to_md,--help,PASS,usage: pdf_to_md.py [-h] [--overwrite] [--tables-only] input [output],R20261014-031724-local
+knowledge_extraction v2 jsonl_to_md,--help,PASS,usage: jsonl_to_md.py [-h] [--out OUT] [--tools] path,R20261014-031724-local
+knowledge_extraction v2 mht_to_md,--help,PASS,usage: mht_to_md.py [-h] [--out OUT] [input],R20261014-031724-local
+mht_to_md_tool,--help,PASS,usage: mht_to_md.py [-h] --source SOURCE [--output OUTPUT],R20261014-031724-local
+x_pipeline (network),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-031724-local
+gemini_md2 (browser),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-031724-local
+repo_inspect (network),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-031724-local
+prompt_reply_pipeline copy,speaker-markdown cases (test_speaker_cases.py),PASS,Ran 3 tests in 0.033s; OK,R20261014-031724-local
+pipeline -> discover,synthetic pipeline output discoverable via --extra-sources; prompts excluded; empty root (no Harness read),PASS,Ran 6 tests in 1.269s; OK,R20261014-031724-local
+prompt_reply_pipeline copy,"unit tests, synthetic fixtures (test_pipeline.py)",PASS,Ran 20 tests in 2.485s; OK,R20261014-031724-local
+required scripts,every .py recorded as COPIED in MIGRATION_LOG still exists,PASS,44 recorded; missing: none,R20261014-031724-local
+x_pipeline,toolkit copy and Harness source both still match the logged SHA-256 (files hashed only; pipeline not run),PASS,8 files; mismatches: none,R20261014-031724-local
+quarantine,every moved file present in quarantine with its original SHA-256 and absent from the toolkit,PASS,69 files; problems: none,R20261014-031724-local
+toolkit scope,no workspace/ research output and no gemini output/ or logs/ folders remain,PASS,remaining: none,R20261014-031724-local
+toolkit scope,no active script/config still points at research_pipeline,PASS,references in: none,R20261014-031724-local
+toolkit scope,no generated __pycache__ folders,INFO,3 found,R20261014-031724-local
+Harness,"stat snapshot before/after (1_PY, notes, markdown folders)",PASS,changed=0 added=0 removed=0 [],R20261014-031724-local
+all copied .py,ast.parse,PASS,52 files parsed; problems: none,R20261014-031749-local
+third-party deps,find_spec (no install),INFO,"pymupdf=yes, bs4=yes, markdownify=yes, requests=yes, faster_whisper=yes, av=yes, websockets=yes, ijson=yes",R20261014-031749-local
+prompt_reply_pipeline copy,selftest (synthetic fixtures),PASS,RESULT: ALL PASS,R20261014-031749-local
+pdf_to_md,--help,PASS,usage: pdf_to_md.py [-h] [--overwrite] [--tables-only] input [output],R20261014-031749-local
+knowledge_extraction v2 jsonl_to_md,--help,PASS,usage: jsonl_to_md.py [-h] [--out OUT] [--tools] path,R20261014-031749-local
+knowledge_extraction v2 mht_to_md,--help,PASS,usage: mht_to_md.py [-h] [--out OUT] [input],R20261014-031749-local
+mht_to_md_tool,--help,PASS,usage: mht_to_md.py [-h] --source SOURCE [--output OUTPUT],R20261014-031749-local
+x_pipeline (network),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-031749-local
+gemini_md2 (browser),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-031749-local
+repo_inspect (network),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-031749-local
+prompt_reply_pipeline copy,speaker-markdown cases (test_speaker_cases.py),PASS,Ran 3 tests in 0.032s; OK,R20261014-031749-local
+pipeline -> discover,synthetic pipeline output discoverable via --extra-sources; prompts excluded; empty root (no Harness read),PASS,Ran 6 tests in 1.180s; OK,R20261014-031749-local
+prompt_reply_pipeline copy,"unit tests, synthetic fixtures (test_pipeline.py)",PASS,Ran 20 tests in 2.552s; OK,R20261014-031749-local
+required scripts,every .py recorded as COPIED in MIGRATION_LOG still exists,PASS,44 recorded; missing: none,R20261014-031749-local
+x_pipeline,toolkit copy and Harness source both still match the logged SHA-256 (files hashed only; pipeline not run),PASS,8 files; mismatches: none,R20261014-031749-local
+quarantine,every moved file present in quarantine with its original SHA-256 and absent from the toolkit,PASS,69 files; problems: none,R20261014-031749-local
+toolkit scope,no workspace/ research output and no gemini output/ or logs/ folders remain,PASS,remaining: none,R20261014-031749-local
+toolkit scope,no active script/config still points at research_pipeline,PASS,references in: none,R20261014-031749-local
+toolkit scope,no generated __pycache__ folders,INFO,3 found,R20261014-031749-local
+Harness,"stat snapshot before/after (1_PY, notes, markdown folders)",PASS,changed=0 added=0 removed=0 [],R20261014-031749-local
+all copied .py,ast.parse,PASS,53 files parsed; problems: none,R20261014-032721-local
+third-party deps,find_spec (no install),INFO,"pymupdf=yes, bs4=yes, markdownify=yes, requests=yes, faster_whisper=yes, av=yes, websockets=yes, ijson=yes",R20261014-032721-local
+prompt_reply_pipeline copy,selftest (synthetic fixtures),PASS,RESULT: ALL PASS,R20261014-032721-local
+pdf_to_md,--help,PASS,usage: pdf_to_md.py [-h] [--overwrite] [--tables-only] input [output],R20261014-032721-local
+knowledge_extraction v2 jsonl_to_md,--help,PASS,usage: jsonl_to_md.py [-h] [--out OUT] [--tools] path,R20261014-032721-local
+knowledge_extraction v2 mht_to_md,--help,PASS,usage: mht_to_md.py [-h] [--out OUT] [input],R20261014-032721-local
+mht_to_md_tool,--help,PASS,usage: mht_to_md.py [-h] --source SOURCE [--output OUTPUT],R20261014-032721-local
+x_pipeline (network),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-032721-local
+gemini_md2 (browser),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-032721-local
+repo_inspect (network),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-032721-local
+prompt_reply_pipeline copy,speaker-markdown cases (test_speaker_cases.py),PASS,Ran 3 tests in 0.033s; OK,R20261014-032721-local
+pipeline -> discover,synthetic pipeline output discoverable via --extra-sources; prompts excluded; empty root (no Harness read),PASS,Ran 6 tests in 1.205s; OK,R20261014-032721-local
+discover copy,--class toolkit finds toolkit tools with status from INVENTORY.csv (empty root; Harness not read),PASS,Ran 9 tests in 1.644s; OK,R20261014-032721-local
+prompt_reply_pipeline copy,"unit tests, synthetic fixtures (test_pipeline.py)",PASS,Ran 20 tests in 2.577s; OK,R20261014-032721-local
+required scripts,every .py recorded as COPIED in MIGRATION_LOG still exists,PASS,44 recorded; missing: none,R20261014-032721-local
+x_pipeline,toolkit copy and Harness source both still match the logged SHA-256 (files hashed only; pipeline not run),PASS,8 files; mismatches: none,R20261014-032721-local
+quarantine,every moved file present in quarantine with its original SHA-256 and absent from the toolkit,PASS,69 files; problems: none,R20261014-032721-local
+toolkit scope,no workspace/ research output and no gemini output/ or logs/ folders remain,PASS,remaining: none,R20261014-032721-local
+toolkit scope,no active script/config still points at research_pipeline,PASS,references in: none,R20261014-032721-local
+toolkit scope,no generated __pycache__ folders,INFO,3 found,R20261014-032721-local
+Harness,"stat snapshot before/after (1_PY, notes, markdown folders)",PASS,changed=0 added=0 removed=0 [],R20261014-032721-local
+all copied .py,ast.parse,PASS,53 files parsed; problems: none,R20261014-032805-local
+third-party deps,find_spec (no install),INFO,"pymupdf=yes, bs4=yes, markdownify=yes, requests=yes, faster_whisper=yes, av=yes, websockets=yes, ijson=yes",R20261014-032805-local
+prompt_reply_pipeline copy,selftest (synthetic fixtures),PASS,RESULT: ALL PASS,R20261014-032805-local
+pdf_to_md,--help,PASS,usage: pdf_to_md.py [-h] [--overwrite] [--tables-only] input [output],R20261014-032805-local
+knowledge_extraction v2 jsonl_to_md,--help,PASS,usage: jsonl_to_md.py [-h] [--out OUT] [--tools] path,R20261014-032805-local
+knowledge_extraction v2 mht_to_md,--help,PASS,usage: mht_to_md.py [-h] [--out OUT] [input],R20261014-032805-local
+mht_to_md_tool,--help,PASS,usage: mht_to_md.py [-h] --source SOURCE [--output OUTPUT],R20261014-032805-local
+x_pipeline (network),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-032805-local
+gemini_md2 (browser),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-032805-local
+repo_inspect (network),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-032805-local
+prompt_reply_pipeline copy,speaker-markdown cases (test_speaker_cases.py),PASS,Ran 3 tests in 0.032s; OK,R20261014-032805-local
+pipeline -> discover,synthetic pipeline output discoverable via --extra-sources; prompts excluded; empty root (no Harness read),PASS,Ran 6 tests in 1.179s; OK,R20261014-032805-local
+discover copy,--class toolkit finds toolkit tools with status from INVENTORY.csv (empty root; Harness not read),PASS,Ran 9 tests in 1.610s; OK,R20261014-032805-local
+prompt_reply_pipeline copy,"unit tests, synthetic fixtures (test_pipeline.py)",PASS,Ran 20 tests in 2.502s; OK,R20261014-032805-local
+required scripts,every .py recorded as COPIED in MIGRATION_LOG still exists,PASS,44 recorded; missing: none,R20261014-032805-local
+x_pipeline,toolkit copy and Harness source both still match the logged SHA-256 (files hashed only; pipeline not run),PASS,8 files; mismatches: none,R20261014-032805-local
+quarantine,every moved file present in quarantine with its original SHA-256 and absent from the toolkit,PASS,69 files; problems: none,R20261014-032805-local
+toolkit scope,no workspace/ research output and no gemini output/ or logs/ folders remain,PASS,remaining: none,R20261014-032805-local
+toolkit scope,no active script/config still points at research_pipeline,PASS,references in: none,R20261014-032805-local
+toolkit scope,no generated __pycache__ folders,INFO,3 found,R20261014-032805-local
+Harness,"stat snapshot before/after (1_PY, notes, markdown folders)",PASS,changed=0 added=0 removed=0 [],R20261014-032805-local
+all copied .py,ast.parse,PASS,53 files parsed; problems: none,R20261014-032831-local
+third-party deps,find_spec (no install),INFO,"pymupdf=yes, bs4=yes, markdownify=yes, requests=yes, faster_whisper=yes, av=yes, websockets=yes, ijson=yes",R20261014-032831-local
+prompt_reply_pipeline copy,selftest (synthetic fixtures),PASS,RESULT: ALL PASS,R20261014-032831-local
+pdf_to_md,--help,PASS,usage: pdf_to_md.py [-h] [--overwrite] [--tables-only] input [output],R20261014-032831-local
+knowledge_extraction v2 jsonl_to_md,--help,PASS,usage: jsonl_to_md.py [-h] [--out OUT] [--tools] path,R20261014-032831-local
+knowledge_extraction v2 mht_to_md,--help,PASS,usage: mht_to_md.py [-h] [--out OUT] [input],R20261014-032831-local
+mht_to_md_tool,--help,PASS,usage: mht_to_md.py [-h] --source SOURCE [--output OUTPUT],R20261014-032831-local
+x_pipeline (network),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-032831-local
+gemini_md2 (browser),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-032831-local
+repo_inspect (network),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-032831-local
+prompt_reply_pipeline copy,speaker-markdown cases (test_speaker_cases.py),PASS,Ran 3 tests in 0.031s; OK,R20261014-032831-local
+pipeline -> discover,synthetic pipeline output discoverable via --extra-sources; prompts excluded; empty root (no Harness read),PASS,Ran 6 tests in 1.227s; OK,R20261014-032831-local
+discover copy,--class toolkit finds toolkit tools with status from INVENTORY.csv (empty root; Harness not read),PASS,Ran 9 tests in 1.685s; OK,R20261014-032831-local
+prompt_reply_pipeline copy,"unit tests, synthetic fixtures (test_pipeline.py)",PASS,Ran 20 tests in 2.491s; OK,R20261014-032831-local
+required scripts,every .py recorded as COPIED in MIGRATION_LOG still exists,PASS,44 recorded; missing: none,R20261014-032831-local
+x_pipeline,toolkit copy and Harness source both still match the logged SHA-256 (files hashed only; pipeline not run),PASS,8 files; mismatches: none,R20261014-032831-local
+quarantine,every moved file present in quarantine with its original SHA-256 and absent from the toolkit,PASS,69 files; problems: none,R20261014-032831-local
+toolkit scope,no workspace/ research output and no gemini output/ or logs/ folders remain,PASS,remaining: none,R20261014-032831-local
+toolkit scope,no active script/config still points at research_pipeline,PASS,references in: none,R20261014-032831-local
+toolkit scope,no generated __pycache__ folders,INFO,3 found,R20261014-032831-local
+Harness,"stat snapshot before/after (1_PY, notes, markdown folders)",PASS,changed=0 added=0 removed=0 [],R20261014-032831-local
+schema_validate,upstream tests (19) run on toolkit copy: python -B -I -m unittest discover -s tools/schema_validate/tests,PASS,"Ran 19 tests, OK; no __pycache__ written (-B)",R20261014-ai-eng-integration
+env_preflight,toolkit-written tests (6),PASS,"Ran 6 tests, OK",R20261014-ai-eng-integration
+env_preflight,--route all --show-later on this machine; defect found and fixed first (ffmpeg needs -version),PASS,"17 probes: all PASS except pytest (not installed, correctly LATER); nothing installed",R20261014-ai-eng-integration
+env_preflight,course original verify.py --route beginner still runs unchanged,PASS,2/2 required checks passed; original file hash unchanged,R20261014-ai-eng-integration
+ai-engineering-from-scratch,repo untouched by integration: git status --short + git diff --stat,PASS,0 changed files at HEAD 1c8e62b526e78b8773559594aab3a3487d9998ac,R20261014-ai-eng-integration
+all copied .py,ast.parse,PASS,1343 files parsed; problems: none,R20261014-041521-local
+third-party deps,find_spec (no install),INFO,"pymupdf=yes, bs4=yes, markdownify=yes, requests=yes, faster_whisper=yes, av=yes, websockets=yes, ijson=yes",R20261014-041521-local
+prompt_reply_pipeline copy,selftest (synthetic fixtures),PASS,RESULT: ALL PASS,R20261014-041521-local
+pdf_to_md,--help,PASS,usage: pdf_to_md.py [-h] [--overwrite] [--tables-only] input [output],R20261014-041521-local
+knowledge_extraction v2 jsonl_to_md,--help,PASS,usage: jsonl_to_md.py [-h] [--out OUT] [--tools] path,R20261014-041521-local
+knowledge_extraction v2 mht_to_md,--help,PASS,usage: mht_to_md.py [-h] [--out OUT] [input],R20261014-041521-local
+mht_to_md_tool,--help,PASS,usage: mht_to_md.py [-h] --source SOURCE [--output OUTPUT],R20261014-041521-local
+x_pipeline (network),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-041521-local
+gemini_md2 (browser),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-041521-local
+repo_inspect (network),execution,NOT VERIFIED,deliberately not executed (network / browser); compiled only,R20261014-041521-local
+prompt_reply_pipeline copy,speaker-markdown cases (test_speaker_cases.py),PASS,Ran 3 tests in 0.073s; OK,R20261014-041521-local
+pipeline -> discover,synthetic pipeline output discoverable via --extra-sources; prompts excluded; empty root (no Harness read),PASS,Ran 6 tests in 1.268s; OK,R20261014-041521-local
+discover copy,--class toolkit finds toolkit tools with status from INVENTORY.csv (empty root; Harness not read),PASS,Ran 9 tests in 1.689s; OK,R20261014-041521-local
+prompt_reply_pipeline copy,"unit tests, synthetic fixtures (test_pipeline.py)",PASS,Ran 20 tests in 2.705s; OK,R20261014-041521-local
+required scripts,every .py recorded as COPIED in MIGRATION_LOG still exists,PASS,44 recorded; missing: none,R20261014-041521-local
+x_pipeline,toolkit copy and Harness source both still match the logged SHA-256 (files hashed only; pipeline not run),PASS,8 files; mismatches: none,R20261014-041521-local
+quarantine,every moved file present in quarantine with its original SHA-256 and absent from the toolkit,PASS,69 files; problems: none,R20261014-041521-local
+toolkit scope,no workspace/ research output and no gemini output/ or logs/ folders remain,PASS,remaining: none,R20261014-041521-local
+toolkit scope,no active script/config still points at research_pipeline,PASS,references in: none,R20261014-041521-local
+toolkit scope,no generated __pycache__ folders,INFO,3 found,R20261014-041521-local
+Harness,"stat snapshot before/after (1_PY, notes, markdown folders)",PASS,changed=0 added=0 removed=0 [],R20261014-041521-local
+import: all copied files,hash of source vs copy,PASS 6722 of 6722 match (0 mismatches); copies only (no tests run),imports/IMPORT_MANIFEST.csv,R2-import-2026-10-14
+import: API batch,"SHA-256 of every copied file, source vs copy",PASS,"270 of 270 match (0 mismatches); copies only, nothing run",imports/IMPORT_MANIFEST_API.csv; R3-api-import-2026-10-14
+import: media batch,"SHA-256 of every copied binary file, source vs copy",PASS,"338 of 338 match (0 mismatches); copies only, nothing run",imports/IMPORT_MANIFEST_MEDIA.csv; R4-media-import-2026-10-14
+INVENTORY tiers,_meta/tier.py --write: ast.parse only; 0 syntax errors; 9757 rows; the 2427 original rows keep every value except normalised toolkit paths; 0 unexpected changes; discover.py --tier smoke queries run (tool run; test suite not run),PASS,_meta/tier_run.log,R5-tiers-2026-10-14
+discover notes config,"discover\toolkit_notes.json with the documented command from the Toolkit root finds the Audio analysis capability row and the W9 workflow; every hit is labelled as a research note passage, not a verified record",PASS,"3 queries, 46 note passages from 2 files; run 2026-10-14; Harness registries not read (--root .)",R6-notes-config-2026-10-14
+discover tests,python -B -X utf8 discover\test_toolkit_discovery.py after the documentation and config changes,PASS,"Ran 9 tests, OK, 30 s, no warnings; run 2026-10-14",R6-notes-config-2026-10-14

@@ -1,0 +1,11 @@
+# Bytecode caches
+__pycache__/
+*.pyc
+
+# JavaScript dependencies, if ever installed under the Toolkit
+node_modules/
+
+# Local clone of the upstream course repository. It is its own Git repository (about 106 MB of history),
+# its content is public upstream, and the part the Toolkit uses is already in imports/ai_engineering/.
+# Provenance: imports/PROVENANCE.md (commit 1c8e62b526e78b8773559594aab3a3487d9998ac).
+ai-engineering-from-scratch/

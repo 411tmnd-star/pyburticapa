@@ -1,0 +1,19 @@
+(node:808) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS  demo: plays through the pipeline  kind=synthetic frames=157
+PASS  demo: beats and a strong bass hit reach the consumer  beats=6 maxHit=1.00
+PASS  visual swap: constellation to particles, same source, uninterrupted  heading=Particle field time 4.2 -> 5.9
+PASS  offline: pre-computed track loads and plays  kind=offline duration=78.019048
+PASS  offline: features reach the consumer  maxBass=0.42 beats=4 scenes=rest
+PASS  offline: seek jumps the playhead  time=41.15
+PASS  live file: analysed in a real browser  max bass=0.97 mid=0.70 high=0.42
+PASS  live file: onsets and bass hits detected  beats=28 maxHit=1.00
+      live vs offline analysis of the same audio (Pearson r, best lag 100 ms, 106 samples): bass 0.94, mid 0.95, high 0.88, rmsEnergy 0.96, bassHit 0.88
+PASS  live vs offline agree on band levels  bass 0.94 mid 0.95 rms 0.96
+PASS  mic: a live stream drives the same pipeline  label=Microphone canSeek=false error=null
+PASS  mic: audio energy reaches the consumer  maxRms=0.56 frames=195
+PASS  switch mic to pre-computed track with no change to the page  kind=offline label=Detty - Party scatter demo
+PASS  switch to demo again  kind=synthetic
+
+all 13 browser checks passed
+CDP_EXIT=0 

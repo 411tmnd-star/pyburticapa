@@ -1,0 +1,69 @@
+{
+ "entries": [
+  {
+   "action": "direct",
+   "bytes": 1434,
+   "counts": {
+    "empty": 3,
+    "other": 0,
+    "prompts": 2,
+    "replies": 2
+   },
+   "original": "chatgpt_export_synthetic.md",
+   "original_sha256": "c9989ce145aa085ee9141be517c451675ca7c9f74b1a62b48ddb551f30a6acd9",
+   "pipeline_format": "chatgpt_json",
+   "reason": "",
+   "result": "ok"
+  },
+  {
+   "action": "converted",
+   "bytes": 767,
+   "converter": "..\\knowledge_extraction\\v2\\mht_to_md.py",
+   "converter_exit_code": 0,
+   "counts": {
+    "empty": 0,
+    "other": 0,
+    "prompts": 2,
+    "replies": 2
+   },
+   "original": "google_ai_mode_synthetic.mht",
+   "original_sha256": "fe47cb1028e03eab2a8aea17068303f6048c6145efc67fed7f80d3f6ad43944b",
+   "pipeline_format": "speaker_md",
+   "reason": "",
+   "result": "ok",
+   "staged": "_staging\\002_google_ai_mode_synthetic\\google_ai_mode_synthetic.md",
+   "staged_sha256": "421a9b99a7cf97f57999a7e30c17ae8050525678e95e90f597d137eaed11d728"
+  },
+  {
+   "action": "direct",
+   "bytes": 168,
+   "counts": null,
+   "original": "quillfin_notes_synthetic.md",
+   "original_sha256": "fd8ebce42f5575871e346546905d119c40e45b7268a09499c946e3344bae67b1",
+   "pipeline_format": "unknown",
+   "reason": "no role markers; treated as a document by decision (may contain prompts)",
+   "result": "document"
+  },
+  {
+   "action": "converted",
+   "bytes": 1193,
+   "converter": "..\\knowledge_extraction\\v2\\jsonl_to_md.py",
+   "converter_exit_code": 0,
+   "counts": {
+    "empty": 0,
+    "other": 0,
+    "prompts": 4,
+    "replies": 4
+   },
+   "original": "zorbex_session_synthetic.jsonl",
+   "original_sha256": "b0165986464d31731fbd02d8fb0510966720dd25ed66eebbaf710fb8171281ea",
+   "pipeline_format": "speaker_md",
+   "reason": "",
+   "result": "ok",
+   "staged": "_staging\\004_zorbex_session_synthetic\\zorbex_session_synthetic.md",
+   "staged_sha256": "9a8bd62f4fdedb4b50106b4ee5eb955205310cab3fc4cac9fd2ea5526184990c"
+  }
+ ],
+ "source_folder_name": "discovery_check_src",
+ "sources_changed": []
+}

@@ -1,0 +1,577 @@
+{
+ "artifacts": {
+  "debug/network_analysis.md": {
+   "bytes": 6495,
+   "script_references": [],
+   "n_refs": 0
+  },
+  "debug/payload_mapping.md": {
+   "bytes": 5637,
+   "script_references": [
+    "gemini_parse.py:4: (see debug/payload_mapping.md). Every accessor fails loudly if the shape differs, so a changed",
+    "debug/backup/gemini_parse_before_additive_changes.py:4: (see debug/payload_mapping.md). Every accessor fails loudly if the shape differs, so a changed",
+    "debug/backup/gemini_parse_before_http_fix.py:4: (see debug/payload_mapping.md). Every accessor fails loudly if the shape differs, so a changed"
+   ],
+   "n_refs": 3
+  },
+  "debug/prototype_analysis.md": {
+   "bytes": 4081,
+   "script_references": [],
+   "n_refs": 0
+  },
+  "logs/PARSER_FIX_AND_TEST4_REPORT.md": {
+   "bytes": 6483,
+   "script_references": [],
+   "n_refs": 0
+  },
+  "logs/TEST3_VALIDATION_REPORT.md": {
+   "bytes": 6536,
+   "script_references": [],
+   "n_refs": 0
+  },
+  "output/test3_gemini_conversation.md": {
+   "bytes": 25791,
+   "script_references": [
+    "test3_validate.py:21: MD, RESULT = OUT / \"test3_gemini_conversation.md\", LOGS / \"test3_validation_result.json\"",
+    "debug/test3_regression_analysis.py:19: md_old = (ROOT / \"output\" / \"test3_gemini_conversation.md\").read_text(encoding=\"utf-8\")"
+   ],
+   "n_refs": 2
+  },
+  "output/test3_regression_conversation.md": {
+   "bytes": 26341,
+   "script_references": [
+    "test3_regression_validate.py:21: MD, RESULT = OUT / \"test3_regression_conversation.md\", LOGS / \"test3_regression_validation_result.json\"",
+    "debug/additive_regression.py:15: (\"Test 3\", \"debug/test3_regression_response.bin\", \"https://share.gemini.google/FVKTq1yB2ca7\", \"self_checked\", ",
+    "debug/test3_regression_analysis.py:18: md_new = (ROOT / \"output\" / \"test3_regression_conversation.md\").read_text(encoding=\"utf-8\")"
+   ],
+   "n_refs": 3
+  },
+  "output/test4_conversation.md": {
+   "bytes": 16897,
+   "script_references": [
+    "test4_validate.py:21: MD, RESULT = OUT / \"test4_conversation.md\", LOGS / \"test4_validation_result.json\"",
+    "debug/additive_regression.py:16: (\"Test 4\", \"debug/test4_response.bin\", \"https://share.gemini.google/DVoVO95EK1Nx\", \"verified\", \"output/test4_c"
+   ],
+   "n_refs": 2
+  },
+  "output/regression/test3_additive_regression.md": {
+   "bytes": 26430,
+   "script_references": [],
+   "n_refs": 0
+  },
+  "output/regression/test4_additive_regression.md": {
+   "bytes": 17025,
+   "script_references": [],
+   "n_refs": 0
+  }
+ },
+ "debug_scripts": {
+  "debug/additive_regression.py": {
+   "lines": 100,
+   "parses": true,
+   "imports": [
+    "datetime",
+    "difflib",
+    "gemini_parse",
+    "hashlib",
+    "importlib",
+    "json",
+    "pathlib",
+    "re",
+    "sys"
+   ],
+   "cli": "none",
+   "main_guard": false,
+   "writes": 2,
+   "uses_cdp_or_browser": false,
+   "network": false,
+   "referenced_by": [],
+   "similar_to_top_level": {
+    "gemini_parse.py": 0.122,
+    "gemini_replay.py": 0.121,
+    "survey_candidates.py": 0.086,
+    "test2_validate.py": 0.122,
+    "test3_validate.py": 0.123
+   },
+   "identical_to": {},
+   "docstring": "",
+   "first_comment": ""
+  },
+  "debug/analyze1.py": {
+   "lines": 21,
+   "parses": true,
+   "imports": [
+    "collections",
+    "pathlib",
+    "re",
+    "sys"
+   ],
+   "cli": "none",
+   "main_guard": false,
+   "writes": 0,
+   "uses_cdp_or_browser": false,
+   "network": false,
+   "referenced_by": [],
+   "similar_to_top_level": {},
+   "identical_to": {},
+   "docstring": "",
+   "first_comment": ""
+  },
+  "debug/analyze2.py": {
+   "lines": 55,
+   "parses": true,
+   "imports": [
+    "html",
+    "json",
+    "pathlib",
+    "re",
+    "sys"
+   ],
+   "cli": "none",
+   "main_guard": false,
+   "writes": 0,
+   "uses_cdp_or_browser": false,
+   "network": false,
+   "referenced_by": [],
+   "similar_to_top_level": {
+    "gemini_to_md.py": 0.121
+   },
+   "identical_to": {},
+   "docstring": "",
+   "first_comment": ""
+  },
+  "debug/cdp_capture.py": {
+   "lines": 221,
+   "parses": true,
+   "imports": [
+    "asyncio",
+    "base64",
+    "json",
+    "os",
+    "pathlib",
+    "re",
+    "shutil",
+    "subprocess",
+    "sys",
+    "tempfile",
+    "time",
+    "urllib",
+    "websockets"
+   ],
+   "cli": "none",
+   "main_guard": false,
+   "writes": 2,
+   "uses_cdp_or_browser": true,
+   "network": true,
+   "referenced_by": [
+    "gemini_batch.py"
+   ],
+   "similar_to_top_level": {
+    "gemini_parse.py": 0.118,
+    "gemini_replay.py": 0.145,
+    "survey_candidates.py": 0.129,
+    "test2_validate.py": 0.103,
+    "test3_additive_validate.py": 0.089,
+    "test3_gemini_validate.py": 0.087,
+    "test3_regression_validate.py": 0.085,
+    "test3_validate.py": 0.119,
+    "test4_additive_validate.py": 0.089,
+    "test4_validate.py": 0.085
+   },
+   "identical_to": {},
+   "docstring": "Discovery-only: load ONE Gemini share URL in real Chrome (CDP, fresh empty profile) and log network traffic.\n\nNo credentials are used (fresh",
+   "first_comment": ""
+  },
+  "debug/cdp_capture_generic.py": {
+   "lines": 228,
+   "parses": true,
+   "imports": [
+    "asyncio",
+    "base64",
+    "json",
+    "os",
+    "pathlib",
+    "re",
+    "shutil",
+    "subprocess",
+    "sys",
+    "tempfile",
+    "time",
+    "urllib",
+    "websockets"
+   ],
+   "cli": "none",
+   "main_guard": false,
+   "writes": 3,
+   "uses_cdp_or_browser": true,
+   "network": true,
+   "referenced_by": [
+    "gemini_batch.py"
+   ],
+   "similar_to_top_level": {
+    "gemini_batch.py": 0.102,
+    "gemini_parse.py": 0.115,
+    "gemini_replay.py": 0.142,
+    "survey_candidates.py": 0.126,
+    "test2_validate.py": 0.104,
+    "test3_additive_validate.py": 0.092,
+    "test3_gemini_validate.py": 0.089,
+    "test3_regression_validate.py": 0.089,
+    "test3_validate.py": 0.119,
+    "test4_additive_validate.py": 0.092,
+    "test4_validate.py": 0.088
+   },
+   "identical_to": {},
+   "docstring": "Discovery-only: load ONE Gemini share URL in real Chrome (CDP, fresh empty profile) and log network traffic.\n\nNo credentials are used (fresh",
+   "first_comment": ""
+  },
+  "debug/cdp_capture_test3.py": {
+   "lines": 227,
+   "parses": true,
+   "imports": [
+    "asyncio",
+    "base64",
+    "json",
+    "os",
+    "pathlib",
+    "re",
+    "shutil",
+    "subprocess",
+    "sys",
+    "tempfile",
+    "time",
+    "urllib",
+    "websockets"
+   ],
+   "cli": "none",
+   "main_guard": false,
+   "writes": 3,
+   "uses_cdp_or_browser": true,
+   "network": true,
+   "referenced_by": [],
+   "similar_to_top_level": {
+    "gemini_batch.py": 0.097,
+    "gemini_parse.py": 0.116,
+    "gemini_replay.py": 0.143,
+    "survey_candidates.py": 0.128,
+    "test2_validate.py": 0.104,
+    "test3_additive_validate.py": 0.094,
+    "test3_gemini_validate.py": 0.09,
+    "test3_regression_validate.py": 0.09,
+    "test3_validate.py": 0.119,
+    "test4_additive_validate.py": 0.093,
+    "test4_validate.py": 0.089
+   },
+   "identical_to": {},
+   "docstring": "Discovery-only: load ONE Gemini share URL in real Chrome (CDP, fresh empty profile) and log network traffic.\n\nNo credentials are used (fresh",
+   "first_comment": ""
+  },
+  "debug/cdp_capture_test4.py": {
+   "lines": 227,
+   "parses": true,
+   "imports": [
+    "asyncio",
+    "base64",
+    "json",
+    "os",
+    "pathlib",
+    "re",
+    "shutil",
+    "subprocess",
+    "sys",
+    "tempfile",
+    "time",
+    "urllib",
+    "websockets"
+   ],
+   "cli": "none",
+   "main_guard": false,
+   "writes": 3,
+   "uses_cdp_or_browser": true,
+   "network": true,
+   "referenced_by": [],
+   "similar_to_top_level": {
+    "gemini_batch.py": 0.097,
+    "gemini_parse.py": 0.116,
+    "gemini_replay.py": 0.143,
+    "survey_candidates.py": 0.128,
+    "test2_validate.py": 0.104,
+    "test3_additive_validate.py": 0.093,
+    "test3_gemini_validate.py": 0.091,
+    "test3_regression_validate.py": 0.089,
+    "test3_validate.py": 0.119,
+    "test4_additive_validate.py": 0.094,
+    "test4_validate.py": 0.09
+   },
+   "identical_to": {},
+   "docstring": "Discovery-only: load ONE Gemini share URL in real Chrome (CDP, fresh empty profile) and log network traffic.\n\nNo credentials are used (fresh",
+   "first_comment": ""
+  },
+  "debug/cdp_eval.py": {
+   "lines": 100,
+   "parses": true,
+   "imports": [
+    "asyncio",
+    "base64",
+    "json",
+    "os",
+    "pathlib",
+    "re",
+    "shutil",
+    "subprocess",
+    "sys",
+    "tempfile",
+    "time",
+    "urllib",
+    "websockets"
+   ],
+   "cli": "none",
+   "main_guard": false,
+   "writes": 1,
+   "uses_cdp_or_browser": true,
+   "network": true,
+   "referenced_by": [],
+   "similar_to_top_level": {
+    "gemini_replay.py": 0.16,
+    "gemini_to_md.py": 0.203
+   },
+   "identical_to": {},
+   "docstring": "Discovery-only: load ONE Gemini share URL in real Chrome (CDP, fresh empty profile) and log network traffic.\n\nNo credentials are used (fresh",
+   "first_comment": ""
+  },
+  "debug/compare_responses.py": {
+   "lines": 34,
+   "parses": true,
+   "imports": [
+    "gemini_parse",
+    "json",
+    "pathlib",
+    "sys"
+   ],
+   "cli": "none",
+   "main_guard": false,
+   "writes": 0,
+   "uses_cdp_or_browser": false,
+   "network": false,
+   "referenced_by": [],
+   "similar_to_top_level": {
+    "gemini_to_md.py": 0.13
+   },
+   "identical_to": {},
+   "docstring": "",
+   "first_comment": ""
+  },
+  "debug/explore_turn.py": {
+   "lines": 30,
+   "parses": true,
+   "imports": [
+    "gemini_parse",
+    "json",
+    "pathlib",
+    "sys"
+   ],
+   "cli": "sys.argv",
+   "main_guard": false,
+   "writes": 0,
+   "uses_cdp_or_browser": false,
+   "network": false,
+   "referenced_by": [],
+   "similar_to_top_level": {},
+   "identical_to": {},
+   "docstring": "",
+   "first_comment": ""
+  },
+  "debug/path_coverage.py": {
+   "lines": 36,
+   "parses": true,
+   "imports": [
+    "collections",
+    "gemini_parse",
+    "pathlib",
+    "re",
+    "sys"
+   ],
+   "cli": "none",
+   "main_guard": false,
+   "writes": 0,
+   "uses_cdp_or_browser": false,
+   "network": false,
+   "referenced_by": [],
+   "similar_to_top_level": {
+    "gemini_to_md.py": 0.159
+   },
+   "identical_to": {},
+   "docstring": "",
+   "first_comment": ""
+  },
+  "debug/reverse_coverage.py": {
+   "lines": 39,
+   "parses": true,
+   "imports": [
+    "gemini_parse",
+    "pathlib",
+    "re",
+    "sys"
+   ],
+   "cli": "none",
+   "main_guard": false,
+   "writes": 0,
+   "uses_cdp_or_browser": false,
+   "network": false,
+   "referenced_by": [],
+   "similar_to_top_level": {
+    "gemini_to_md.py": 0.137
+   },
+   "identical_to": {},
+   "docstring": "",
+   "first_comment": ""
+  },
+  "debug/test3_posthoc.py": {
+   "lines": 51,
+   "parses": true,
+   "imports": [
+    "gemini_parse",
+    "json",
+    "pathlib",
+    "re",
+    "sys"
+   ],
+   "cli": "none",
+   "main_guard": false,
+   "writes": 0,
+   "uses_cdp_or_browser": false,
+   "network": false,
+   "referenced_by": [],
+   "similar_to_top_level": {
+    "gemini_to_md.py": 0.185
+   },
+   "identical_to": {},
+   "docstring": "",
+   "first_comment": ""
+  },
+  "debug/test3_posthoc2.py": {
+   "lines": 81,
+   "parses": true,
+   "imports": [
+    "gemini_parse",
+    "json",
+    "pathlib",
+    "re",
+    "sys"
+   ],
+   "cli": "none",
+   "main_guard": false,
+   "writes": 0,
+   "uses_cdp_or_browser": false,
+   "network": false,
+   "referenced_by": [],
+   "similar_to_top_level": {
+    "gemini_replay.py": 0.131,
+    "gemini_to_md.py": 0.111
+   },
+   "identical_to": {},
+   "docstring": "",
+   "first_comment": ""
+  },
+  "debug/test3_regression_analysis.py": {
+   "lines": 114,
+   "parses": true,
+   "imports": [
+    "collections",
+    "datetime",
+    "difflib",
+    "gemini_parse",
+    "hashlib",
+    "json",
+    "pathlib",
+    "re",
+    "sys"
+   ],
+   "cli": "none",
+   "main_guard": false,
+   "writes": 2,
+   "uses_cdp_or_browser": false,
+   "network": false,
+   "referenced_by": [],
+   "similar_to_top_level": {
+    "gemini_parse.py": 0.091,
+    "gemini_replay.py": 0.15,
+    "survey_candidates.py": 0.116,
+    "test2_validate.py": 0.09,
+    "test3_additive_validate.py": 0.079,
+    "test3_gemini_validate.py": 0.08,
+    "test3_regression_validate.py": 0.078,
+    "test3_validate.py": 0.094,
+    "test4_additive_validate.py": 0.077,
+    "test4_validate.py": 0.074
+   },
+   "identical_to": {},
+   "docstring": "",
+   "first_comment": ""
+  },
+  "debug/backup/gemini_parse_before_additive_changes.py": {
+   "lines": 239,
+   "parses": true,
+   "imports": [
+    "datetime",
+    "json",
+    "re"
+   ],
+   "cli": "none",
+   "main_guard": false,
+   "writes": 0,
+   "uses_cdp_or_browser": false,
+   "network": false,
+   "referenced_by": [
+    "debug/additive_regression.py"
+   ],
+   "similar_to_top_level": {
+    "gemini_batch.py": 0.166,
+    "gemini_parse.py": 0.893,
+    "gemini_replay.py": 0.11,
+    "survey_candidates.py": 0.118,
+    "test2_validate.py": 0.128,
+    "test3_additive_validate.py": 0.121,
+    "test3_gemini_validate.py": 0.12,
+    "test3_regression_validate.py": 0.122,
+    "test3_validate.py": 0.131,
+    "test4_additive_validate.py": 0.121,
+    "test4_validate.py": 0.121
+   },
+   "identical_to": {},
+   "docstring": "Parser, extractor, Markdown renderer and verifier for the observed Gemini `ujx1Bf` batchexecute response.\n\nField paths were derived from one",
+   "first_comment": ""
+  },
+  "debug/backup/gemini_parse_before_http_fix.py": {
+   "lines": 239,
+   "parses": true,
+   "imports": [
+    "datetime",
+    "json",
+    "re"
+   ],
+   "cli": "none",
+   "main_guard": false,
+   "writes": 0,
+   "uses_cdp_or_browser": false,
+   "network": false,
+   "referenced_by": [],
+   "similar_to_top_level": {
+    "gemini_batch.py": 0.166,
+    "gemini_parse.py": 0.893,
+    "gemini_replay.py": 0.11,
+    "survey_candidates.py": 0.118,
+    "test2_validate.py": 0.128,
+    "test3_additive_validate.py": 0.121,
+    "test3_gemini_validate.py": 0.12,
+    "test3_regression_validate.py": 0.122,
+    "test3_validate.py": 0.131,
+    "test4_additive_validate.py": 0.121,
+    "test4_validate.py": 0.121
+   },
+   "identical_to": {},
+   "docstring": "Parser, extractor, Markdown renderer and verifier for the observed Gemini `ujx1Bf` batchexecute response.\n\nField paths were derived from one",
+   "first_comment": ""
+  }
+ }
+}

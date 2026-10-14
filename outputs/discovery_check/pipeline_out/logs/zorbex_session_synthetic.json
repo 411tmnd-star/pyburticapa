@@ -1,0 +1,18 @@
+{
+ "bytes": 721,
+ "counts": {
+  "empty": 0,
+  "other": 0,
+  "prompts": 4,
+  "replies": 4
+ },
+ "empty": [],
+ "file": "zorbex_session_synthetic.md",
+ "format": "speaker_md",
+ "other": [],
+ "pipeline": "1.0",
+ "sha256": "9a8bd62f4fdedb4b50106b4ee5eb955205310cab3fc4cac9fd2ea5526184990c",
+ "status": "ok",
+ "title": null,
+ "total_blocks": 8
+}

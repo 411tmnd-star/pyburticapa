@@ -1,0 +1,10 @@
+const fs=require('fs'); const dir=process.argv[2];
+const pj=JSON.parse(fs.readFileSync(dir+'/package.json','utf8').replace(/^\uFEFF/,''));
+pj.devDependencies=Object.assign({}, pj.devDependencies, {esbuild:'0.28.2', tailwindcss:'3.4.19', 'playwright-core':'1.64.0'});
+fs.writeFileSync(dir+'/package.json', JSON.stringify(pj,null,2)+'\n');
+const lock=JSON.parse(fs.readFileSync(dir+'/package-lock.json','utf8').replace(/^\uFEFF/,''));
+lock.packages['']={name:pj.name, devDependencies:pj.devDependencies};
+fs.writeFileSync(dir+'/package-lock.json', JSON.stringify(lock,null,2)+'\n');
+const keys=Object.keys(lock.packages);
+console.log('root devDependencies:', Object.entries(pj.devDependencies).map(([k,v])=>k+'@'+v).join(', '));
+console.log('lock packages incl root:', keys.length);

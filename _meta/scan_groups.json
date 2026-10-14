@@ -1,0 +1,13 @@
+{
+ "requirements_files": [
+  "requirements-medium-extractor.txt",
+  "1_PY\\assets\\Browser-DevTools-Python-Research\\research\\requirements-experiments.txt",
+  "1_PY\\tools\\Browser-DevTools-Python-Research\\research\\requirements-experiments.txt",
+  "1_PY\\tools\\PDF_TO_MD\\requirements.txt",
+  "links.md\\requirements.txt",
+  "MASTER_HARNESS\\assets\\Browser-DevTools-Python-Research\\research\\requirements-experiments.txt",
+  "MASTER_HARNESS\\tools\\Browser-DevTools-Python-Research\\research\\requirements-experiments.txt",
+  "MASTER_HARNESS\\tools\\PDF_TO_MD\\requirements.txt"
+ ],
+ "py_files": 303
+}

@@ -1,0 +1,8 @@
+{"type": "user", "isMeta": false, "message": {"role": "user", "content": "What is the Zorbex kettle?"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "The Zorbex kettle is an invented appliance that heats water in forty seconds. It exists only in this test."}]}}
+{"type": "user", "isMeta": false, "message": {"role": "user", "content": "Does the Zorbex kettle need a plug?"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "Yes. The fictional Zorbex kettle uses a plug rated at 12 volts and an imaginary socket."}]}}
+{"type": "user", "isMeta": false, "message": {"role": "user", "content": "What colour is the Quillfin desk lamp?"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "The Quillfin desk lamp is fabricated and comes in two shades: slate and amber."}]}}
+{"type": "user", "isMeta": false, "message": {"role": "user", "content": "How bright is the Quillfin lamp?"}}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "The Quillfin lamp reaches 900 lumens according to its invented specification sheet."}]}}

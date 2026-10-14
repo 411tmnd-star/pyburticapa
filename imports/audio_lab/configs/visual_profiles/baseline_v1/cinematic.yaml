@@ -1,0 +1,80 @@
+# cinematic: smooth responses to sustained energy changes and supported transitions; gentle
+# pulses on bar starts only. Experimental creative choices, not rules about music.
+
+name: cinematic
+version: "1"
+description: Slow, smoothed energy; passages as gates; transitions anticipated; gentle downbeat pulses.
+
+channels:
+  intensity:
+    combine: weighted_mean
+    smoothing: {attack_s: 1.0, release_s: 2.5}
+    rules:
+      - id: cin_intensity_loudness
+        input: {kind: feature, feature: rms_db, smooth_s: 2.0}
+        normalize: {method: percentile, low: 5, high: 95}
+
+  scale:
+    combine: weighted_mean
+    smoothing: {attack_s: 1.5, release_s: 3.0}
+    rules:
+      - id: cin_scale_loudness
+        input: {kind: feature, feature: rms_db, smooth_s: 2.0}
+        normalize: {method: percentile, low: 5, high: 95}
+        weight: 0.6
+      - id: cin_scale_high_energy
+        input: {kind: interpretation, label: high_energy_passage}
+        response: {attack_s: 2.0, release_s: 3.0}
+        weight: 0.4
+
+  density:
+    combine: weighted_mean
+    smoothing: {attack_s: 1.5, release_s: 3.0}
+    rules:
+      - id: cin_density_onsets
+        input: {kind: onset_rate, window_s: 4.0}
+        normalize: {method: percentile, low: 5, high: 95}
+
+  motion_weight:
+    combine: max
+    smoothing: {attack_s: 1.0, release_s: 2.0}
+    rules:
+      - id: cin_motion_loudness
+        input: {kind: feature, feature: rms_db, smooth_s: 3.0}
+        normalize: {method: percentile, low: 5, high: 95}
+        weight: 0.8
+      - id: cin_motion_build
+        input: {kind: interpretation, label: energy_build}
+        response: {attack_s: 2.0, release_s: 2.0}
+
+  pulse_strength:
+    combine: max
+    rules:
+      - id: cin_pulse_downbeats
+        input: {kind: events, events: downbeat}
+        response: {attack_s: 0.1, release_s: 0.7}
+        strength: 0.4
+
+  transition_weight:
+    combine: max
+    smoothing: {attack_s: 0.0, release_s: 0.5}
+    rules:
+      - id: cin_transition_candidates
+        input: {kind: interpretation, label: transition_candidate}
+        response: {attack_s: 1.5, release_s: 2.5}
+      - id: cin_transition_drops
+        input: {kind: interpretation, label: energy_drop}
+        response: {attack_s: 1.0, release_s: 2.0}
+        strength: 0.7
+      - id: cin_transition_novelty_peaks
+        input: {kind: events, events: novelty_peak}
+        response: {attack_s: 1.0, release_s: 1.5}
+        strength: 0.5
+
+  detail_activity:
+    combine: weighted_mean
+    smoothing: {attack_s: 0.5, release_s: 1.5}
+    rules:
+      - id: cin_detail_high
+        input: {kind: feature, feature: band_high_db, smooth_s: 1.0}
+        normalize: {method: percentile, low: 5, high: 95}

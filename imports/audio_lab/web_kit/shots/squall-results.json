@@ -1,0 +1,62 @@
+[
+ {
+  "name": "canvas fills its container and its backing store matches the CSS size",
+  "ok": true,
+  "detail": "css 1248x768, backing 1248x768"
+ },
+ {
+  "name": "the loop draws while idle (calm map)",
+  "ok": true,
+  "detail": "30 -> 53 frames in 0.5 s"
+ },
+ {
+  "name": "idle: calm, Force 0, two storms",
+  "ok": true,
+  "detail": "force 0, storms 2"
+ },
+ {
+  "name": "idle chart is dim but not blank",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "demo playing: the map lights up",
+  "ok": true,
+  "detail": "lit pixel share 0.97"
+ },
+ {
+  "name": "resize 900x640: canvas follows, no horizontal scroll, still drawing",
+  "ok": true,
+  "detail": "canvas 868x608, scrollWidth 900/900"
+ },
+ {
+  "name": "resize 900x640: map not blank",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "resize 390x844: canvas follows, no horizontal scroll, still drawing",
+  "ok": true,
+  "detail": "canvas 358x768, scrollWidth 390/390"
+ },
+ {
+  "name": "resize 390x844: map not blank",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "resize 1600x700: canvas follows, no horizontal scroll, still drawing",
+  "ok": true,
+  "detail": "canvas 1248x668, scrollWidth 1600/1600"
+ },
+ {
+  "name": "resize 1600x700: map not blank",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "page errors during render checks",
+  "ok": true,
+  "detail": "[]"
+ }
+]

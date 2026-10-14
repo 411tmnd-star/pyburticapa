@@ -1,0 +1,100 @@
+path,class_no,class,ext,bytes,reason
+CAPABILITIES.md,5,operational documentation/inventory,.md,10259,toolkit record
+GEMINI_SCRIPT_CLASSIFICATION.csv,5,operational documentation/inventory,.csv,3539,toolkit record
+INVENTORY.csv,5,operational documentation/inventory,.csv,831383,toolkit record
+MIGRATION_LOG.csv,5,operational documentation/inventory,.csv,53563,toolkit record
+NEXT_ACTIONS.md,5,operational documentation/inventory,.md,3189,tool documentation
+README.md,5,operational documentation/inventory,.md,2633,toolkit record
+REMAINING_DEPENDENCIES.md,5,operational documentation/inventory,.md,3140,toolkit record
+SCOPE_REVIEW.csv,5,operational documentation/inventory,.csv,9642,toolkit record
+SCOPE_REVIEW.md,5,operational documentation/inventory,.md,6431,tool documentation
+VERIFICATION.csv,5,operational documentation/inventory,.csv,9166,toolkit record
+WORKFLOWS.md,5,operational documentation/inventory,.md,8531,toolkit record
+discover\CHANGES_FROM_ORIGINAL.md,5,operational documentation/inventory,.md,487,tool documentation
+discover\discover.py,1,reusable implementation,.py,38298,tool script
+discover\discover.py.diff,2,required configuration/dependency,.diff,1374,dependency/config
+discover\discover_config.json,2,required configuration/dependency,.json,149,dependency/config
+discover\test_discover.py,3,required test/fixture,.py,15996,test script
+discover\test_discover.py.diff,2,required configuration/dependency,.diff,2782,dependency/config
+discover\test_ollama_synthesis.py,3,required test/fixture,.py,2490,test script
+outputs\README.md,4,input/output directory,.md,465,designated output folder
+tools\chat_reply_extractor\chat_reply_extractor.py,1,reusable implementation,.py,17161,tool script
+tools\gemini_md2\gemini_batch.py,1,reusable implementation,.py,28021,tool script
+tools\gemini_md2\gemini_parse.py,1,reusable implementation,.py,15662,tool script
+tools\gemini_md2\gemini_replay.py,1,reusable implementation,.py,9797,tool script
+tools\gemini_md2\gemini_to_md.py,1,reusable implementation,.py,2928,tool script
+tools\gemini_md2\survey_candidates.py,1,reusable implementation,.py,13601,tool script
+tools\gemini_md2\test2_validate.py,3,required test/fixture,.py,12731,test script
+tools\gemini_md2\test3_additive_validate.py,3,required test/fixture,.py,18689,test script
+tools\gemini_md2\test3_gemini_validate.py,3,required test/fixture,.py,18582,test script
+tools\gemini_md2\test3_regression_validate.py,3,required test/fixture,.py,18632,test script
+tools\gemini_md2\test3_validate.py,3,required test/fixture,.py,13622,test script
+tools\gemini_md2\test4_additive_validate.py,3,required test/fixture,.py,18638,test script
+tools\gemini_md2\test4_validate.py,3,required test/fixture,.py,18524,test script
+tools\gemini_md2\debug\additive_regression.py,1,reusable implementation,.py,7036,"debug/backup script retained (REUSABLE/SPECIALIZED/DUPLICATE, see GEMINI_SCRIPT_CLASSIFICATION.csv)"
+tools\gemini_md2\debug\analyze1.py,8,uncertain,.py,1187,classified UNRESOLVED in GEMINI_SCRIPT_CLASSIFICATION.csv
+tools\gemini_md2\debug\analyze2.py,8,uncertain,.py,2639,classified UNRESOLVED in GEMINI_SCRIPT_CLASSIFICATION.csv
+tools\gemini_md2\debug\cdp_capture.py,1,reusable implementation,.py,11721,"debug/backup script retained (REUSABLE/SPECIALIZED/DUPLICATE, see GEMINI_SCRIPT_CLASSIFICATION.csv)"
+tools\gemini_md2\debug\cdp_capture_generic.py,1,reusable implementation,.py,12380,"debug/backup script retained (REUSABLE/SPECIALIZED/DUPLICATE, see GEMINI_SCRIPT_CLASSIFICATION.csv)"
+tools\gemini_md2\debug\cdp_capture_test3.py,1,reusable implementation,.py,12303,"debug/backup script retained (REUSABLE/SPECIALIZED/DUPLICATE, see GEMINI_SCRIPT_CLASSIFICATION.csv)"
+tools\gemini_md2\debug\cdp_capture_test4.py,1,reusable implementation,.py,12303,"debug/backup script retained (REUSABLE/SPECIALIZED/DUPLICATE, see GEMINI_SCRIPT_CLASSIFICATION.csv)"
+tools\gemini_md2\debug\cdp_eval.py,1,reusable implementation,.py,4554,"debug/backup script retained (REUSABLE/SPECIALIZED/DUPLICATE, see GEMINI_SCRIPT_CLASSIFICATION.csv)"
+tools\gemini_md2\debug\compare_responses.py,1,reusable implementation,.py,1658,"debug/backup script retained (REUSABLE/SPECIALIZED/DUPLICATE, see GEMINI_SCRIPT_CLASSIFICATION.csv)"
+tools\gemini_md2\debug\explore_turn.py,1,reusable implementation,.py,1249,"debug/backup script retained (REUSABLE/SPECIALIZED/DUPLICATE, see GEMINI_SCRIPT_CLASSIFICATION.csv)"
+tools\gemini_md2\debug\path_coverage.py,1,reusable implementation,.py,1399,"debug/backup script retained (REUSABLE/SPECIALIZED/DUPLICATE, see GEMINI_SCRIPT_CLASSIFICATION.csv)"
+tools\gemini_md2\debug\payload_mapping.md,5,operational documentation/inventory,.md,5637,parser field-path documentation referenced by gemini_parse.py
+tools\gemini_md2\debug\reverse_coverage.py,1,reusable implementation,.py,1580,"debug/backup script retained (REUSABLE/SPECIALIZED/DUPLICATE, see GEMINI_SCRIPT_CLASSIFICATION.csv)"
+tools\gemini_md2\debug\test3_posthoc.py,8,uncertain,.py,2351,classified UNRESOLVED in GEMINI_SCRIPT_CLASSIFICATION.csv
+tools\gemini_md2\debug\test3_posthoc2.py,8,uncertain,.py,4473,classified UNRESOLVED in GEMINI_SCRIPT_CLASSIFICATION.csv
+tools\gemini_md2\debug\test3_regression_analysis.py,1,reusable implementation,.py,8100,"debug/backup script retained (REUSABLE/SPECIALIZED/DUPLICATE, see GEMINI_SCRIPT_CLASSIFICATION.csv)"
+tools\gemini_md2\debug\backup\gemini_parse_before_additive_changes.py,1,reusable implementation,.py,12676,"debug/backup script retained (REUSABLE/SPECIALIZED/DUPLICATE, see GEMINI_SCRIPT_CLASSIFICATION.csv)"
+tools\gemini_md2\debug\backup\gemini_parse_before_http_fix.py,1,reusable implementation,.py,12675,"debug/backup script retained (REUSABLE/SPECIALIZED/DUPLICATE, see GEMINI_SCRIPT_CLASSIFICATION.csv)"
+tools\knowledge_extraction\v2\README.md,5,operational documentation/inventory,.md,924,tool documentation
+tools\knowledge_extraction\v2\convert.py,1,reusable implementation,.py,4361,tool script
+tools\knowledge_extraction\v2\jsonl_to_md.py,1,reusable implementation,.py,3337,tool script
+tools\knowledge_extraction\v2\mht_to_md.py,1,reusable implementation,.py,7213,tool script
+tools\mht_to_md_tool\mht_to_md.py,1,reusable implementation,.py,13507,tool script
+tools\pdf_to_md\pdf_to_md.py,1,reusable implementation,.py,7758,tool script
+tools\pdf_to_md\requirements.txt,2,required configuration/dependency,.txt,8,dependency/config
+tools\prompt_reply_pipeline\README.md,5,operational documentation/inventory,.md,1701,tool documentation
+tools\prompt_reply_pipeline\convert_for_pipeline.py,1,reusable implementation,.py,5783,tool script
+tools\prompt_reply_pipeline\pipeline.py,1,reusable implementation,.py,22509,tool script
+tools\prompt_reply_pipeline\tests\test_pipeline.py,3,required test/fixture,.py,14473,test script
+tools\prompt_reply_pipeline\tests\fixtures\broken_chat.md,3,required test/fixture,.md,250,synthetic test fixture (fabricated content)
+tools\prompt_reply_pipeline\tests\fixtures\chatgpt_export_synthetic.md,3,required test/fixture,.md,1434,synthetic test fixture (fabricated content)
+tools\prompt_reply_pipeline\tests\fixtures\claude_session_synthetic.jsonl,3,required test/fixture,.jsonl,539,synthetic test fixture (fabricated content)
+tools\prompt_reply_pipeline\tests\fixtures\converter_output_chatgpt_style.md,3,required test/fixture,.md,221,synthetic test fixture (fabricated content)
+tools\prompt_reply_pipeline\tests\fixtures\export_plain.json,3,required test/fixture,.json,399,synthetic test fixture (fabricated content)
+tools\prompt_reply_pipeline\tests\fixtures\google_ai_mode_synthetic.mht,3,required test/fixture,.mht,767,synthetic test fixture (fabricated content)
+tools\prompt_reply_pipeline\tests\fixtures\not_a_conversation.pdf,3,required test/fixture,.pdf,94,synthetic test fixture (fabricated content)
+tools\prompt_reply_pipeline\tests\fixtures\notes_plain.md,3,required test/fixture,.md,370,synthetic test fixture (fabricated content)
+tools\prompt_reply_pipeline\tests\fixtures\perplexity_synthetic.md,3,required test/fixture,.md,537,synthetic test fixture (fabricated content)
+tools\repo_inspect\repo_inspect.py,1,reusable implementation,.py,9746,tool script
+tools\x_pipeline\consolidate_images.py,1,reusable implementation,.py,2455,tool script
+tools\x_pipeline\consolidate_videos.py,1,reusable implementation,.py,3016,tool script
+tools\x_pipeline\download_videos.py,1,reusable implementation,.py,9488,tool script
+tools\x_pipeline\extractor.py,1,reusable implementation,.py,14119,tool script
+tools\x_pipeline\fetch_articles.py,1,reusable implementation,.py,13246,tool script
+tools\x_pipeline\requirements.txt,2,required configuration/dependency,.txt,34,dependency/config
+tools\x_pipeline\run_all.py,1,reusable implementation,.py,2765,tool script
+tools\x_pipeline\transcribe_notes.py,1,reusable implementation,.py,6556,tool script
+_meta\append_log.py,1,reusable implementation,.py,1955,toolkit build/verify script
+_meta\build_inventory.py,1,reusable implementation,.py,7414,toolkit build/verify script
+_meta\check_extractor.py,1,reusable implementation,.py,1304,toolkit build/verify script
+_meta\discover_setup.py,1,reusable implementation,.py,4032,toolkit build/verify script
+_meta\gemini_audit.json,5,operational documentation/inventory,.json,14640,scan result record
+_meta\gemini_audit.py,1,reusable implementation,.py,3799,toolkit build/verify script
+_meta\gemini_pairs.py,1,reusable implementation,.py,1915,toolkit build/verify script
+_meta\list_group_files.py,1,reusable implementation,.py,841,toolkit build/verify script
+_meta\migrate.py,1,reusable implementation,.py,4292,toolkit build/verify script
+_meta\patch_link.py,1,reusable implementation,.py,2731,toolkit build/verify script
+_meta\patch_verify.py,1,reusable implementation,.py,3669,toolkit build/verify script
+_meta\patch_verify2.py,1,reusable implementation,.py,3402,toolkit build/verify script
+_meta\quarantine.py,1,reusable implementation,.py,4017,toolkit build/verify script
+_meta\scan_groups.json,5,operational documentation/inventory,.json,619,scan result record
+_meta\scan_results.csv,5,operational documentation/inventory,.csv,109432,scan result record
+_meta\scan_tools.py,1,reusable implementation,.py,3643,toolkit build/verify script
+_meta\scope_review.py,1,reusable implementation,.py,4530,toolkit build/verify script
+_meta\summarize_scan.py,1,reusable implementation,.py,1021,toolkit build/verify script
+_meta\tool_facts.py,1,reusable implementation,.py,1443,toolkit build/verify script
+_meta\verify.py,1,reusable implementation,.py,12180,toolkit build/verify script

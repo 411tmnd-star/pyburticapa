@@ -1,0 +1,18 @@
+{
+ "bytes": 213,
+ "counts": {
+  "empty": 0,
+  "other": 0,
+  "prompts": 2,
+  "replies": 2
+ },
+ "empty": [],
+ "file": "google_ai_mode_synthetic.md",
+ "format": "speaker_md",
+ "other": [],
+ "pipeline": "1.0",
+ "sha256": "421a9b99a7cf97f57999a7e30c17ae8050525678e95e90f597d137eaed11d728",
+ "status": "ok",
+ "title": null,
+ "total_blocks": 4
+}

@@ -1,0 +1,110 @@
+
+== 0. hardware ==
+      [state] "no scene mounted"
+renderer: ANGLE (Intel, Intel(R) UHD Graphics (0x00009B41) Direct3D11 vs_5_0 ps_5_0, D3D11) | WebGL 2.0 (OpenGL ES 3.0 Chromium)
+PASS  hardware GPU in use (not software rendering)  ANGLE (Intel, Intel(R) UHD Graphics (0x00009B41) Direct3D11 vs_5_0 ps_5_0, D3D11)
+
+== 1. initialization ==
+      [state] {"status":"ready","frames":4,"contextLost":false,"animTime":0.08}
+PASS  host status is 'ready'
+PASS  exactly one live scene and one live host  {"scene":{"created":1,"disposed":0},"host":{"created":1,"disposed":0}}
+PASS  the scene owns 3 geometries, 0 textures  {"geometries":3,"textures":0,"programs":3}
+PASS  frames are drawn through the shared pipeline
+
+== 2. silence: the resting state ==
+      [state] {"status":"ready","frames":42,"contextLost":false,"animTime":0.7}
+      silent: frame mean 0.031, scene light above the clear colour 0.018, strips L 0.032 C 0.031 R 0.032
+PASS  silence is calm (params report calm)
+PASS  no ridge in silence
+PASS  R1 rest floor: the grid is readable in silence (scene light above the clear colour >= 0.006)  0.018
+PASS  the resting terrain is low but not flat (tallest value between 0.01 and 0.15)  0.070
+
+== 3. audio response (scripted synthetic input) ==
+      [state] {"status":"ready","frames":144,"contextLost":false,"animTime":3.62}
+PASS  the scripted source starts and is labelled synthetic
+PASS  R3 sustained input is clearly more active than rest (scene light >= 1.8x silence)  0.062 vs 0.018 = 3.46x
+PASS  params are not calm and exposure follows loudness above the floor (0.2 + 0.8 x 0.55 = 0.64)  0.640
+PASS  the terrain scrolls at the full rate while playing (about 14 rows per second)  14.0 rows/s
+      bass-only: strips L 0.097 C 0.061 R 0.062
+      high-only: strips L 0.044 C 0.044 R 0.074
+      mid-only: strips L 0.055 C 0.087 R 0.050
+PASS  bass alone lights the left strip >= 1.5x the right strip  0.097 vs 0.062
+PASS  high alone lights the right strip >= 1.5x the left strip  0.074 vs 0.044
+PASS  mid alone lights the centre strip >= 1.5x each side  C 0.087 L 0.055 R 0.050
+      ridge after the hit (first frames): 0.00 0.82 0.74 0.66 0.59 0.53 0.47 0.42; newest row max 0.60 before, 0.78 after; row minimum 0.07 before, 0.06 after
+PASS  a bass hit raises the ridge above 0.3 within 4 frames  0.823
+PASS  the injected row rises above the pre-hit row and never exceeds 1  0.777 vs 0.597
+FAIL  the ridge spans the whole row: the row minimum rises by >= 0.3  0.061 vs 0.073
+PASS  no height anywhere exceeds 1
+PASS  the ridge decays back (< 0.05 within 1.8 s)  0.000
+PASS  after the source stops the scene returns to the calm resting state  scene light 0.018 vs 0.018
+
+== 4. reduced motion ==
+      [state] {"status":"ready","frames":1751,"contextLost":false,"animTime":57}
+PASS  the host reports reduced motion
+      scroll rate: normal 14.00 rows/s, reduced 4.90, ratio 0.350
+PASS  the terrain scrolls at about 0.35x of the normal rate (0.25 to 0.45)  0.350
+PASS  params report motion 0.35  0.350
+PASS  no ridge under reduced motion  0.000
+PASS  brightness and identity are retained (scene light >= 70% of normal)  0.051 vs 0.062
+
+== 5. resize and framing (the three lobes must be inside the canvas) ==
+      [state] {"status":"ready","frames":326,"contextLost":false,"animTime":11.22}
+PASS  1280x720 DPR 1: canvas fills its container and the buffer matches  client 1248,410 buffer 1248,410 pr 1
+PASS  1280x720 DPR 1: the three lobe centres are inside the canvas (max |x| < 1)  max |x| 0.423, distance 17.000
+PASS  1920x1080 DPR 1: canvas fills its container and the buffer matches  client 1248,716 buffer 1248,716 pr 1
+PASS  1920x1080 DPR 1: the three lobe centres are inside the canvas (max |x| < 1)  max |x| 0.749, distance 17.000
+PASS  1280x900 DPR 1.5: canvas fills its container and the buffer matches  client 1248,563 buffer 1872,844 pr 1.5
+PASS  1280x900 DPR 1.5: the three lobe centres are inside the canvas (max |x| < 1)  max |x| 0.586, distance 17.000
+PASS  768x1024 DPR 1: canvas fills its container and the buffer matches  client 736,668 buffer 736,668 pr 1
+PASS  768x1024 DPR 1: the three lobe centres are inside the canvas (max |x| < 1)  max |x| 0.753, distance 26.537
+PASS  390x844 DPR 1: canvas fills its container and the buffer matches  client 358,355 buffer 358,355 pr 1
+PASS  390x844 DPR 1: the three lobe centres are inside the canvas (max |x| < 1)  max |x| 0.760, distance 28.993
+PASS  resizing away and back gives the same size (no feedback growth)  1248,410 then 1248,410
+
+== 6. context loss and restore ==
+      [state] {"status":"ready","frames":645,"contextLost":false,"animTime":21.49}
+PASS  status becomes 'lost'
+PASS  nothing is drawn while the context is lost
+PASS  status returns to 'ready'
+PASS  all geometries are uploaded again after the restore  3 to 3
+PASS  drawing resumes (frames advance)
+PASS  the terrain is visible after the restore (scene light above the clear colour > the resting level)  0.075 vs 0.018
+PASS  the background clear colour survives the restore (sky corner pixel within 2 levels)  [8,15,26,255] then [8,15,26,255]
+PASS  no WebGL 'does not belong to this context' warnings
+
+== 7. repeated mount and unmount (30 cycles) ==
+      [state] {"status":"ready","frames":720,"contextLost":false,"animTime":24.46}
+PASS  30 scenes and 30 hosts were created and disposed  {"s0":{"scene":{"created":1,"disposed":0},"host":{"created":1,"disposed":0}},"s1":{"scene":{"created":31,"disposed":30},"host":{"created":31,"disposed":30}}}
+PASS  one scene and one host are live afterwards
+PASS  window resize and document visibility listeners return to baseline  window 1, document 1
+PASS  heap growth after 30 cycles is under 5 MB  0.54 MB
+PASS  exactly one canvas remains and the scene is drawing
+
+== 8. hidden tab ==
+      [state] {"status":"ready","frames":23,"contextLost":false,"animTime":0.69}
+PASS  status becomes 'hidden'
+PASS  nothing is drawn while hidden
+PASS  status returns to 'ready' and drawing resumes
+
+== 9. frame pacing and GPU time (synthetic demo, 120 BPM). Pacing needs AC power: on battery Windows throttles to about 30 fps ==
+      [state] {"status":"ready","frames":38,"contextLost":false,"animTime":1.62}
+      1280x720 DPR1 canvas 1248,410: interval median 33.300 p95 34.000 p99 34.100 max 34.600 over33 40.33% | main thread median 0.700 p95 1.200 | GPU sync median 4.700 p95 5.800
+FAIL  1280x720 DPR 1 (10 s): interval median <= 16.9 ms and p95 <= 20 ms  33.300 / 34.000
+FAIL  p99 <= 33 ms and under 1% of frames over 33 ms  34.100, 40.33%
+PASS  main-thread time per frame median <= 4 ms  0.700
+PASS  synchronized GPU time median <= 8 ms at DPR 1  4.700
+      1920x1080 viewport canvas 1248,716: GPU sync median 5.300 p95 5.900 | DPR 1.5 canvas 1872,615: median 4.700 p95 6.200
+PASS  GPU time is recorded for the larger canvases (informational, outside the gate)
+
+== 10. browser errors ==
+      [state] {"status":"ready","frames":805,"contextLost":false,"animTime":17.29}
+PASS  no page exceptions, console errors or warnings
+      WebGL-related console lines: ["log: THREE.WebGLRenderer: Context Lost.","log: THREE.WebGLRenderer: Context Restored."]
+
+MEASUREMENTS {"gpu":{"renderer":"ANGLE (Intel, Intel(R) UHD Graphics (0x00009B41) Direct3D11 vs_5_0 ps_5_0, D3D11)","version":"WebGL 2.0 (OpenGL ES 3.0 Chromium)"},"silent":{"frameMean":0.03081900253350357,"sceneLight":0.01790606135703298,"left":0.03221574186654458,"centre":0.03144078361035,"right":0.03239223168440134},"sustained":{"frameMean":0.07480033346375638,"sceneLight":0.06188739228728579},"bands":{"bass":{"left":0.09719348008728945,"centre":0.060593614067230406,"right":0.061862228374328115},"high":{"left":0.04440914874754327,"centre":0.04414305707544717,"right":0.07400750107607137},"mid":{"left":0.055296214217017595,"centre":0.08675377488716024,"right":0.050394971354634985}},"ridge":{"first4":[0,0.8231089819935091,0.7361411981554574,0.6594604137057445],"injectedPeak":0.777245819568634,"preMax":0.5972955822944641,"injectedMin":0.06055612117052078,"preMin":0.07290831208229065,"all":1},"reduced":{"normalRate":13.99999999999982,"redRate":4.899999940172843,"ratio":0.34999999572663615},"fit":[{"vw":1280,"vh":720,"dpr":1,"client":[1248,410],"box":[1248,410],"buffer":[1248,410],"pr":1,"fit":{"maxAbsX":0.4227583743575749,"ndcX":[-0.4149932042535042,0.0013633044250656856,0.4227583743575749],"distance":17,"aspect":3.0439024390243903,"zFar":-22,"spacing":0.5}},{"vw":1920,"vh":1080,"dpr":1,"client":[1248,716],"box":[1248,716],"buffer":[1248,716],"pr":1,"fit":{"maxAbsX":0.7487076613788727,"ndcX":[-0.6953043678419322,0.010330894853070625,0.7487076613788727],"distance":17,"aspect":1.7430167597765363,"zFar":-22,"spacing":0.5}},{"vw":1280,"vh":900,"dpr":1.5,"client":[1248,563],"box":[1248,563],"buffer":[1872,844],"pr":1.5,"fit":{"maxAbsX":0.5863869726093909,"ndcX":[-0.5620558477381835,0.004325277139217779,0.5863869726093909],"distance":17,"aspect":2.216696269982238,"zFar":-22,"spacing":0.5}},{"vw":768,"vh":1024,"dpr":1,"client":[736,668],"box":[736,668],"buffer":[736,668],"pr":1,"fit":{"maxAbsX":0.7525942677465326,"ndcX":[-0.7525942677465326,-0.0045506615062951665,0.7332774569903189],"distance":26.536657237655106,"aspect":1.1017964071856288,"zFar":-22,"spacing":0.5}},{"vw":390,"vh":844,"dpr":1,"client":[358,355],"box":[358,355],"buffer":[358,355],"pr":1,"fit":{"maxAbsX":0.7597083604976943,"ndcX":[-0.7597083604976943,-0.011064888446996943,0.7173441801367061],"distance":28.992982483585315,"aspect":1.008450704225352,"zFar":-22,"spacing":0.5}}],"heapGrowthMB":0.5379829406738281,"perf":{"T":{"frames":300,"intervals":{"n":300,"median":33.30000000447035,"p95":34,"p99":34.100000001490116,"max":34.600000001490116,"over33":0.4033333333333333},"cpu":{"n":300,"median":0.6999999955296516,"p95":1.2000000029802322,"p99":1.5,"max":1.6000000014901161,"over33":0}},"G":{"n":120,"median":4.700000002980232,"p95":5.799999997019768,"p99":5.899999998509884,"max":5.9000000059604645,"over33":0,"buffer":[1248,410],"pixelRatio":1}},"perfOther":{"fullHdViewport":{"n":80,"median":5.300000004470348,"p95":5.899999998509884,"p99":6.299999997019768,"max":6.299999997019768,"over33":0,"buffer":[1248,716],"pixelRatio":1},"dpr15":{"n":80,"median":4.700000002980232,"p95":6.200000002980232,"p99":6.4000000059604645,"max":6.4000000059604645,"over33":0,"buffer":[1872,615],"pixelRatio":1.5}}}
+
+57/60 checks passed
+FAILED: the ridge spans the whole row: the row minimum rises by >= 0.3  0.061 vs 0.073
+FAILED: 1280x720 DPR 1 (10 s): interval median <= 16.9 ms and p95 <= 20 ms  33.300 / 34.000
+FAILED: p99 <= 33 ms and under 1% of frames over 33 ms  34.100, 40.33%

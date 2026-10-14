@@ -1,0 +1,44 @@
+--- ORIGINAL/test_discover.py
++++ TOOLKIT/test_discover.py
+@@ -8,12 +8,13 @@
+ import sys
+ import tempfile
+ 
+-HERE = os.path.dirname(os.path.abspath(__file__))
++SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))   # TOOLKIT COPY: where discover.py lives
++HERE = json.load(open(os.path.join(SCRIPT_DIR, "discover_config.json"), encoding="utf-8"))["root"]   # Harness data root
+ FAIL = []
+ 
+ 
+ def run(q, root=HERE, extra=()):
+-    r = subprocess.run([sys.executable, "-I", "-X", "utf8", os.path.join(HERE, "discover.py"), "--root", root, *extra, *q.split()],
++    r = subprocess.run([sys.executable, "-I", "-X", "utf8", os.path.join(SCRIPT_DIR, "discover.py"), "--root", root, *extra, *q.split()],
+                        capture_output=True, text=True, encoding="utf-8")
+     return r.returncode, r.stdout, r.stderr
+ 
+@@ -55,7 +56,7 @@
+ check("C1 --class python returns only python-capability records", "class filter: python-capability" in o and "[python-capability] PYC-PY-EXEC-EC-18" in o and "[tool]" not in o and "[skill]" not in o)
+ rc, o, e = run("extract text from documents", HERE, ("--class", "tool,skill"))
+ check("C2 --class tool,skill accepts a comma list and excludes other classes", "[tool]" in o and "[python-capability]" not in o and "[documented-workflow]" not in o)
+-r = subprocess.run([sys.executable, "-I", "-X", "utf8", os.path.join(HERE, "discover.py"), "--class", "database", "x"], capture_output=True, text=True, encoding="utf-8")
++r = subprocess.run([sys.executable, "-I", "-X", "utf8", os.path.join(SCRIPT_DIR, "discover.py"), "--class", "database", "x"], capture_output=True, text=True, encoding="utf-8")
+ check("C3 unknown --class value is rejected with the valid list", r.returncode != 0 and "valid: tool, skill, python, repo, workflow" in r.stderr, r.stderr)
+ # 6 failure handling
+ d0 = tempfile.mkdtemp(prefix="discover_synth_")
+@@ -80,14 +81,14 @@
+ import re
+ import time
+ sys.dont_write_bytecode = True        # importing the module under test must not leave a __pycache__ in the harness
+-sys.path.insert(0, HERE)
++sys.path.insert(0, SCRIPT_DIR)
+ import discover  # noqa: E402  (repo module under test; NOTE_SOURCES is the list of approved folders)
+ 
+ WS_REAL = os.path.dirname(HERE)
+ 
+ 
+ def jrun(q, root=HERE, notes_root=None, top=200, cls="note"):
+-    cmd = [sys.executable, "-I", "-X", "utf8", os.path.join(HERE, "discover.py"), "--root", root, "--class", cls, "--json", "--top", str(top)]
++    cmd = [sys.executable, "-I", "-X", "utf8", os.path.join(SCRIPT_DIR, "discover.py"), "--root", root, "--class", cls, "--json", "--top", str(top)]
+     if notes_root:
+         cmd += ["--notes-root", notes_root]
+     r = subprocess.run(cmd + q.split(), capture_output=True, text=True, encoding="utf-8")

@@ -1,0 +1,103 @@
+
+== 0. hardware ==
+      [state] "no scene mounted"
+renderer: ANGLE (Intel, Intel(R) UHD Graphics (0x00009B41) Direct3D11 vs_5_0 ps_5_0, D3D11) | WebGL 2.0 (OpenGL ES 3.0 Chromium)
+PASS  hardware GPU in use (not software rendering)  ANGLE (Intel, Intel(R) UHD Graphics (0x00009B41) Direct3D11 vs_5_0 ps_5_0, D3D11)
+
+== 1. initialization ==
+      [state] {"status":"ready","frames":4,"contextLost":false,"animTime":0.08}
+PASS  host status is 'ready'
+PASS  exactly one live scene and one live host  {"scene":{"created":1,"disposed":0},"host":{"created":1,"disposed":0}}
+PASS  frames are drawn through the shared pipeline
+
+== 2. silence: the resting state ==
+      [state] {"status":"ready","frames":40,"contextLost":false,"animTime":0.68}
+      silent luminance: centre 0.000 ring 0.099 disk 0.070 jet 0.016 background 0.012
+PASS  silence is calm (params report calm)
+PASS  the shadow is dark (centre luminance < 0.03)  0.000
+PASS  the rim stays legible in silence (ring > 3x centre and > background)  0.099 vs centre 0.000
+PASS  the disk is visible but dim in silence (disk > background)  0.070 vs 0.012
+PASS  no jet impulse in silence  0.000
+
+== 3. audio response (synthetic demo, 120 BPM) ==
+      [state] {"status":"ready","frames":192,"contextLost":false,"animTime":3.23}
+PASS  the demo source starts
+      playing luminance: centre 0.000 ring 0.354 disk 0.200 jet 0.101 background 0.012
+PASS  the disk brightens with the music (>= 1.5x silence)  0.200 vs 0.070
+PASS  the rim brightens with the bass (>= 1.5x silence)  0.354 vs 0.099
+PASS  the shadow stays dark while playing (centre < 0.03)  0.000
+PASS  hierarchy: rim > disk > jets > background  0.354 > 0.200 > 0.101 > 0.012
+PASS  bass hits fire the jets (impulse reaches >= 0.3)  max 1.000
+PASS  jets pulse rather than sit at maximum (range >= 0.2 over 2 s)  min 0.249 max 1.000
+PASS  detected beats produce flares, at most 3 per second  1.94 per second
+
+== 4. frame timing at 1280x720 viewport, DPR 1 (demo playing) ==
+      [state] {"status":"ready","frames":533,"contextLost":false,"animTime":8.83}
+      canvas 1248x410 CSS, backing 1248x410
+      frame interval ms: median 16.700 p95 17.300 p99 20.900 max 25.600 over-33ms 0.00% (n=600)
+      main-thread ms per frame: median 0.300 p95 1.000
+      GPU sync ms (draw + 1-pixel read): median 4.000 p95 4.800 max 5.200
+PASS  frame interval median <= 16.9 ms  16.700
+PASS  frame interval p95 <= 20 ms  17.300
+PASS  frame interval p99 <= 33 ms  20.900
+PASS  fewer than 1% of frames over 33 ms  0.00%
+PASS  main-thread time per frame median <= 4 ms  0.300
+PASS  GPU sync time median <= 8 ms  4.000
+
+== 4b. the same at DPR 1.5 (the host's cap) and at 1920x1080, for comparison ==
+      [state] {"status":"ready","frames":1291,"contextLost":false,"animTime":20.4}
+      DPR 1.5: backing 1872x615, interval median 16.700 p95 17.000 p99 17.100, GPU sync median 6.200 p95 6.600
+      1920x1080 DPR 1: backing 1248x716, interval median 16.700 p95 16.900 p99 17.100, GPU sync median 7.500 p95 10.400
+PASS  DPR 1.5 is applied (the host's cap)  1.5
+
+== 5. reduced motion ==
+      [state] {"status":"ready","frames":2257,"contextLost":false,"animTime":34.34}
+PASS  the host reports reduced motion
+PASS  params report the reduced motion multiplier (0.35)  0.35
+PASS  the disk turns at about 0.35x its normal speed  ratio 0.295
+PASS  jets are suppressed (impulse < 0.05)  0.000
+PASS  no flares under reduced motion  65 -> 65
+PASS  the major elements remain: disk and rim at >= 0.5x their normal brightness  disk 0.171/0.206, ring 0.291/0.365
+PASS  the shadow stays dark under reduced motion  0.000
+PASS  normal motion again
+
+== 6. resize stability ==
+      [state] {"status":"ready","frames":2697,"contextLost":false,"animTime":41.65}
+PASS  the canvas fills its container after a resize  container 868x352, canvas 868x352
+PASS  no resize feedback: backing store stable for 1 s  868
+
+== 7. no per-frame GPU allocation ==
+      [state] {"status":"ready","frames":2832,"contextLost":false,"animTime":43.9}
+PASS  GPU geometries, textures and programs are constant over 3 s of playback  {"geometries":7,"textures":0,"programs":5} -> {"geometries":7,"textures":0,"programs":5}
+PASS  the renderer holds exactly the scene's 7 geometries  7
+
+== 8. context loss and restoration with scene resources ==
+      [state] {"status":"ready","frames":3013,"contextLost":false,"animTime":46.91}
+PASS  status becomes 'lost'
+PASS  nothing is drawn while lost
+PASS  status returns to 'ready' after restoration
+PASS  the scene is drawn again after restoration: rim within 25% of before  0.099 -> 0.087
+PASS  the disk is drawn again after restoration: within 25% of before  0.071 -> 0.058
+PASS  all 7 geometries are re-uploaded after restoration  {"geometries":7,"textures":0,"programs":5}
+
+== 9. repeated mount/unmount (30 cycles) with the scene ==
+      [state] {"status":"ready","frames":3256,"contextLost":false,"animTime":51.51}
+PASS  30 cycles completed without timeouts  0 timeouts
+PASS  every scene created was disposed  created +30, disposed +30
+PASS  every host created was disposed
+PASS  one live scene, one live host, one canvas afterwards
+PASS  document and window listeners return to baseline  {"vis":1,"resize":1} -> {"vis":1,"resize":1}
+PASS  JS heap growth over the cycles < 5 MB (after forced GC)  0.56 MB
+PASS  the remounted scene draws (rim visible)  ring 0.099
+
+== 10. console ==
+      [state] {"status":"ready","frames":129,"contextLost":false,"animTime":2.11}
+PASS  no page exceptions, console errors or warnings in the whole run
+
+GPU/WEBGL CONSOLE (all levels): ["log: THREE.WebGLRenderer: Context Lost.","log: THREE.WebGLRenderer: Context Restored."]
+
+MEASUREMENTS {"gpu":{"renderer":"ANGLE (Intel, Intel(R) UHD Graphics (0x00009B41) Direct3D11 vs_5_0 ps_5_0, D3D11)","vendor":"Google Inc. (Intel)","version":"WebGL 2.0 (OpenGL ES 3.0 Chromium)"},"silent":{"centre":0,"ring":0.09856938316993467,"disk":0.07026047824007653,"jet":0.015634914611005697,"background":0.012346666666666551,"Rpx":40.70484678199529},"playing":{"centre":0,"ring":0.35372458823529385,"disk":0.2002882333811573,"jet":0.10116893326513213,"background":0.012346666666666551},"jetRange":{"min":0.24932450451609411,"max":1},"flareRatePerS":1.9353590090962034,"dpr1":{"canvas":{"cssW":1248,"cssH":410,"bufW":1248,"bufH":410},"frameIntervalMs":{"n":600,"median":16.699999999254942,"p95":17.300000000745058,"p99":20.900000002235174,"max":25.600000001490116,"over33":0},"cpuMs":{"n":600,"median":0.29999999701976776,"p95":1,"p99":2.600000001490116,"max":9,"over33":0},"gpuSyncMs":{"n":60,"median":4,"p95":4.800000000745058,"p99":5.200000002980232,"max":5.200000002980232,"over33":0,"buffer":[1248,410],"pixelRatio":1}},"dpr15":{"frameIntervalMs":{"n":300,"median":16.699999999254942,"p95":17,"p99":17.100000001490116,"max":17.299999997019768,"over33":0},"cpuMs":{"n":299,"median":0.20000000298023224,"p95":0.3999999985098839,"p99":0.7000000029802322,"max":1.2000000029802322,"over33":0},"gpuSyncMs":{"n":60,"median":6.199999999254942,"p95":6.600000001490116,"p99":6.699999999254942,"max":6.699999999254942,"over33":0,"buffer":[1872,615],"pixelRatio":1.5}},"fhd":{"frameIntervalMs":{"n":301,"median":16.699999999254942,"p95":16.899999998509884,"p99":17.100000001490116,"max":17.5,"over33":0},"cpuMs":{"n":298,"median":0.19999999925494194,"p95":0.30000000074505806,"p99":0.4000000022351742,"max":0.4000000022351742,"over33":0},"gpuSyncMs":{"n":60,"median":7.5,"p95":10.399999998509884,"p99":11.299999997019768,"max":11.299999997019768,"over33":0,"buffer":[1248,716],"pixelRatio":1}},"reduced":{"normalPhaseRate":0.5987034909074573,"reducedPhaseRate":0.17665850099533092,"ratio":0.29506843316976306,"disk":0.1708636824485893,"ring":0.29130320261437903},"gpuMemory":{"before":{"geometries":7,"textures":0,"programs":5},"after3s":{"geometries":7,"textures":0,"programs":5}},"restore":{"before":{"ring":0.09908482434640524,"disk":0.07110234337637493},"after":{"ring":0.08669310457516342,"disk":0.05759172644667621}},"cycles":{"heapGrowthMB":0.5611763000488281,"listenersBefore":{"vis":1,"resize":1},"listenersAfter":{"vis":1,"resize":1}}}
+
+50/50 checks passed
+RESULT: COMPLETED, ALL PASSED
+ACCRETION_EXIT=0 

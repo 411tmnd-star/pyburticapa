@@ -1,0 +1,13 @@
+{
+ "label": "before",
+ "startedAt": "2026-10-13T07:54:21.807Z",
+ "restSilent": {
+  "centre": 0.035262859477124174,
+  "edge": 0.07590392892156851,
+  "beam": 0.01956275278738945,
+  "background": 0.01628392156862727,
+  "frameMean": 0.020742039860429544,
+  "sceneLight": 0.004458118291802274
+ },
+ "error": "Error: refusing to overwrite C:/Users/USER/Desktop/audio_lab_work/2026-10-13_accretion-v0/evidence-core/cc2-before-rest-silent.png\n    at png (file:///C:/Users/USER/Desktop/audio_lab_work/2026-10-13_accretion-v0/evidence-core/cc2-measure.mjs:17:105)\n    at file:///C:/Users/USER/Desktop/audio_lab_work/2026-10-13_accretion-v0/evidence-core/cc2-measure.mjs:23:40"
+}

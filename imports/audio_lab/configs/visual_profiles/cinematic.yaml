@@ -1,0 +1,100 @@
+﻿# cinematic (v2): smooth responses to sustained energy changes and supported transitions; gentle
+# pulses on bar starts only. Experimental creative choices, not rules about music. The Phase 7.0
+# version is frozen in baseline_v1/ for comparison.
+#
+# v2 changes: intensity, scale and motion_weight now have distinct inputs and time constants.
+#   intensity     - overall loudness, slow.
+#   scale         - bass energy and high-energy passages, slower still: size follows weight.
+#   motion_weight - a low floor from slow loudness, lifted by novelty and builds: movement follows
+#                   musical change, not just level.
+#   detail_activity - high-band activity above a long (8 s) baseline, slow.
+
+name: cinematic
+version: "2"
+description: Slow, smoothed energy; passages as gates; transitions anticipated; gentle downbeat pulses.
+
+channels:
+  intensity:
+    combine: weighted_mean
+    smoothing: {attack_s: 1.0, release_s: 2.5}
+    rules:
+      - id: cin_intensity_loudness
+        input: {kind: feature, feature: rms_db, smooth_s: 2.0}
+        normalize: {method: percentile, low: 5, high: 95}
+
+  scale:
+    combine: weighted_mean
+    smoothing: {attack_s: 1.8, release_s: 2.5}
+    rules:
+      - id: cin_scale_bass
+        input: {kind: feature, feature: band_bass_db, smooth_s: 2.0}
+        normalize: {method: percentile, low: 10, high: 98}
+        weight: 0.7
+      - id: cin_scale_high_energy
+        input: {kind: interpretation, label: high_energy_passage}
+        response: {attack_s: 2.0, release_s: 3.0}
+        weight: 0.3
+
+  density:
+    combine: weighted_mean
+    smoothing: {attack_s: 1.5, release_s: 3.0}
+    rules:
+      - id: cin_density_onsets
+        input: {kind: onset_rate, window_s: 4.0}
+        normalize: {method: percentile, low: 5, high: 95}
+
+  motion_weight:
+    combine: sum          # contributions add, so a quiet passage stays quiet even where novelty is high
+    smoothing: {attack_s: 0.6, release_s: 2.0}
+    rules:
+      - id: cin_motion_floor
+        input: {kind: feature, feature: rms_db, smooth_s: 3.0}
+        normalize: {method: percentile, low: 5, high: 95}
+        weight: 0.6
+      - id: cin_motion_novelty
+        input: {kind: feature, feature: novelty}
+        normalize: {method: fixed, low: 0.15, high: 0.8}
+        weight: 0.25
+      - id: cin_motion_build
+        input: {kind: interpretation, label: energy_build}
+        response: {attack_s: 2.0, release_s: 2.0}
+        weight: 0.25
+
+  pulse_strength:
+    combine: max
+    rules:
+      - id: cin_pulse_downbeats
+        input: {kind: events, events: downbeat}
+        response: {attack_s: 0.1, release_s: 0.7}
+        strength: 0.4
+        modulate_by:          # downbeat pulses fade with the energy, so a quiet passage is quiet
+          feature: rms_db
+          smooth_s: 2.0
+          normalize: {method: percentile, low: 5, high: 95}
+          window_s: 0.2
+          floor: 0.1
+
+  transition_weight:
+    combine: max
+    smoothing: {attack_s: 0.0, release_s: 0.5}
+    rules:
+      - id: cin_transition_candidates
+        input: {kind: interpretation, label: transition_candidate}
+        response: {attack_s: 1.5, release_s: 2.5}
+      - id: cin_transition_drops
+        input: {kind: interpretation, label: energy_drop}
+        response: {attack_s: 1.0, release_s: 2.0}
+        strength: 0.7
+      - id: cin_transition_novelty_peaks
+        input: {kind: events, events: novelty_peak}
+        response: {attack_s: 1.0, release_s: 1.5}
+        strength: 0.5
+
+  detail_activity:
+    combine: weighted_mean
+    smoothing: {attack_s: 0.5, release_s: 1.5}
+    rules:
+      - id: cin_detail_high
+        input: {kind: feature, feature: band_high_db, smooth_s: 0.5, baseline_s: 8.0, baseline_mode: above}
+        normalize: {method: fixed, low: 1.0, high: 4.0}
+

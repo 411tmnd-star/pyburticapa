@@ -1,0 +1,14 @@
+INVENTORY.csv: 2427 rows before, 9757 after (7330 added, 0 updated, 0 imported files missing on disk)
+rows with a toolkit_path by tier: {'1': 5182, '2': 2024, '3': 181}
+  tier 1: 5182
+  tier 2: 2024
+  tier 2 python static-ok: 1136
+  tier 2 python with undeclared deps: 17
+  tier 3: 124
+  toolkit rows tiered: 57
+  imported files modified after copy: 22
+  most common undeclared imports in tier 2 code: [('langchain_core', 2), ('safetensors', 2), ('zstandard', 2), ('h5py', 2), ('huggingface_hub', 1), ('umap', 1), ('optuna', 1), ('jax', 1), ('optax', 1), ('diffusers', 1), ('regex', 1), ('langchain_anthropic', 1)]
+declared package names found in requirements/pyproject files: 78
+backup written: C:\Users\USER\Desktop\Python_Toolkit\_meta\backups\INVENTORY.before_tier.csv
+written: INVENTORY.csv (9757 rows; original 2427 rows preserved, 0 unexpected changes)
+TIER_EXIT=0

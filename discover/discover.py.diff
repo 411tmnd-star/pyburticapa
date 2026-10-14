@@ -1,0 +1,200 @@
+--- ORIGINAL/discover.py
++++ TOOLKIT/discover.py
+@@ -9,6 +9,10 @@
+   TENTATIVE  terms appear only in name/id/notes/URL/evidence text, or only a minority of the query terms matched
+ A hit is a RECORD, not a working capability: the status shown is what the record says; nothing is verified here.
+ 
++TOOLKIT COPY (opt-in): --class toolkit searches the toolkit-owned tools listed in ../INVENTORY.csv (rows with a toolkit_path). Status is shown as recorded: HELP ONLY, TEST LINK, NOT VERIFIED or VERIFIED. Default queries do not load it.
++--tier 1,2,3 narrows toolkit records by the tier column (written by _meta/tier.py): 1 read-only reference (never executed), 2 candidate code
++(static check result shown, tests not run), 3 core/active (REQUIRES-REVIEW until reviewed). Nothing is executed.
++
+ Research notes (opt-in):  --class note   searches the Markdown research sources listed in NOTE_SOURCES, split into passages with
+ file:line locators. Notes are read only when this class is requested, so every other query behaves exactly as before.
+ A note hit is TEXT FROM A NOTE: not a registry record, decision, or verified fact. --notes-root overrides the workspace root
+@@ -29,6 +33,15 @@
+ 
+ HERE = os.path.dirname(os.path.abspath(__file__))
+ 
++
++def default_root():
++    """TOOLKIT COPY: --root default read from discover_config.json beside this file; falls back to HERE."""
++    try:
++        with open(os.path.join(HERE, "discover_config.json"), encoding="utf-8") as f:
++            return json.load(f)["root"]
++    except (OSError, KeyError, ValueError):
++        return HERE
++
+ # Research sources for --class note: (folder relative to the workspace root, filename pattern). Folders are read
+ # non-recursively and only for reading. Not listed on purpose: generated/frozen copies (KNOWLEDGE_EXTRACTION chunks/clean),
+ # registry-derived views, skills already in the registry, and byte-identical copies of links.md/output_notes.
+@@ -42,7 +55,9 @@
+     ("1_PY/assets/HaNESS/canonical/source/recovered/prompts", "*.md"),
+     ("1_PY/assets/HaNESS/docs", "*.md"),
+ )
+-NOTE_MIN, NOTE_MAX = 600, 1800          # passage size in characters: close at a blank line past MIN, never grow past MAX
++NOTE_MIN, NOTE_MAX = 600, 1800
++TOOLKIT_INVENTORY = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "INVENTORY.csv"))  # TOOLKIT COPY: toolkit-owned records (opt-in: --class toolkit)          # passage size in characters: close at a blank line past MIN, never grow past MAX
++TOOLKIT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # TOOLKIT COPY: relative toolkit_path values in INVENTORY.csv are anchored here
+ NOTE_PER_FILE = 2                       # note passages shown per file; the rest are counted, not listed
+ HEADING_RE = re.compile(r"^ {0,3}(#{1,6})[ \t]+(.+?)[ \t]*#*[ \t]*$")
+ FENCE_RE = re.compile(r"^ {0,3}(```|~~~)")
+@@ -224,6 +239,56 @@
+             self.warnings.append("missing source: WORKFLOW_DISCOVERY_CATALOGUE.md")
+         self.loaded["catalogue"] = n
+ 
++    def load_toolkit(self, inv_path):
++        """TOOLKIT COPY: toolkit-owned tools from the toolkit's own INVENTORY.csv (rows that have a toolkit_path).
++        Opt-in via --class toolkit, so every other query behaves as before. Status is shown as recorded; nothing is run."""
++        try:
++            with open(inv_path, encoding="utf-8-sig", newline="") as f:
++                rows = list(csv.DictReader(f))
++        except FileNotFoundError:
++            self.warnings.append("missing source: toolkit INVENTORY.csv")
++            return 0
++        n = 0
++        for r in rows:
++            raw_tp = (r.get("toolkit_path") or "").strip()
++            if not raw_tp:
++                continue
++            # TOOLKIT COPY: toolkit_path is relative to the Toolkit root (forward slashes); an older absolute path still works
++            tp = raw_tp if os.path.isabs(raw_tp) else os.path.normpath(os.path.join(TOOLKIT_ROOT, raw_tp))
++            if not os.path.exists(tp):
++                self.warnings.append("toolkit record without a file: " + raw_tp)
++                continue
++            ver = (r.get("verified_execution") or "").strip()
++            low = ver.lower()
++            doc = (r.get("first_docstring_line") or "").strip()
++            tier = (r.get("tier") or "").strip()                    # TOOLKIT COPY: written by _meta/tier.py; empty on older rows
++            check = (r.get("check_status") or "").strip()
++            if not ver:
++                state = "READ-ONLY (reference; never executed)" if tier == "1" else "NOT VERIFIED"
++            elif low.startswith("owner"):
++                state = "ACCEPTED (owner, not re-run): " + ver
++            elif low.startswith("observed:"):
++                state = "OBSERVED (passed in a run observed earlier; not re-run now): " + ver
++            elif low.startswith("reported:"):
++                state = "REPORTED (author or owner report; not re-run here): " + ver
++            elif "help only" in low:
++                state = "HELP ONLY (--help checked, not executed): " + ver
++            elif low.startswith(("covered by", "used by", "run by", "this file")):
++                state = "TEST LINK (named test exists; see its record): " + ver
++            else:
++                state = "VERIFIED: " + ver
++            tier_note = {"1": "tier 1: read-only reference, never executed",
++                         "2": "tier 2: candidate code, static check %s (tests not run)" % (check or "not recorded"),
++                         "3": "tier 3: core/active, %s" % (check or "REQUIRES-REVIEW")}.get(tier, "")
++            self.add("toolkit-tool", raw_tp.replace(os.sep, "/"), (doc[:140] if doc else ((r.get("specific_capability") or "").strip() or os.path.basename(tp))),
++                     [r.get("capability_category"), r.get("specific_capability"), r.get("first_docstring_line")],
++                     [r.get("group"), r.get("reason"), raw_tp],
++                     "toolkit record (%s); %s%s" % (r.get("disposition") or "unknown", state, ("; " + tier_note) if tier_note else ""),
++                     {"file": tp.replace(os.sep, "/"), "locator": "INVENTORY.csv row (group %s)" % (r.get("group") or "?")},
++                     {"group": r.get("group"), "tier": tier, "tier_rule": (r.get("tier_rule") or "").strip(), "check_status": check})
++            n += 1
++        self.loaded["toolkit"] = n
++
+     def load_csv(self, rel, label, idcol, namecol, funccols, stcols):
+         p = os.path.join(self.root, rel)
+         n = bad = 0
+@@ -266,7 +331,7 @@
+             return out
+ 
+         for rel, pat in NOTE_SOURCES:
+-            d = os.path.join(notes_root, *rel.split("/"))
++            d = rel if os.path.isabs(rel) else os.path.join(notes_root, *rel.split("/"))   # TOOLKIT COPY: absolute extra source dirs allowed
+             try:
+                 names = sorted(fn for fn in os.listdir(d) if fnmatch.fnmatch(fn, pat))
+             except OSError:
+@@ -434,6 +499,8 @@
+             return "\n".join(out)
+         out = ["  [%s] %s - %s" % (r["class"], r["id"], r["name"][:90]), "      status as recorded: %s" % r["status"],
+                "      why: %s" % why, "      source: %s%s" % (r["ref"].get("file"), (" :: " + str(r["ref"]["locator"])) if r["ref"].get("locator") else "")]
++        if r.get("tier"):                                    # TOOLKIT COPY: tier columns of INVENTORY.csv
++            out.append("      tier %s (%s): %s" % (r["tier"], r.get("tier_rule") or "no rule recorded", r.get("check_status") or "no check recorded"))
+         if r.get("urls"):
+             out.append("      url in record: %s" % r["urls"][0])
+         elif r["class"] == "tool":
+@@ -476,6 +543,9 @@
+                          "decide whether the need is real before building anything; a gap here may only mean the harness has no record of it."))
+     def jrow(r):
+         row = {k: r[k] for k in ("class", "id", "name", "status", "ref", "matched_func", "matched_other", "score")}
++        if r.get("tier"):                                    # TOOLKIT COPY: only toolkit records that carry a tier
++            row["tier"] = r["tier"]
++            row["check_status"] = r.get("check_status") or ""
+         if r["class"] == "note":
+             ln, snip = snippet(r, qt)
+             row["snippet"] = {"line": ln, "text": snip}
+@@ -496,7 +566,8 @@
+                  "python": "python-capability", "python-capability": "python-capability", "py": "python-capability",
+                  "repo": "repo-record", "repos": "repo-record", "repo-record": "repo-record",
+                  "workflow": "documented-workflow", "workflows": "documented-workflow", "documented-workflow": "documented-workflow",
+-                 "note": "note", "notes": "note"}
++                 "note": "note", "notes": "note",
++                 "toolkit": "toolkit-tool", "toolkits": "toolkit-tool"}
+ 
+ 
+ def parse_classes(values):
+@@ -507,7 +578,7 @@
+             if not part:
+                 continue
+             if part not in CLASS_ALIASES:
+-                raise SystemExit("unknown --class %r; valid: tool, skill, python, repo, workflow, note (comma-separate or repeat)" % part)
++                raise SystemExit("unknown --class %r; valid: tool, skill, python, repo, workflow, note, toolkit (comma-separate or repeat)" % part)
+             if CLASS_ALIASES[part] not in out:
+                 out.append(CLASS_ALIASES[part])
+     return out
+@@ -664,26 +735,53 @@
+         help="local Ollama model name (default: %(default)s)",
+     )
+     ap.add_argument("--class", dest="classes", action="append", metavar="CLASS",
+-                    help="narrow to resource types: tool, skill, python, repo, workflow, note (comma-separate or repeat); "
++                    help="narrow to resource types: tool, skill, python, repo, workflow, note, toolkit (comma-separate or repeat); toolkit = toolkit-owned tools from INVENTORY.csv; "
+                          "note = research Markdown passages, read only when requested")
+-    ap.add_argument("--root", default=HERE)
++    ap.add_argument("--tier", action="append", metavar="TIER",
++                    help="TOOLKIT COPY: narrow toolkit records to inventory tiers 1 (read-only reference), 2 (candidate code) or 3 (core/active); "
++                         "comma-separate or repeat; implies --class toolkit when no class is given")
++    ap.add_argument("--root", default=default_root())
++    ap.add_argument("--extra-sources", default=None, help="TOOLKIT COPY: JSON file [[absolute_dir, pattern], ...] of extra read-only note folders (e.g. pipeline output)")
+     ap.add_argument("--notes-root", default=None, help="workspace root holding the NOTE_SOURCES folders (default: the folder above --root)")
+     a = ap.parse_args(argv)
+     if a.synthesize and not a.json:
+         ap.error("--synthesize requires --json")
+     if hasattr(sys.stdout, "reconfigure"):
+         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
++    if a.extra_sources:                       # TOOLKIT COPY: opt-in only; without the flag behaviour is identical to the original
++        global NOTE_SOURCES
++        with open(a.extra_sources, encoding="utf-8") as f:
++            NOTE_SOURCES = tuple(NOTE_SOURCES) + tuple((d, pt) for d, pt in json.load(f))
+     c = Corpus(a.root)
+     c.load_all()
+     classes = parse_classes(a.classes)
++    tiers = set()                             # TOOLKIT COPY: --tier filter on toolkit records
++    for v in a.tier or []:
++        for part in v.split(","):
++            part = part.strip()
++            if part and part not in ("1", "2", "3"):
++                raise SystemExit("unknown --tier %r; valid: 1, 2, 3 (comma-separate or repeat)" % part)
++            if part:
++                tiers.add(part)
++    if tiers and not classes:
++        classes = ["toolkit-tool"]
++    elif tiers and "toolkit-tool" not in classes:
++        raise SystemExit("--tier applies to toolkit records; add --class toolkit")
++    if "toolkit-tool" in classes:             # TOOLKIT COPY: opt-in; default queries are unchanged
++        c.load_toolkit(TOOLKIT_INVENTORY)
+     if "note" in classes:
+         c.load_notes(a.notes_root or os.path.dirname(os.path.abspath(a.root)))
+     if classes:
+         c.items = [it for it in c.items if it["class"] in classes]
++    if tiers:
++        c.items = [it for it in c.items if it["class"] != "toolkit-tool" or it.get("tier") in tiers]
+     text, js = render(c, " ".join(a.query), a.top, include_text=a.synthesize)
+     if classes:
+         js["class_filter"] = classes
+         text = text.replace("\nsearched:", "\nclass filter: %s (other classes not searched)\nsearched:" % ", ".join(classes), 1)
++    if tiers:
++        js["tier_filter"] = sorted(tiers)
++        text = text.replace("\nsearched:", "\ntier filter: %s (toolkit records without a tier are excluded)\nsearched:" % ", ".join(sorted(tiers)), 1)
+     if a.synthesize:
+         if not js.get("terms"):
+             js["synthesis"] = {

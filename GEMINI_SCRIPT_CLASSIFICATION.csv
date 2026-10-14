@@ -1,0 +1,18 @@
+path,class,evidence,action
+tools/gemini_md2/debug/cdp_capture_generic.py,REUSABLE,"Same logic as cdp_capture.py but URL/prefix/port come from env vars CDP_URL, CDP_PREFIX, CDP_PORT (21 changed lines vs cdp_capture.py); no hard-coded share link. Uses real Chrome over CDP + websockets, so not run here (browser).",kept
+tools/gemini_md2/debug/cdp_eval.py,SPECIALIZED,"Evaluates a JS file (env CDP_JS_FILE) in a loaded page; 169-176 changed lines vs the capture variants, so not a duplicate. Browser/CDP; not run.",kept
+tools/gemini_md2/debug/cdp_capture.py,SPECIALIZED,"Hard-coded share URL and port 9333; referenced by one other file. Superseded in function by cdp_capture_generic.py but not proven equivalent in behaviour (stop condition differs by 1 line).",kept
+tools/gemini_md2/debug/cdp_capture_test3.py,DUPLICATE,"Differs from cdp_capture.py/cdp_capture_generic.py only by constants (URL, port 9334, output prefix) and an env-tunable stability count (14-20 changed lines). Output prefix test3_ is baked in.",kept (not deleted: duplicates are not removed in this pass)
+tools/gemini_md2/debug/cdp_capture_test4.py,DUPLICATE,"Same as cdp_capture_test3.py with another URL/port 9336/prefix (14 changed lines vs test3 variant).",kept (not deleted)
+tools/gemini_md2/debug/additive_regression.py,SPECIALIZED,"Regression check across recorded responses (reads debug/*.bin and a baseline JSON that are NOT in the toolkit); imports gemini_parse. Cannot run without those captures.",kept
+tools/gemini_md2/debug/test3_regression_analysis.py,SPECIALIZED,"Compares two test outputs (reads output/test3_*_conversation.md, now quarantined, plus captures not in the toolkit); one-off analysis.",kept
+tools/gemini_md2/debug/test3_posthoc.py,UNRESOLVED,"Post-hoc token coverage check on test 3; no docstring. 104 changed lines vs test3_posthoc2.py so the two are not equivalent. Needs test3_gemini_response.bin (absent).",kept
+tools/gemini_md2/debug/test3_posthoc2.py,UNRESOLVED,"Longer variant of test3_posthoc.py (81 vs 51 lines); relationship (successor vs alternative) not established.",kept
+tools/gemini_md2/debug/path_coverage.py,SPECIALIZED,"Checks parser field-path coverage against rendered text; imports gemini_parse; needs captures (absent).",kept
+tools/gemini_md2/debug/reverse_coverage.py,SPECIALIZED,"Reverse direction of path_coverage.py (rendered text to parser paths); needs captures (absent).",kept
+tools/gemini_md2/debug/compare_responses.py,SPECIALIZED,"Compares two recorded batchexecute responses via gemini_parse; needs .bin captures (absent).",kept
+tools/gemini_md2/debug/explore_turn.py,SPECIALIZED,"Prints one conversation turn from a recorded response (takes sys.argv); needs .bin capture (absent).",kept
+tools/gemini_md2/debug/analyze1.py,UNRESOLVED,"21-line exploratory script; no docstring or CLI; purpose not established beyond reading local files.",kept
+tools/gemini_md2/debug/analyze2.py,UNRESOLVED,"55-line exploratory script (html, json, re); no docstring or CLI; purpose not established.",kept
+tools/gemini_md2/debug/backup/gemini_parse_before_additive_changes.py,DUPLICATE,"Earlier version of gemini_parse.py (75 changed lines vs current). Differs from the other backup by 2 lines. Whether the current file supersedes it was not verified (Gemini tests not run), so it is not confirmed obsolete.",kept
+tools/gemini_md2/debug/backup/gemini_parse_before_http_fix.py,DUPLICATE,"Earlier version of gemini_parse.py (77 changed lines vs current); near-identical to the other backup (2 lines). Not confirmed obsolete.",kept

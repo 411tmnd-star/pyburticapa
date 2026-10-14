@@ -1,0 +1,80 @@
+# bass_pulse: stronger responses to bass activity, with beat-synchronised pulses whose strength
+# follows the bass energy around each beat. Every beat position is treated alike: nothing assumes
+# bass belongs on bar starts. Experimental creative choices, not rules about music.
+
+name: bass_pulse
+version: "1"
+description: Bass-led intensity and scale, pulses on beats scaled by bass energy at each beat.
+
+channels:
+  intensity:
+    combine: weighted_mean
+    smoothing: {attack_s: 0.05, release_s: 0.4}
+    rules:
+      - id: bp_intensity_bass
+        input: {kind: feature, feature: band_bass_db}
+        normalize: {method: percentile, low: 10, high: 98}
+        weight: 0.6
+      - id: bp_intensity_loudness
+        input: {kind: feature, feature: rms_db}
+        normalize: {method: percentile, low: 5, high: 95}
+        weight: 0.4
+
+  scale:
+    combine: sum
+    smoothing: {attack_s: 0.0, release_s: 0.12}
+    rules:
+      - id: bp_scale_bass
+        input: {kind: feature, feature: band_bass_db}
+        normalize: {method: percentile, low: 10, high: 98}
+        weight: 0.5
+      - id: bp_scale_bass_beats
+        input: {kind: events, events: beat}
+        response: {attack_s: 0.02, release_s: 0.2}
+        modulate_by: {feature: band_bass_db, normalize: {method: percentile, low: 10, high: 98}, window_s: 0.15}
+        weight: 0.5
+
+  density:
+    combine: weighted_mean
+    smoothing: {attack_s: 0.3, release_s: 0.8}
+    rules:
+      - id: bp_density_onsets
+        input: {kind: onset_rate, window_s: 1.5}
+        normalize: {method: percentile, low: 5, high: 95}
+
+  motion_weight:
+    combine: weighted_mean
+    smoothing: {attack_s: 0.2, release_s: 0.8}
+    rules:
+      - id: bp_motion_bass
+        input: {kind: feature, feature: band_bass_db, smooth_s: 0.5}
+        normalize: {method: percentile, low: 10, high: 98}
+
+  pulse_strength:
+    combine: max
+    rules:
+      - id: bp_pulse_bass_beats
+        input: {kind: events, events: beat}
+        response: {attack_s: 0.01, release_s: 0.2}
+        modulate_by: {feature: band_bass_db, normalize: {method: percentile, low: 10, high: 98}, window_s: 0.15}
+      - id: bp_pulse_bass_entry
+        input: {kind: interpretation, label: bass_entry}
+        response: {attack_s: 0.01, hold_s: 0.1, release_s: 0.8}
+
+  transition_weight:
+    combine: max
+    rules:
+      - id: bp_transition_candidates
+        input: {kind: interpretation, label: transition_candidate}
+        response: {attack_s: 0.25, release_s: 1.0}
+      - id: bp_transition_bass_entry
+        input: {kind: interpretation, label: bass_entry}
+        response: {attack_s: 0.1, release_s: 1.0}
+
+  detail_activity:
+    combine: weighted_mean
+    smoothing: {attack_s: 0.05, release_s: 0.3}
+    rules:
+      - id: bp_detail_high
+        input: {kind: feature, feature: band_high_db}
+        normalize: {method: percentile, low: 5, high: 95}

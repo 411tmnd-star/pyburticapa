@@ -1,0 +1,10 @@
+[
+ [
+  "C:/Users/USER/Desktop/Python_Toolkit/outputs/discovery_check/pipeline_out/replies",
+  "*.md"
+ ],
+ [
+  "C:/Users/USER/Desktop/Python_Toolkit/outputs/discovery_check/pipeline_out/documents",
+  "*.md"
+ ]
+]

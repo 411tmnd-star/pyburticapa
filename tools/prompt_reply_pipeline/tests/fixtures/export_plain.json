@@ -1,0 +1,7 @@
+{
+  "title": "SYNTHETIC FIXTURE - plain JSON export, fabricated content",
+  "messages": [
+    {"id": "p1", "author": {"role": "user"}, "content": {"content_type": "text", "parts": ["Name a colour of the fictional gizmo."]}},
+    {"id": "p2", "author": {"role": "assistant"}, "content": {"content_type": "text", "parts": ["The fictional gizmo is teal. Released 2026-01-15 under Apache-2.0."]}}
+  ]
+}

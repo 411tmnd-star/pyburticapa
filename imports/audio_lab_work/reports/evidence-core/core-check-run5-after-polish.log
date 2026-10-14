@@ -1,0 +1,119 @@
+
+== 0. hardware ==
+      [state] "no scene mounted"
+renderer: ANGLE (Intel, Intel(R) UHD Graphics (0x00009B41) Direct3D11 vs_5_0 ps_5_0, D3D11) | WebGL 2.0 (OpenGL ES 3.0 Chromium)
+PASS  hardware GPU in use (not software rendering)  ANGLE (Intel, Intel(R) UHD Graphics (0x00009B41) Direct3D11 vs_5_0 ps_5_0, D3D11)
+
+== 1. initialization ==
+      [state] {"status":"ready","frames":5,"contextLost":false,"animTime":0.13}
+PASS  host status is 'ready'
+PASS  exactly one live scene and one live host  {"scene":{"created":1,"disposed":0},"host":{"created":1,"disposed":0}}
+PASS  the scene owns 9 geometries, 0 textures  {"geometries":9,"textures":0,"programs":7}
+PASS  frames are drawn through the shared pipeline
+
+== 2. silence: the resting state ==
+      [state] {"status":"ready","frames":45,"contextLost":false,"animTime":0.79}
+      silent luminance: centre 0.040 edge 0.122 beam 0.034 background 0.016 frameMean 0.025
+PASS  silence is calm (params report calm)
+PASS  the core interior is dark (centre luminance < 0.06)  0.040
+PASS  the core edge stays legible in silence (edge > 1.5x centre and > background)  0.122 vs centre 0.040
+PASS  no beam impulse in silence
+
+== 3. audio response (scripted synthetic input) ==
+      [state] {"status":"ready","frames":138,"contextLost":false,"animTime":3.83}
+PASS  the scripted source starts and is labelled synthetic
+PASS  sustained input is clearly brighter than silence (scene light above background >= 1.5x, core edge >= 1.5x)  scene light 0.021 vs 0.009; edge 0.257 vs 0.122
+PASS  params are not calm and exposure follows loudness above the rest floor (0.2 + 0.8 x 0.55 = 0.64)  0.640
+PASS  R1 rest floor: silent scene light >= 0.0070 and core edge >= 0.105  scene light 0.009, edge 0.122
+PASS  R3 the floor keeps rest distinct from activity: sustained / silent >= 1.8 for scene light and for core edge  2.42 and 2.10
+      orb in front of the core (orb 3, phase 2.140): interior 0.100 (spread 0.254), rim 0.204, core edge 0.257
+PASS  an orb passes in front of the core in the probe
+PASS  O1 the orb's interior is not darker than the core behind it (interior mean >= 0.05)  0.100
+PASS  O2 the orb shows a shading gradient, not a flat disc (interior spread >= 0.02)  0.254
+PASS  O3 the orb has a bright rim (rim mean >= 0.15)  0.204
+PASS  O4 the orb stays subordinate to the core (rim mean <= core edge at the same input)  0.204 vs 0.257
+PASS  no beam without a hit (anim.beam < 0.01)
+PASS  orbits advance while playing  0.363 rad/s
+      beam after hit (every 6th frame): 0 0.493 0.253 0.13 0.067 0.034 0.018 0.009 0.005 0.002 0.001 0.001 0 0 0
+PASS  a bass hit raises the beam above 0.3 within a few frames  first 4 frames max 0.859
+PASS  the beam is below full strength by design (anim <= 1, scene scales to 0.7)
+PASS  the beam region brightens during a hit (> 1.5x its pre-hit level)  0.610 vs 0.085
+PASS  the beam decays back (anim.beam < 0.05 within 1.7 s) and does not stay lit  0.000
+PASS  the beam region returns to its pre-hit level  0.081 vs 0.085
+PASS  one onset lights a ring pulse above 0.3  0.900
+PASS  exactly one pulse was accepted for the single onset  0 to 1
+      20 onsets in ~1.2 s: accepted 4, refused 16
+PASS  a train of 20 onsets in ~1.2 s is rate limited (<= 4 accepted, under 3 per second)  accepted 4, refused 16
+PASS  pulses decay (anim.pulse < 0.05 after the train)  0.008
+PASS  after the source stops the scene returns to the calm resting state  frameMean 0.024 vs 0.025
+
+== 4. reduced motion ==
+      [state] {"status":"ready","frames":773,"contextLost":false,"animTime":24.82}
+PASS  the host reports reduced motion
+      orbit phase rate: normal 0.363, reduced 0.127, ratio 0.350
+PASS  orbits turn at about 0.35x of the normal speed (0.25 to 0.45)  0.350
+PASS  params report motion 0.35  0.350
+PASS  no beam surge under reduced motion  0.000
+PASS  no ring pulse under reduced motion  accepted 0 to 0
+PASS  brightness and identity are retained (frame mean >= 70% of normal)  0.037 vs 0.037
+
+== 5. resize and framing (the outer ring must fit the canvas) ==
+      [state] {"status":"ready","frames":310,"contextLost":false,"animTime":10.23}
+PASS  1280x720 DPR 1: canvas fills its container and the buffer matches  client 1248,410 buffer 1248,410 pr 1
+PASS  1280x720 DPR 1: the rings' full width is inside the canvas (max |x| < 1)  max |x| 0.516, max |y| 1.653 (informational), distance 14.000
+PASS  1920x1080 DPR 1: canvas fills its container and the buffer matches  client 1248,716 buffer 1248,716 pr 1
+PASS  1920x1080 DPR 1: the rings' full width is inside the canvas (max |x| < 1)  max |x| 0.912, max |y| 1.654 (informational), distance 14.000
+PASS  1280x900 DPR 1.5: canvas fills its container and the buffer matches  client 1248,563 buffer 1872,844 pr 1.5
+PASS  1280x900 DPR 1.5: the rings' full width is inside the canvas (max |x| < 1)  max |x| 0.727, max |y| 1.657 (informational), distance 14.000
+PASS  768x1024 DPR 1: canvas fills its container and the buffer matches  client 736,668 buffer 736,668 pr 1
+PASS  768x1024 DPR 1: the rings' full width is inside the canvas (max |x| < 1)  max |x| 0.918, max |y| 1.014 (informational), distance 20.671
+PASS  390x844 DPR 1: canvas fills its container and the buffer matches  client 358,355 buffer 358,355 pr 1
+PASS  390x844 DPR 1: the rings' full width is inside the canvas (max |x| < 1)  max |x| 0.906, max |y| 0.912 (informational), distance 22.584
+PASS  resizing away and back gives the same size (no feedback growth)  1248,410 then 1248,410
+
+== 6. context loss and restore ==
+      [state] {"status":"ready","frames":277,"contextLost":false,"animTime":9.23}
+PASS  status becomes 'lost'
+PASS  nothing is drawn while the context is lost
+PASS  status returns to 'ready'
+PASS  all geometries are uploaded again after the restore  9 to 9
+FAIL  drawing resumes
+PASS  the scene is visible after the restore (core edge > 1.5x centre, scene light above background > silence)  edge 0.246 centre 0.051 scene light 0.014
+PASS  the background clear colour survives the restore (corner pixel unchanged; Three.js resets it to black otherwise)  [2,4,12,255] then [2,4,12,255]
+PASS  no WebGL 'does not belong to this context' warnings
+
+== 7. repeated mount and unmount (30 cycles) ==
+      [state] {"status":"ready","frames":339,"contextLost":false,"animTime":11.83}
+PASS  30 scenes and 30 hosts were created and disposed  {"s0":{"scene":{"created":1,"disposed":0},"host":{"created":1,"disposed":0}},"s1":{"scene":{"created":31,"disposed":30},"host":{"created":31,"disposed":30}}}
+PASS  one scene and one host are live afterwards
+PASS  window resize and document visibility listeners return to baseline  window 1, document 1
+PASS  heap growth after 30 cycles is under 5 MB  0.67 MB
+PASS  exactly one canvas remains and the scene is drawing
+
+== 8. hidden tab ==
+      [state] {"status":"ready","frames":22,"contextLost":false,"animTime":0.68}
+PASS  status becomes 'hidden'
+PASS  nothing is drawn while hidden
+PASS  status returns to 'ready' and drawing resumes without a time jump
+
+== 9. frame pacing and GPU time (synthetic demo, 120 BPM) ==
+      [state] {"status":"ready","frames":38,"contextLost":false,"animTime":1.61}
+      1280x720 DPR1 canvas 1248,410: interval median 33.300 p95 34.400 p99 35.200 max 37.000 over33 35.33% | main thread median 0.900 p95 1.300 | GPU sync median 5.300 p95 5.800
+FAIL  1280x720 DPR 1 (10 s): interval median <= 16.9 ms and p95 <= 20 ms  33.300 / 34.400
+FAIL  p99 <= 33 ms and under 1% of frames over 33 ms  35.200, 35.33%
+PASS  main-thread time per frame median <= 4 ms  0.900
+PASS  synchronized GPU time median <= 8 ms at DPR 1  5.300
+      1920x1080 viewport canvas 1248,716: GPU sync median 6.900 p95 7.500 | DPR 1.5 canvas 1872,615: median 4.800 p95 5.000
+PASS  GPU time is recorded for the larger canvases (informational, outside the gate)
+
+== 10. browser errors ==
+      [state] {"status":"ready","frames":806,"contextLost":false,"animTime":17.35}
+PASS  no page exceptions, console errors or warnings
+      WebGL-related console lines: ["log: THREE.WebGLRenderer: Context Lost.","log: THREE.WebGLRenderer: Context Restored."]
+
+MEASUREMENTS {"gpu":{"renderer":"ANGLE (Intel, Intel(R) UHD Graphics (0x00009B41) Direct3D11 vs_5_0 ps_5_0, D3D11)","version":"WebGL 2.0 (OpenGL ES 3.0 Chromium)"},"silent":{"centre":0.03991107026143793,"edge":0.1223808284313725,"beam":0.03429101114955786,"background":0.01628392156862727,"frameMean":0.024834908671741648},"sustained":{"frameMean":0.03697218985503415,"edge":0.2565048897058824,"anim":{"exposure":0.64,"glow":0.5874999999999999,"colour":0.5999999999999999}},"orb":{"found":true,"phase":2.1400000000000015,"orb":3,"rPx":44.19913429013188,"cssX":568.1744051590946,"cssY":242.49157757784067,"centre":0.10026241830065366,"rim":0.20383527777777768,"interiorSpread":0.25389960784313725,"min":0.057800784313725484,"max":0.6516250980392156,"spread":0.5938243137254902,"rimToCentre":2.0330177671013625},"bass":{"peak":0.8589882807667165,"first3":0.8589882807667165,"series":[0,0.493,0.253,0.13,0.067,0.034,0.018,0.009,0.005,0.002,0.001,0.001,0,0,0]},"train":{"acceptedInTrain":4,"rejectedInTrain":16},"reduced":{"normalRate":0.3630000000000011,"redRate":0.1270499463997587,"ratio":0.349999852340932},"fit":[{"vw":1280,"vh":720,"dpr":1,"client":[1248,410],"box":[1248,410],"buffer":[1248,410],"pr":1,"fit":{"maxAbsX":0.5162810937916316,"maxAbsY":1.6529183778112089,"outside":62,"n":384,"distance":14,"aspect":3.0439024390243903}},{"vw":1920,"vh":1080,"dpr":1,"client":[1248,716],"box":[1248,716],"buffer":[1248,716],"pr":1,"fit":{"maxAbsX":0.9116171667668509,"maxAbsY":1.654034416570718,"outside":61,"n":384,"distance":14,"aspect":1.7430167597765363}},{"vw":1280,"vh":900,"dpr":1.5,"client":[1248,563],"box":[1248,563],"buffer":[1872,844],"pr":1.5,"fit":{"maxAbsX":0.7271965628705387,"maxAbsY":1.6566765365802556,"outside":62,"n":384,"distance":14,"aspect":2.216696269982238}},{"vw":768,"vh":1024,"dpr":1,"client":[736,668],"box":[736,668],"buffer":[736,668],"pr":1,"fit":{"maxAbsX":0.9182130453719604,"maxAbsY":1.0139503802549765,"outside":7,"n":384,"distance":20.670659321962926,"aspect":1.1017964071856288}},{"vw":390,"vh":844,"dpr":1,"client":[358,355],"box":[358,355],"buffer":[358,355],"pr":1,"fit":{"maxAbsX":0.9059043097683465,"maxAbsY":0.9117659915062233,"outside":0,"n":384,"distance":22.58400740826646,"aspect":1.008450704225352}}],"heapGrowthMB":0.6680412292480469,"perf":{"T":{"frames":300,"intervals":{"n":300,"median":33.30000000447035,"p95":34.399999998509884,"p99":35.19999999552965,"max":37,"over33":0.35333333333333333},"cpu":{"n":300,"median":0.8999999985098839,"p95":1.2999999970197678,"p99":1.5,"max":1.6000000014901161,"over33":0}},"G":{"n":120,"median":5.299999997019768,"p95":5.800000004470348,"p99":6.100000001490116,"max":7.600000001490116,"over33":0,"buffer":[1248,410],"pixelRatio":1}},"perfOther":{"fullHdViewport":{"n":80,"median":6.899999998509884,"p95":7.5,"p99":7.699999995529652,"max":7.699999995529652,"over33":0,"buffer":[1248,716],"pixelRatio":1},"dpr15":{"n":80,"median":4.799999997019768,"p95":5,"p99":5.0999999940395355,"max":5.0999999940395355,"over33":0,"buffer":[1872,615],"pixelRatio":1.5}}}
+
+67/70 checks passed
+FAILED: drawing resumes  
+FAILED: 1280x720 DPR 1 (10 s): interval median <= 16.9 ms and p95 <= 20 ms  33.300 / 34.400
+FAILED: p99 <= 33 ms and under 1% of frames over 33 ms  35.200, 35.33%

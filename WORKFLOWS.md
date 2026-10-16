@@ -116,3 +116,11 @@ This implements the earlier proposal P1 (converters to the pipeline). P2 to P5 a
 - **W12 Course catalog and skills:** `scripts/build_catalog.py`, `scripts/install_skills.py <target>`. Not run here.
 
 - **W13 API and MCP server (course):** run the site build (`node site/build.js`, `build-projects.js --strict`, `build-agents.js`, `build-manuals.js`, `clean-urls.js`, `version-assets.js`) inside `imports/ai_engineering/`. That writes `generated/agent-content.json`, `site/agent-pages/`, and the SEO and terms JSON the API reads. Then serve `api/` with a Node handler. The MCP server exposes two read-only tools over JSON-RPC. Built, not run here.
+
+## WF-L  ChatGPT takeout shards -> PROMPTS and REPLIES Markdown (RUN by owner 2026-10-16, verify PASS)
+- **Inputs:** `conversations-000.json` ... `conversations-007.json` (originals, read only); optional `conversation_asset_file_names.json` and a hash CSV (`--hashes`).
+- **Tools and order:** `takeout_to_clean_md.py run SRC OUT` -> `takeout_to_clean_md.py verify SRC OUT` (`tools\chatgpt_takeout_split\`).
+- **Outputs:** `OUT\PROMPTS\<shard>\*.md`, `OUT\REPLIES\<shard>\*.md`, `manifest.csv`, `run.log`, `verify.log`.
+- **Rules:** user/assistant text only; main path in original order, other branches labelled alternate under the message they diverge from; per-message `node_id` provenance; thinking/system/tool/empty/hidden messages counted, not written.
+- **Verification:** owner ran `run` and `verify` on the 8 real shards: 771 conversations, 0 problems, PASS; written + skipped counts equal all 267,854 message nodes (skipped = thinking blocks and empty messages only). No unit tests. `verify` shares the script's classification code, so it checks completeness and text equality, not the prompt/reply rule itself.
+- **Independent:** yes (stdlib, no network, no Harness files). Does not replace WF-A/WF-J: this reads whole takeout shards, which `pipeline.py` cannot.

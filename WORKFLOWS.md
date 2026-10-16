@@ -123,4 +123,5 @@ This implements the earlier proposal P1 (converters to the pipeline). P2 to P5 a
 - **Outputs:** `OUT\PROMPTS\<shard>\*.md`, `OUT\REPLIES\<shard>\*.md`, `manifest.csv`, `run.log`, `verify.log`.
 - **Rules:** user/assistant text only; main path in original order, other branches labelled alternate under the message they diverge from; per-message `node_id` provenance; thinking/system/tool/empty/hidden messages counted, not written.
 - **Verification:** owner ran `run` and `verify` on the 8 real shards: 771 conversations, 0 problems, PASS; written + skipped counts equal all 267,854 message nodes (skipped = thinking blocks and empty messages only). No unit tests. `verify` shares the script's classification code, so it checks completeness and text equality, not the prompt/reply rule itself.
+- **Forks (added 2026-10-17, run by owner, verify PASS):** conversations sharing message ids are linked (`branched_from`/`branches` headers, divergence marker, `OUT\FORKS.md`): 23 families, 543 of 771 conversations, 520 branches.
 - **Independent:** yes (stdlib, no network, no Harness files). Does not replace WF-A/WF-J: this reads whole takeout shards, which `pipeline.py` cannot.

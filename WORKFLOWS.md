@@ -125,3 +125,11 @@ This implements the earlier proposal P1 (converters to the pipeline). P2 to P5 a
 - **Verification:** owner ran `run` and `verify` on the 8 real shards: 771 conversations, 0 problems, PASS; written + skipped counts equal all 267,854 message nodes (skipped = thinking blocks and empty messages only). No unit tests. `verify` shares the script's classification code, so it checks completeness and text equality, not the prompt/reply rule itself.
 - **Forks (added 2026-10-17, run by owner, verify PASS):** conversations sharing message ids are linked (`branched_from`/`branches` headers, divergence marker, `OUT\FORKS.md`): 23 families, 543 of 771 conversations, 520 branches.
 - **Independent:** yes (stdlib, no network, no Harness files). Does not replace WF-A/WF-J: this reads whole takeout shards, which `pipeline.py` cannot.
+
+## WF-M  Clean conversations -> message database -> subject dossier (RUN by owner 2026-10-17)
+- **Inputs:** the output of WF-L (`PROMPTS\` and `REPLIES\` Markdown, plus its `manifest.csv`). `aliases.json` (subject names, domain terms, topics) and `exclude.json` (private conversations, local only) beside the scripts.
+- **Tools and order:** `tools\knowledge_recoveryecover.py` `ingest` -> `check` -> `domain SUBJECT --examples N` -> `terms SUBJECT` -> `dossier SUBJECT`; also `search`, `conflicts`, `exclusions`.
+- **Outputs (outside git):** `output\knowledge_recovery\knowledge.db`, `dossiers\<subject>_dossier.md`, `_evidence.csv`, `_full\`.
+- **Rules:** one row per unique `node_id` (branch copies stored once, every file kept in `occurrences`); SQLite FTS5 with vocabulary-based spelling expansion; families scored, neighbours added; related-by-domain-terms kept in its own section; assistant text labelled proposed/claimed, never fact; all labels heuristic.
+- **Verification:** owner ran `ingest` and `check` on the real archive: 236,083 entries -> 10,342 unique messages, 771 conversations, all checks PASS (2 whitespace-only variants kept). `dossier VoltaEdge`: 69 hits, 51 context, 81 related. No unit tests; section-level extraction not built.
+- **Independent:** yes (stdlib only; needs a Python SQLite with FTS5).

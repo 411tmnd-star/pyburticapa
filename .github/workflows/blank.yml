@@ -28,6 +28,10 @@ jobs:
           python -B -X utf8 tools/prompt_reply_pipeline/tests/test_pipeline.py
           python -B -X utf8 tools/prompt_reply_pipeline/tests/test_speaker_cases.py
           python -B -X utf8 tools/prompt_reply_pipeline/tests/test_discovery_link.py
+      - name: X link intake
+        run: |
+          python -m pip install requests
+          python -B -X utf8 tools/x_pipeline/tests/test_x_link.py
       - name: Schema validator
         run: python -B -X utf8 tools/schema_validate/tests/test_schema_validate.py
       - name: Demo runs

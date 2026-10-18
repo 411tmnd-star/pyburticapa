@@ -19,3 +19,6 @@ tools/knowledge_recovery/exclude.json
 
 # Demo output (python demo.py); rebuilt from fabricated data on every run
 outputs/demo/
+
+# x_link.py workspace
+x_inbox/

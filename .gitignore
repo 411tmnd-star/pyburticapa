@@ -22,3 +22,8 @@ outputs/demo/
 
 # x_link.py workspace
 x_inbox/
+
+# yt-outliers output (real runs and the sample run)
+outliers_out/
+outliers_out_sample/
+yt_dry_run/

@@ -32,6 +32,10 @@ jobs:
         run: |
           python -m pip install requests
           python -B -X utf8 tools/x_pipeline/tests/test_x_link.py
+      - name: yt-outliers
+        run: |
+          python -B -X utf8 -m unittest discover -s tools/yt_outliers/tests -v
+          python -B -X utf8 tools/yt_outliers/yt_outliers.py --dry-run --out yt_dry_run
       - name: Schema validator
         run: python -B -X utf8 tools/schema_validate/tests/test_schema_validate.py
       - name: Demo runs

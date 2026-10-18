@@ -7,7 +7,7 @@ Notes on the wording below, which is from before 2026-10-18:
 - `discover.py` and the `discover/` folder were removed; mentions of them are historical.
 - The words "implemented" and "not implemented" are replaced by *Python skill* and *discovery* (see the README).
 - The CSV files named here are now in `records/`, except `INVENTORY.csv`, which is in `python_skills/`.
-- `imports\` is now `python_skills/course/` (course material) and `python_skills/pc_workflows/` (AudioLab); the skill folders are under `python_skills/confirmed/`.
+- `imports\` no longer exists. The course code and the AudioLab project were removed from the working tree on 2026-10-18 (AudioLab is the `audiovisualization` repo; the course LLM instructions are in `python_skills/llm_instructions/`). The skill folders are under `python_skills/confirmed/`. The removed files are in git history at `a5a64fa`.
 
 ## Contents
 

@@ -1,9 +1,0 @@
-﻿ISOLATED IMPLEMENTATION WORKING COPY: Accretion v0 (created 2026-10-13)
-
-Writable working copy for implementation. Source: 2026-10-13_pre-accretion-impl (verified baseline).
-Do NOT run commands here that reach the live project. The LIVE project is:
-  C:\Users\USER\Desktop\audio_lab          (DO NOT WRITE; read-only reference)
-Do not use the scratch copy under AppData\Local\Temp\...\tool-harness\...\web353 (divergent; not a source).
-Environment: NO .venv and NO node_modules are present here. Create them inside this copy only, from env\ in the snapshot.
-The live .venv points at the live src; it must not be used for this copy.
-Baseline manifest: ..\..\audio_lab_snapshots\2026-10-13_pre-accretion-impl\MANIFEST.sha256.csv

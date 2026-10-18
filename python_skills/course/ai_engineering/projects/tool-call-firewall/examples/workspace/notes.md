@@ -1,1 +1,0 @@
-Orchard release remains pending.

@@ -1,3 +1,0 @@
-$ docker-agent plans list   # 2026-10-08T06:58Z
-No plans found.
-[exit 0]

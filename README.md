@@ -9,9 +9,9 @@ Python tools for turning years of AI chat history into knowledge you can search 
 | Folder or file | What is in it |
 |---|---|
 | `python_skills/confirmed/` | Your confirmed workflows: the Python skills, one folder each (code, tests, README). The list with commands is [below](#python-skills) |
-| `python_skills/pc_workflows/` | General workflows from your whole PC: `PC_SCAN_ROWS.csv` (the 2,313 laptop-scan rows from `INVENTORY.csv`; those files are still on the laptop, not in this repo) and the AudioLab files that were imported |
-| `python_skills/course/` | The course material: the `ai_engineering` copy (Python and other languages), import manifests and provenance. `course/llm_instructions/` holds the LLM instruction files pulled out of it: `skills/` (391 `skill-*.md`) and `prompts/` (101 `prompt-*` files), each keeping its original path under the course |
-| `python_skills/INVENTORY.csv` | The master list, 9,763 rows, with tier 1, 2 and 3 for every file |
+| `python_skills/pc_workflows/` | General workflows from your whole PC: `PC_SCAN_ROWS.csv` (the 2,313 laptop-scan rows from `INVENTORY.csv`; those files are still on the laptop, not in this repo) and `audio_lab/`, which keeps only the AudioLab Python: `workflows/export_web.py` and `python/` (the `audiolab` package and its tests). The AudioLab project itself is the `audiovisualization` repo |
+| `python_skills/llm_instructions/` | LLM instruction files, grouped: `skills/` (391 `skill-*.md` and the course's own skill folders), `prompts/` (101 `prompt-*`), `agents/` (16 `agent-*` and `AGENTS.md`). Each keeps its original course path. `LICENSE` and `PROVENANCE.md` say where they came from |
+| `python_skills/INVENTORY.csv` | The master list, 9,763 rows, with tier 1, 2 and 3 for every file. `toolkit_path` for rows of the removed course code and AudioLab project points at files that are no longer in the working tree (they are in git history at `a5a64fa`) |
 | `docs/REFERENCE.md` | All the notes in one file: capabilities, workflows, next actions, dependencies, scope review (5 parts, with contents list) |
 | `records/` | The other CSV records: `MIGRATION_LOG.csv` (every copy, with hashes), `VERIFICATION.csv` (checks and evidence), `SCOPE_REVIEW.csv`, `GEMINI_SCRIPT_CLASSIFICATION.csv` |
 | `tests/` | End-to-end tests for the knowledge-recovery skill; each skill's own tests are in its folder |
@@ -73,7 +73,7 @@ python -m unittest discover -s tests -v
 Two words are used in this repo, and only two.
 
 - **Python skill**: a workflow you can install and run. It has one command, a defined input and a defined output.
-- **Discovery**: a Python item that was collected (the 2,300+ rows in `python_skills/INVENTORY.csv`, the course material in `python_skills/course/`) but has not been built into something installed and run as part of your work. A discovery becomes a Python skill when it is built into a runnable workflow.
+- **Discovery**: a Python item that was collected (the 2,300+ rows in `python_skills/INVENTORY.csv`, the course material that was removed from the working tree) but has not been built into something installed and run as part of your work. A discovery becomes a Python skill when it is built into a runnable workflow.
 
 The old "implemented / not implemented" split in `docs/REFERENCE.md` is replaced by this one.
 
@@ -113,7 +113,7 @@ Also here, but not a skill: `python_skills/confirmed/gemini_md2/test*_validate.p
 
 ### Discoveries
 
-Everything under `python_skills/course/` (course and project material, never run as a workflow) and the Tier 1 and Tier 2 rows of `python_skills/INVENTORY.csv` (reference material and candidate code). `python_skills/INVENTORY.csv` keeps its original `tier` column for now; Tier 3 means "core and active tool", which is the list of Python skills above plus AudioLab.
+The Tier 1 and Tier 2 rows of `python_skills/INVENTORY.csv` (reference material and candidate code). `python_skills/INVENTORY.csv` keeps its original `tier` column for now; Tier 3 means "core and active tool", which is the list of Python skills above plus AudioLab.
 
 ## Status words in the records
 

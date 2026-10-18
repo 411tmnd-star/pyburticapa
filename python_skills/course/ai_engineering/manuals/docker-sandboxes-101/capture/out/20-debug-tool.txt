@@ -1,3 +1,0 @@
-$ docker-agent debug tool fixtures/agents/guarded.yaml shell '{"cmd":"echo m101-direct"}'
-m101-direct
-[exit 0]

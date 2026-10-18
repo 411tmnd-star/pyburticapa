@@ -1,4 +1,0 @@
-$ ls work/eval-results-container-env
-<run>.db
-<run>.json
-<run>.log

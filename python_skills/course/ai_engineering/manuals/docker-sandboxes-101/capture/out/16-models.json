@@ -1,7 +1,0 @@
-[
-  {
-    "provider": "dmr",
-    "model": "ai/qwen3:latest",
-    "default": true
-  }
-]

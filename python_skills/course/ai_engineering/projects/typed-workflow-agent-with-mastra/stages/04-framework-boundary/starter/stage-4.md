@@ -1,1 +1,0 @@
-Implement optional-mastra/adapter.ts with createTicketWorkflow(tool, approved = false). Keep the scratch runtime passing. Install the pinned packages from the workspace root, then grade with --optional --strict as described in the stage lesson.

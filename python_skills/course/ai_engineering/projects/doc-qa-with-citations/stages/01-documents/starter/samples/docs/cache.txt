@@ -1,1 +1,0 @@
-The cache retains successful answers for sixty seconds. Private answers never enter the shared cache.

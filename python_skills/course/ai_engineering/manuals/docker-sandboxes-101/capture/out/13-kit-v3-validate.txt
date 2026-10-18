@@ -1,3 +1,0 @@
-$ sbx kit validate ./fixtures/kits/hello-kit
-error: kit ./fixtures/kits/hello-kit is a v3 source kit and this load path has no kit builder configured; artifact validation failed
-[exit 1]

@@ -31,3 +31,15 @@ Newest entry last. One entry per workflow: what was built, the pass command and 
 - **Decisions:** no API call anywhere. The course agent's "live model optional" became `--prompt-out` (the instruction for Claude) plus `--draft` (Claude's answer goes through the gate), which keeps the $20 budget untouched and the model step visible. A report with no draft is mechanical: one cited sentence per accepted claim. Receipts and counts are in fenced blocks so `judge.py` can be run on the finished report. Small samples carry a caution (below 3 claims or 2 distinct URLs), because the demand loop's "one story, many copies" trap is real: the example is 2 claims from 1 URL and says so.
 - **Surprises:** the demand example had no route from `claims.jsonl` to `accepted.md` (only `verify.py` could write one), so W16 as specified could not start from the demand loop's own output; fixed by adding `--accepted` to `verify_quotes.py`. The planted sentence's word overlap was exactly 0.50, so only the number check caught it; worth knowing when writing future fixtures. Two of my own shell edits were mangled by escape handling (a `\n` became a real newline); I now write multi-line edits to script files.
 
+## 2026-10-18 · W08 personal knowledge search
+
+- **Built:** `python_skills/confirmed/knowledge_recovery/search_notes.py` (documented in that folder's README) and `tests/test_search_notes.py` (15 tests on the fixture archive).
+- **Pass:** a query on the fixture archive returns files with `L<line>:` text, checked against a brute-force scan; after one file is edited the refresh reports `0 new, 1 changed, 0 touched, 0 deleted, 8 unchanged`, `index_file` is called once, the other eight index entries are byte-identical, and the new word is found at the right line. Full suite 89 OK.
+- **Decisions:** a separate file-level index rather than extending the SQLite message database, so it works on any folder of notes and the two tools do not depend on each other; BM25 ranking; content fingerprint (SHA-256) with a size-and-timestamp shortcut; aliases use their own flat JSON and change the index fingerprint; the notes folder is remembered in the index so the target command `search_notes.py "liquid glass" --index IDX` works after the first run.
+- **Surprises:** my metadata-skip pattern missed `source_sha256` (digits in the key), so the whole metadata block leaked into the index and `- branches:` lines showed as hits; found by reading the first real output, not by a test, so I added tests for it. My first brute-force oracle in the test was wrong too (it excluded all bullet lines, but `FORKS.md` is bullets); the test now states its rule independently.
+- **Not done:** not run on the owner's real archive. That is private data; the first laptop command is in the README. No stemming, so `glass` does not find `glasses`.
+
+## Batch 1 complete (2026-10-18)
+
+W20, W01, W16, W08 confirmed; housekeeping done. Next, proposed: W12, W04, W15, W02 (port), W06. Waiting for the owner.
+

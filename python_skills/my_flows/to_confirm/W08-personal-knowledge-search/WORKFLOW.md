@@ -1,6 +1,6 @@
 # W08 · Personal knowledge search
 
-**Type** A: course + our workflow · **Goals** research and 411 · **Status** to confirm
+**Type** A: course + our workflow · **Goals** research and 411 · **Status** confirmed 2026-10-18 (see ../REGISTRY.csv)
 
 Search your cleaned ChatGPT and Claude archives like notes: normalised lexical search with aliases, a fingerprinted index that knows when a file changed, and every hit shown with its source file.
 
@@ -14,7 +14,7 @@ Search your cleaned ChatGPT and Claude archives like notes: normalised lexical s
 ## Run (target)
 
 ```bash
-python search_notes.py "liquid glass" --index output/knowledge_recovery/index
+python -I -X utf8 python_skills/confirmed/knowledge_recovery/search_notes.py "liquid glass" --notes CLEAN_DIR --index output/knowledge_recovery/index   # --notes only on the first run
 ```
 
 ## Pass

@@ -35,6 +35,36 @@ Global options (before the command): `--db FILE`, `--aliases FILE` (default `ali
 ## What `check` tests
 Unique nodes match what ingest recorded; every parsed entry is an occurrence or a counted duplicate; no orphan occurrences or messages; no node with two different texts; no ingest problems; two files per conversation; every conversation has a family; total entries and conversation count equal the archive's `manifest.csv`; FTS5 `integrity-check`.
 
+## search_notes.py: search the cleaned files like notes
+
+`recover.py search` answers from the database, one row per unique message. `search_notes.py` answers from the cleaned Markdown files themselves: every hit is a **file and the line numbers** that matched, and the index knows when a file changed. It reads the notes and never changes them; the index is one JSON file (default `output\knowledge_recovery\index\index.json`, git-ignored, because it holds positions of private text).
+
+```
+python -I -X utf8 python_skills/confirmed/knowledge_recovery/search_notes.py "liquid glass" --notes CLEAN_DIR --index IDX   # first run builds the index
+python -I -X utf8 python_skills/confirmed/knowledge_recovery/search_notes.py "liquid glass" --index IDX                     # later: refresh, then search
+python -I -X utf8 python_skills/confirmed/knowledge_recovery/search_notes.py --update-only --notes CLEAN_DIR --index IDX    # refresh only
+```
+
+```
+1. REPLIES/conversations-001/2025-01-01_Pricing the kiosk_c0000003.md   score 2.0686   matched: quokkaterm
+   L27: The quokkaterm panel costs nothing.
+```
+
+| Option | What it does |
+|---|---|
+| `--notes DIR` | The folder of `.md`/`.txt` notes (the `CLEAN` folder from `chatgpt_takeout_split`, or any notes). Needed on the first run; the index remembers it. A different folder rebuilds the index. |
+| `--index DIR` | Where `index.json` lives (default `output\knowledge_recovery\index`). |
+| `--aliases FILE` | JSON `{"lg": "liquid glass"}`, applied to the notes and the query alike. Changing the file rebuilds everything, and says so. This is not the `aliases.json` that `recover.py` uses. |
+| `--all` | Only files that hold every query word. |
+| `--limit N`, `--lines N` | Files shown (5) and matching lines per file (3). |
+| `--no-refresh`, `--update-only`, `--json` | Search without re-reading the notes (a hit whose file changed since is marked); refresh and stop; machine-readable output. |
+
+**Fingerprinted index.** Each file is stored with its SHA-256, size and timestamp. A refresh tokenizes only files that are new or whose content changed, notes files that were only touched (same content), and forgets deleted ones; it prints the counts (`refresh: 0 new, 1 changed, 0 touched, 0 deleted, 8 unchanged`). Unchanged files are not even read.
+
+**Matching and ranking.** Words are case-folded and accent-folded (`CAFE` finds `café`), whole words only. Files are ranked with BM25 (length-normalised, so a long conversation is not simply favoured). The lines shown are those holding the most distinct query words. `<!-- NODE ... -->` markers and the metadata bullets under each title are not indexed, so `root`, `gpt` or `conversation_id` do not match everything.
+
+Exit codes: `0` hits, `1` no hits, `2` bad input. Tested on the repo's fixture archive in [tests/test_search_notes.py](../../../tests/test_search_notes.py) (15 tests). Not yet run on the real archive: that is private data and stays on the laptop. Limits: lexical only (no stemming: `glass` does not find `glasses`, use `--aliases`), and the index grows with the text, so a very large archive makes each query load a large JSON file.
+
 ## Limits
 - Keyword search with spelling tolerance only: no meaning-based matching, no embeddings.
 - The archive has no thinking blocks and no uploaded files, so neither is searchable.

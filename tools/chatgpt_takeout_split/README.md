@@ -2,7 +2,7 @@
 
 One script, `takeout_to_clean_md.py`. Run with `python -I -X utf8 takeout_to_clean_md.py <command>`. Standard library only.
 
-Turns the ChatGPT takeout shards (`conversations-000.json` ... `conversations-007.json`) into Markdown with prompts and replies in separate folders. The shards are only read.
+Turns the ChatGPT takeout (sharded `conversations-000.json` ... or the single `conversations.json` most exports contain) into Markdown with prompts and replies in separate folders. The shards are only read.
 
 | Command | What it does |
 |---|---|
@@ -26,3 +26,5 @@ It reuses the script's own classification code, so it cannot catch a wrong rule 
 
 ## Status
 Written 2026-10-16. Run by the owner on the 8 real shards the same day: 771 conversations, 0 problems, `verify` PASS. Skipped by type: 19,876 reasoning_recap, 11,480 thoughts, 361 empty user, 54 empty assistant. Written: 117,447 main prompts, 117,680 main replies, 219 alternate prompts, 737 alternate replies (236,083 + 31,771 skipped = 267,854 message nodes). No unit tests. Fork linking run by the owner 2026-10-17 (`run --overwrite`, then `verify`): 771 conversations, 0 problems, PASS; 23 families, 543 conversations in them, 520 branches. Header wording was fixed afterwards ("replys" -> "replies"); that change was only parsed, so the next run regenerates the files.
+
+- 2026-10-18: a single `conversations.json` is accepted when no shards are present. Covered by the end-to-end tests in `tests/` (run, verify, verify catching an edited file, hash mismatch, overwrite guard, fork linking, skipped types, image placeholder).

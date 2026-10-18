@@ -14,7 +14,8 @@ from store import tokens
 
 USER_DECISION = re.compile(
     r"\b(i decided|we decided|decided to|going with|let'?s go with|let'?s use|we'?ll use|we will use|i chose|"
-    r"i choose|final decision|settled on|from now on)\b", re.I)
+    r"i choose|final decision|settled on|from now on|(?:we|i)(?: wi|')?ll go with|(?:we|i) go with)\b|"
+    r"^\s*decision\s*:", re.I | re.M)
 ASSISTANT_PROPOSAL = re.compile(
     r"\b(i recommend|i suggest|we (can|could|should)|you (can|could|should)|proposal|propose|option \d|"
     r"approach|next step)\b|\blet'?s\b", re.I)
@@ -206,7 +207,7 @@ def write_dossier(con, subject, plan, hits, dropped, out_dir, context=1, min_hit
       "(heuristic), not judgements. Assistant text is shown as *assistant-proposed* or *assistant-claimed-result*: it "
       "is what the assistant said, not an established fact. *user-stated-decision-candidate* means the user's words "
       "match a decision phrase; check the text. Prompts and replies are listed separately under each topic. HIT = names "
-      "the subject; CONTEXT = sits next to a hit in the same conversation; RELATED = mentions electricity/hardware "
+      "the subject; CONTEXT = sits next to a hit in the same conversation; RELATED = mentions the subject's domain "
       "terms but not the subject's name. Long messages show an excerpt around the match; the link opens the full text.\n\n")
     w("## Search\n\n")
     w(f"- Phrases: {', '.join(plan['phrases']) or '-'}\n")

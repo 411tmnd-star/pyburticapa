@@ -24,7 +24,10 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))  # -I removes the
 from dossier import write_dossier  # noqa: E402
 from ingest import ENTRY, ingest  # noqa: E402
 from search import (excluded_words, load_aliases, plan_query, related_search, run_search, terms_report)  # noqa: E402
-from store import (DEFAULT_ARCHIVE, DEFAULT_DB, DEFAULT_OUT, EXCLUDE_FILE, connect, require_fts5)  # noqa: E402
+from store import (ALIASES_FILE, DEFAULT_ARCHIVE, DEFAULT_DB, DEFAULT_OUT, EXCLUDE_FILE, connect,  # noqa: E402
+                   require_fts5)
+
+ALIASES = [ALIASES_FILE]  # replaced by --aliases
 
 
 def one_line(s, n=240):
@@ -101,7 +104,7 @@ def cmd_check(db):
 
 def cmd_search(db, subject, limit, include_excluded):
     con = connect(db)
-    plan = plan_query(con, subject, load_aliases())
+    plan = plan_query(con, subject, load_aliases(ALIASES[0]))
     show_plan(plan)
     hits, dropped = run_search(con, plan, include_excluded, limit)
     print(f"\n{len(hits)} unique messages shown (dropped as excluded: {dropped})\n")
@@ -115,7 +118,7 @@ def cmd_search(db, subject, limit, include_excluded):
 
 def cmd_terms(db, subject, top, include_excluded):
     con = connect(db)
-    plan = plan_query(con, subject, load_aliases())
+    plan = plan_query(con, subject, load_aliases(ALIASES[0]))
     show_plan(plan)
     hits, dropped = run_search(con, plan, include_excluded)
     by_count, by_lift = terms_report(con, hits, top, exclude=excluded_words(plan))
@@ -137,7 +140,7 @@ def get_related(con, plan, hits, include_excluded, broad):
 def cmd_domain(db, subject, include_excluded, broad, examples):
     """Show which domain terms find what, so the lists in aliases.json can be pruned."""
     con = connect(db)
-    plan = plan_query(con, subject, load_aliases())
+    plan = plan_query(con, subject, load_aliases(ALIASES[0]))
     hits, _ = run_search(con, plan, include_excluded)
     rel = get_related(con, plan, hits, include_excluded, broad)
     print(f"{len(hits)} direct hits; {rel['total']} related messages without the name "
@@ -163,7 +166,7 @@ def cmd_domain(db, subject, include_excluded, broad, examples):
 
 def cmd_dossier(db, subject, out, context, min_hits, excerpt, include_excluded, max_hits, max_related, no_related, broad):
     con = connect(db)
-    plan = plan_query(con, subject, load_aliases())
+    plan = plan_query(con, subject, load_aliases(ALIASES[0]))
     show_plan(plan)
     hits, dropped = run_search(con, plan, include_excluded, max_hits + 1)
     if len(hits) > max_hits:
@@ -220,6 +223,8 @@ def cmd_exclusions(db):
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--db", default=DEFAULT_DB)
+    ap.add_argument("--aliases", default=ALIASES_FILE, help="subject names, topics and domain terms (JSON)")
+    ap.add_argument("--exclude", default=EXCLUDE_FILE, help="conversations to leave out (JSON)")
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("ingest")
     p.add_argument("--archive", default=DEFAULT_ARCHIVE)
@@ -249,8 +254,9 @@ def main(argv=None):
     sub.add_parser("exclusions")
     sub.add_parser("conflicts")
     a = ap.parse_args(argv)
+    ALIASES[0] = a.aliases
     if a.cmd == "ingest":
-        return ingest(a.archive, a.db, EXCLUDE_FILE)
+        return ingest(a.archive, a.db, a.exclude)
     require_fts5()
     if a.cmd == "check":
         return cmd_check(a.db)

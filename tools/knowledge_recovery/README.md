@@ -4,6 +4,8 @@ Searches the cleaned ChatGPT archive (`CHATGPT_CLEAN_CONVERSATIONS\PROMPTS` and 
 
 Run with `python -I -X utf8 recover.py <command>` from this folder, or give the full path to `recover.py`.
 
+Global options (before the command): `--db FILE`, `--aliases FILE` (default `aliases.json` here), `--exclude FILE` (default `exclude.json` here).
+
 ## Commands
 
 | Command | What it does |
@@ -39,3 +41,5 @@ Unique nodes match what ingest recorded; every parsed entry is an occurrence or 
 
 ## Status
 Written 2026-10-17. Run by the owner the same day: `ingest` (236,083 entries -> 10,342 unique messages, 771 conversations, 250 families), `check` (all PASS), `terms`, `domain --examples 3`, `conflicts` (2 whitespace-only variants of one user prompt, kept in the conflicts table), `dossier VoltaEdge` (69 hits, 51 context, 81 related). Not yet re-run after the last edits: the section-level view does not exist yet; the contents table, excerpts and topic changes were last run in the dossier before the final topic-keyword edit. No tests. Not yet in `WORKFLOWS.md` or `INVENTORY.csv`.
+
+- 2026-10-18: `--aliases` and `--exclude` options added; decision phrases now include "we go with" and lines starting "Decision:". End-to-end tests on a fabricated export: `python -m unittest discover -s tests` from the toolkit root (13 tests, PASS on Python 3.11, 3.12, 3.13 under Linux). Windows is set up in CI but has not been run yet.

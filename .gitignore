@@ -16,3 +16,6 @@ output/knowledge_recovery/
 
 # Personal exclusion list for tools/knowledge_recovery (names private conversations); copy exclude.example.json.
 tools/knowledge_recovery/exclude.json
+
+# Demo output (python demo.py); rebuilt from fabricated data on every run
+outputs/demo/

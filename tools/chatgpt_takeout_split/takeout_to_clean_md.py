@@ -58,7 +58,11 @@ def iso(ts):
 
 
 def shards_in(src):
-    return sorted(glob.glob(os.path.join(src, "conversations-*.json")))
+    """Sharded exports (conversations-000.json ...) or the single conversations.json most exports contain."""
+    shards = sorted(glob.glob(os.path.join(src, "conversations-*.json")))
+    if not shards and os.path.isfile(os.path.join(src, "conversations.json")):
+        shards = [os.path.join(src, "conversations.json")]
+    return shards
 
 
 def load_assets(src):
@@ -370,7 +374,7 @@ def write_fork_index(out, meta, info):
 def cmd_run(src, out, hashes, overwrite):
     shards = shards_in(src)
     if not shards:
-        print(f"no conversations-*.json in {src}")
+        print(f"no conversations-*.json or conversations.json in {src}")
         return 2
     if os.path.isdir(os.path.join(out, "PROMPTS")) and not overwrite:
         print(f"{out} already has output; pass --overwrite to replace it")

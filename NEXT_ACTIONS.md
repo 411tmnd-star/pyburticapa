@@ -1,5 +1,7 @@
 # NEXT_ACTIONS
 
+> **Vocabulary update 2026-10-18.** This repo now says *Python skill* (an installable, runnable workflow, pure or hybrid) and *discovery* (a collected item not yet built into a skill). See `SKILLS.md`. Where this file says "capability", "supported by code" or "proposed", read "Python skill" or "idea not yet built". The text below is otherwise unchanged.
+
 Based on `CAPABILITIES.md`, `WORKFLOWS.md`, `INVENTORY.csv` and `VERIFICATION.csv`. Nothing below has been started.
 
 ## Update 2026-10-14

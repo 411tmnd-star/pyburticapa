@@ -1,5 +1,7 @@
 # Capabilities
 
+> **Vocabulary update 2026-10-18.** This repo now says *Python skill* (an installable, runnable workflow, pure or hybrid) and *discovery* (a collected item not yet built into a skill). See `SKILLS.md`. The current list of Python skills, with one command each, is in `SKILLS.md`; this file keeps the per-tool input/output notes. Several paths below use `\` from the Windows laptop. Where this file says "capability", "supported by code" or "proposed", read "Python skill" or "idea not yet built". The text below is otherwise unchanged.
+
 Classification: capability category -> specific capability -> script/tool -> workflow. A script may appear under several capabilities; its authoritative record is its row in `INVENTORY.csv`.
 
 Status key: **V** = verified by a check in `VERIFICATION.csv`; **H** = `--help` only; **C** = compiled only (not executed); **-** = not verified.

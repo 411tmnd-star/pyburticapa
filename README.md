@@ -1,5 +1,7 @@
 # Pyburticapa
 
+> **Two words are used here: *Python skill* and *discovery*.** A Python skill is a workflow you can install and run, with one command, a defined input and a defined output; it is pure Python or hybrid (Claude does one step). A discovery is a collected item that has not been built into a skill. The full list, with commands and evidence, is in [`SKILLS.md`](SKILLS.md). Only Python is kept in this repo.
+
 Python tools for turning years of AI chat history into knowledge you can search and trust. Standard library only, tested on Linux with Python 3.11–3.13; CI also runs on Windows.
 
 ## Headline tool: ChatGPT export → source-traceable knowledge base
@@ -55,7 +57,7 @@ python -m unittest discover -s tests -v
 | `tools/prompt_reply_pipeline` | Separates prompts from replies in chat exports, sends replies to a local Ollama model and checks its output in code (tested; `.mht` input needs `beautifulsoup4` and `markdownify`) |
 | `tools/schema_validate` | Tool registry with a JSON Schema 2020-12 subset validator (tested; adapted from a course lesson) |
 | `tools/mht_to_md_tool`, `tools/pdf_to_md`, `tools/knowledge_extraction` | Saved web pages, PDFs and JSONL → Markdown |
-| `tools/x_pipeline` | Turns a list of X post links into Markdown notes with article text, images, videos and transcripts |
+| `tools/x_pipeline` | Turns X post links (passed in, no built-in list) into Markdown notes with article text, images, videos and transcripts |
 | `tools/repo_inspect`, `tools/env_preflight` | Read-only report on a GitHub repo (nothing installed or run); read-only environment check (adapted, MIT) |
 | `discover/` | Searches the owner's capability registry (needs the private Harness data; its tests fail without it) |
 
@@ -80,7 +82,8 @@ Historical generated material that used to sit here was **moved (not deleted)** 
 | `INVENTORY.csv` | Consolidated inventory: all 2,313 original `PY_INVENTORY.csv` rows kept, +104 added. Columns record group, capability, disposition, toolkit path, verification |
 | `MIGRATION_LOG.csv` | Every copy: source, destination, SHA-256 of both, hash check |
 | `VERIFICATION.csv` | Checks run and their evidence |
-| `CAPABILITIES.md`, `WORKFLOWS.md` | Category -> capability -> script -> workflow |
+| `SKILLS.md` | The Python skills (one command, input, output, evidence) and what counts as a discovery |
+| `CAPABILITIES.md`, `WORKFLOWS.md` | Category -> tool -> script -> workflow notes (older wording; see the note at the top of each) |
 | `REMAINING_DEPENDENCIES.md` | What stays in the Harness and why; what still depends on it |
 | `_meta\` | Scripts that built and checked this folder (scan, migrate, verify, inventory) |
 

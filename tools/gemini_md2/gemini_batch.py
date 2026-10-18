@@ -5,9 +5,9 @@
 * Reads TXT link files READ-ONLY; never writes to them.
 * Google AI Mode links are listed but never fetched or sent to the Gemini extractor.
 * Duplicate detection uses a normalized hash of the reconstructed conversation text, not URLs/share ids.
-* Writes only under Gemini MD2: output/batch/, debug/batch/, logs/.
+* Writes only under --out: output/batch/, debug/batch/, logs/ (and the optional browser capture helper writes into debug/).
 """
-import datetime, hashlib, json, os, re, subprocess, sys, time, unicodedata
+import argparse, datetime, hashlib, json, os, re, subprocess, sys, time, unicodedata
 from collections import Counter
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -19,34 +19,23 @@ import gemini_replay as gr
 
 sys.stdout.reconfigure(encoding="utf-8", errors="backslashreplace")
 
-ROOT = Path(__file__).resolve().parent
-X = ROOT.parent.parent
-DEBUG, LOGS, OUT, RAW = ROOT / "debug", ROOT / "logs", ROOT / "output" / "batch", ROOT / "debug" / "batch"
-MANIFEST, REPORT = LOGS / "gemini_batch_manifest.json", LOGS / "GEMINI_BATCH_REPORT.md"
-USE_BROWSER = "--no-browser" not in sys.argv
-EDGE = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
-for p in (MANIFEST, REPORT):
-    if p.exists():
-        sys.exit(f"refusing to overwrite {p}")
-for d in (OUT, RAW):
-    d.mkdir(parents=True, exist_ok=True)
+ROOT = Path(__file__).resolve().parent          # where this code lives (gemini_parse.py, debug/cdp_capture_generic.py)
+DEBUG = ROOT / "debug"
+# Set by main() from the command line; nothing runs at import time.
+OUT_ROOT = LOGS = OUT = RAW = MANIFEST = REPORT = None
+TESTED_BASE = ROOT
+USE_BROWSER = False
+EDGE = None                                      # browser executable for the optional render check (--browser / CDP_BROWSER)
 
 sha_b = lambda b: hashlib.sha256(b).hexdigest()
 sha_f = lambda p: sha_b(Path(p).read_bytes())
 PARSER_SHA = sha_f(ROOT / "gemini_parse.py")
 NOW = lambda: datetime.datetime.now(datetime.timezone.utc).isoformat()
 
-# ------------------------------------------------------------------ previously tested chats (by URL, not by filename)
-TESTED = {
-    "https://share.gemini.google/HYSCokmDqznN": dict(test="Test 1", resp="debug/python_replay_response.bin", out="output/prototype_gemini_conversation.md",
-                                                       result="logs/python_replay_result.json", browser="debug/browser_rendered_text.txt"),
-    "https://share.gemini.google/ruuLsONveleq": dict(test="Test 2", resp="debug/test2_response.bin", out="output/test2_gemini_conversation.md",
-                                                       result="logs/test2_validation_result.json", browser=None),
-    "https://share.gemini.google/FVKTq1yB2ca7": dict(test="Test 3", resp="debug/test3_additive_response.bin", out="output/test3_additive_conversation.md",
-                                                       result="logs/test3_additive_validation_result.json", browser="debug/test3_browser_rendered_text.txt"),
-    "https://share.gemini.google/DVoVO95EK1Nx": dict(test="Test 4", resp="debug/test4_additive_response.bin", out="output/test4_additive_conversation.md",
-                                                       result="logs/test4_additive_validation_result.json", browser="debug/test4_browser_rendered_text.txt"),
-}
+# Chats that were validated earlier, by URL (optional; --tested FILE). Empty by default, so every link is fetched.
+# The FILE is JSON: {"<url>": {"test": "Test 1", "resp": "saved response .bin", "out": "existing canonical .md",
+#                              "result": "its result .json", "browser": "browser text or null"}}, paths relative to FILE.
+TESTED = {}
 
 
 # ------------------------------------------------------------------ helpers
@@ -254,182 +243,230 @@ def browser_render(url, prefix, expected_chars):
     return p.read_text(encoding="utf-8") if p.exists() else None
 
 
-# ------------------------------------------------------------------ inventory (read-only)
-txts = []
-for p in sorted(list((X / "TXT_OUT").glob("https_share.g*.txt")) + list(ROOT.parent.glob("https_share.g*.txt")), key=lambda p: (p.name, str(p))):
-    txts.append({"file": p.name, "location": str(p.parent.relative_to(X)), "urls": re.findall(r"https?://\S+", p.read_text(encoding="utf-8-sig")), "sha256": sha_f(p)})
-by_url = {}
-for t in txts:
-    if len(t["urls"]) == 1:
-        by_url.setdefault(t["urls"][0], [])
-        if t["file"] not in [x["file"] for x in by_url[t["urls"][0]]]: by_url[t["urls"][0]].append(t)
-gem_urls = sorted((u for u in by_url if urlsplit(u).hostname == "share.gemini.google"), key=lambda u: by_url[u][0]["file"])
-ai_urls = sorted((u for u in by_url if "share.google/aimode/" in u), key=lambda u: by_url[u][0]["file"])
-other_urls = [u for u in by_url if u not in gem_urls and u not in ai_urls]
-print(f"inventory: {len(txts)} TXT files | {len(by_url)} unique URLs | Gemini {len(gem_urls)} | AI Mode {len(ai_urls)} | other {len(other_urls)}")
+def main(argv=None):
+    global OUT_ROOT, LOGS, OUT, RAW, MANIFEST, REPORT, TESTED, TESTED_BASE, USE_BROWSER, EDGE
+    ap = argparse.ArgumentParser(description="Batch-convert Gemini shared chats to Markdown (links in, folder out).")
+    ap.add_argument("urls", nargs="*", help="Gemini share links (https://share.gemini.google/...)")
+    ap.add_argument("--src", action="append", default=[], metavar="DIR",
+                    help="folder of .txt files, each holding one link (read only; repeatable)")
+    ap.add_argument("--out", required=True, help="output folder: output/batch (Markdown), debug/batch (raw), logs (manifest)")
+    ap.add_argument("--browser", default=os.environ.get("CDP_BROWSER"),
+                    help="Chrome/Edge executable for the optional browser-render check (default: $CDP_BROWSER; "
+                         "without one only payload-level checks run)")
+    ap.add_argument("--no-browser", action="store_true", help="skip the browser-render check")
+    ap.add_argument("--tested", metavar="FILE", help="JSON of earlier-validated chats to reuse (see TESTED in this file)")
+    ap.add_argument("--baseline", metavar="FILE", help="JSON with txt_sources_sha256 to prove the TXT sources are unchanged")
+    args = ap.parse_args(argv)
 
-entries = {}       # url -> manifest entry
-convs = {}         # url -> (conv, inner, md_for_verification)
-for u in gem_urls:
-    entries[u] = {"source_filename": by_url[u][0]["file"], "source_url": u, "classification": "GEMINI_SHARE", "status": None, "final_url": None, "share_id": None,
-                  "output_path": None, "content_hash": None, "structure_hash": None, "duplicate_of": None, "turn_count": None, "structure_types": [],
-                  "verification_level": None, "parser_sha256": PARSER_SHA, "error": None, "findings": [], "tested_as": TESTED.get(u, {}).get("test")}
+    OUT_ROOT = Path(args.out).resolve()
+    LOGS, OUT, RAW = OUT_ROOT / "logs", OUT_ROOT / "output" / "batch", OUT_ROOT / "debug" / "batch"
+    MANIFEST, REPORT = LOGS / "gemini_batch_manifest.json", LOGS / "GEMINI_BATCH_REPORT.md"
+    EDGE = args.browser
+    USE_BROWSER = bool(EDGE) and not args.no_browser
+    if args.tested:
+        tpath = Path(args.tested).resolve()
+        TESTED, TESTED_BASE = json.loads(tpath.read_text(encoding="utf-8")), tpath.parent
+    baseline_file = args.baseline
+    direct_urls = list(dict.fromkeys(args.urls))
+    src_files = []
+    for d in args.src:
+        src_files += sorted(Path(d).glob("*.txt"), key=lambda p: (p.name, str(p)))
+    if not src_files and not direct_urls:
+        ap.error("give at least one link or --src DIR")
+    for p in (MANIFEST, REPORT):
+        if p.exists():
+            sys.exit(f"refusing to overwrite {p}")
+    for d in (OUT, RAW, LOGS):
+        d.mkdir(parents=True, exist_ok=True)
 
-# ------------------------------------------------------------------ Phase A: tested chats from saved payloads, remaining chats fetched live
-session_headers = {"User-Agent": gr.UA, "Accept-Language": "en-US,en;q=0.9"}
-for u in gem_urls:
-    e = entries[u]
-    try:
-        if u in TESTED:
-            T = TESTED[u]
-            raw = (ROOT / T["resp"]).read_bytes()
-            r = json.loads((ROOT / T["result"]).read_text(encoding="utf-8"))
-            e["final_url"] = r.get("final_url"); e["share_id"] = r.get("share_id")
-            e["note"] = f"previously validated as {T['test']}; canonical output re-used, payload re-parsed from saved response"
-        else:
-            s = requests.Session(); s.headers.update(session_headers)
-            try:
-                r1, _ = gr.with_retries(lambda: s.get(u, timeout=30, headers={"Accept": "text/html,application/xhtml+xml,*/*;q=0.8"}))
-            except Exception as ex:
-                raise RuntimeError("FETCH_FAILURE|" + f"{type(ex).__name__}: {ex}")
-            e["final_url"] = r1.url
-            m = re.fullmatch(r"/share/([A-Za-z0-9_-]+)", urlsplit(r1.url).path)
-            if r1.status_code != 200 or urlsplit(r1.url).hostname != "gemini.google.com" or not m:
-                raise RuntimeError(f"FETCH_FAILURE|not a Gemini share page (HTTP {r1.status_code}, final {urlsplit(r1.url).hostname}{urlsplit(r1.url).path})")
-            e["share_id"] = m.group(1)
-            bl, fsid = gr.wiz_value(r1.text, "cfb2h"), gr.wiz_value(r1.text, "FdrFJe")
-            if not (bl and fsid): raise RuntimeError("FETCH_FAILURE|page parameters (bl / f.sid) not found in shell")
-            freq = json.dumps([[[gr.RPC_ID, json.dumps([None, e["share_id"], [4]], separators=(",", ":")), None, "generic"]]], separators=(",", ":"))
-            try:
-                r2, _ = gr.with_retries(lambda: s.post("https://gemini.google.com/_/BardChatUi/data/batchexecute",
-                    params={"rpcids": gr.RPC_ID, "source-path": f"/share/{e['share_id']}", "bl": bl, "f.sid": fsid, "hl": "en-US", "rt": "c"}, data={"f.req": freq}, timeout=60,
-                    headers={"Content-Type": "application/x-www-form-urlencoded;charset=UTF-8", "X-Same-Domain": "1", "Referer": "https://gemini.google.com/", "Origin": "https://gemini.google.com", "Accept": "*/*"}))
-            except Exception as ex:
-                raise RuntimeError("FETCH_FAILURE|" + f"{type(ex).__name__}: {ex}")
-            if r2.status_code != 200: raise RuntimeError(f"FETCH_FAILURE|ujx1Bf HTTP {r2.status_code}")
-            raw = r2.content
-            (RAW / f"{e['share_id']}.bin").write_bytes(raw)
-            e["response_bytes"] = len(raw); time.sleep(1)
+    # ------------------------------------------------------------------ inventory (read-only)
+
+    txts = []
+    if len(src_files) == 0 and not direct_urls:
+        pass
+    for p in src_files:
+        txts.append({"file": p.name, "location": str(p.parent), "urls": re.findall(r"https?://\S+", p.read_text(encoding="utf-8-sig")), "sha256": sha_f(p)})
+    for n, u in enumerate(direct_urls, 1):
+        txts.append({"file": f"link-{n}", "location": "(command line)", "urls": [u], "sha256": None})
+    by_url = {}
+    for t in txts:
+        if len(t["urls"]) == 1:
+            by_url.setdefault(t["urls"][0], [])
+            if t["file"] not in [x["file"] for x in by_url[t["urls"][0]]]: by_url[t["urls"][0]].append(t)
+    gem_urls = sorted((u for u in by_url if urlsplit(u).hostname == "share.gemini.google"), key=lambda u: by_url[u][0]["file"])
+    ai_urls = sorted((u for u in by_url if "share.google/aimode/" in u), key=lambda u: by_url[u][0]["file"])
+    other_urls = [u for u in by_url if u not in gem_urls and u not in ai_urls]
+    print(f"inventory: {len(txts)} TXT files | {len(by_url)} unique URLs | Gemini {len(gem_urls)} | AI Mode {len(ai_urls)} | other {len(other_urls)}")
+
+    entries = {}       # url -> manifest entry
+    convs = {}         # url -> (conv, inner, md_for_verification)
+    for u in gem_urls:
+        entries[u] = {"source_filename": by_url[u][0]["file"], "source_url": u, "classification": "GEMINI_SHARE", "status": None, "final_url": None, "share_id": None,
+                      "output_path": None, "content_hash": None, "structure_hash": None, "duplicate_of": None, "turn_count": None, "structure_types": [],
+                      "verification_level": None, "parser_sha256": PARSER_SHA, "error": None, "findings": [], "tested_as": TESTED.get(u, {}).get("test")}
+
+    # ------------------------------------------------------------------ Phase A: tested chats from saved payloads, remaining chats fetched live
+    session_headers = {"User-Agent": gr.UA, "Accept-Language": "en-US,en;q=0.9"}
+    for u in gem_urls:
+        e = entries[u]
         try:
-            pl = gp.rpc_payloads(gp.parse_batchexecute(raw), gr.RPC_ID)
-            if len(pl) != 1: raise ValueError(f"{len(pl)} wrb.fr payloads for {gr.RPC_ID}")
-            inner = pl[0]; nrec = len(gp._get(inner, 0, 1))
-        except Exception as ex:
-            raise RuntimeError("PAYLOAD_PARSE_FAILURE|" + f"{type(ex).__name__}: {ex}")
-        try:
-            conv = gp.extract_conversation(inner)
-            if len(conv["turns"]) != nrec: raise ValueError("turn count mismatch")
-        except Exception as ex:
-            raise RuntimeError("EXTRACTION_FAILURE|" + f"{type(ex).__name__}: {ex}")
-        e["turn_count"] = len(conv["turns"]); e["title"] = conv["title"]
-        e["content_hash"] = content_hash(conv); e["structure_hash"] = structure_hash(conv)
-        e["structure_types"] = structures(conv, inner)
-        e["findings"] = findings(inner, conv)
-        e["_turn_hashes"] = turn_hashes(conv); e["_nrec"] = nrec
-        convs[u] = (conv, inner)
-        print(f"  ok   {e['source_filename']:22} {e['share_id']} turns={e['turn_count']:<3} hash={e['content_hash'][:10]} {e['structure_types']}")
-    except RuntimeError as ex:
-        kind, _, msg = str(ex).partition("|")
-        e["status"] = kind; e["error"] = msg
-        print(f"  FAIL {e['source_filename']:22} {kind}: {msg[:100]}")
+            if u in TESTED:
+                T = TESTED[u]
+                raw = (TESTED_BASE / T["resp"]).read_bytes()
+                r = json.loads((TESTED_BASE / T["result"]).read_text(encoding="utf-8"))
+                e["final_url"] = r.get("final_url"); e["share_id"] = r.get("share_id")
+                e["note"] = f"previously validated as {T['test']}; canonical output re-used, payload re-parsed from saved response"
+            else:
+                s = requests.Session(); s.headers.update(session_headers)
+                try:
+                    r1, _ = gr.with_retries(lambda: s.get(u, timeout=30, headers={"Accept": "text/html,application/xhtml+xml,*/*;q=0.8"}))
+                except Exception as ex:
+                    raise RuntimeError("FETCH_FAILURE|" + f"{type(ex).__name__}: {ex}")
+                e["final_url"] = r1.url
+                m = re.fullmatch(r"/share/([A-Za-z0-9_-]+)", urlsplit(r1.url).path)
+                if r1.status_code != 200 or urlsplit(r1.url).hostname != "gemini.google.com" or not m:
+                    raise RuntimeError(f"FETCH_FAILURE|not a Gemini share page (HTTP {r1.status_code}, final {urlsplit(r1.url).hostname}{urlsplit(r1.url).path})")
+                e["share_id"] = m.group(1)
+                bl, fsid = gr.wiz_value(r1.text, "cfb2h"), gr.wiz_value(r1.text, "FdrFJe")
+                if not (bl and fsid): raise RuntimeError("FETCH_FAILURE|page parameters (bl / f.sid) not found in shell")
+                freq = json.dumps([[[gr.RPC_ID, json.dumps([None, e["share_id"], [4]], separators=(",", ":")), None, "generic"]]], separators=(",", ":"))
+                try:
+                    r2, _ = gr.with_retries(lambda: s.post("https://gemini.google.com/_/BardChatUi/data/batchexecute",
+                        params={"rpcids": gr.RPC_ID, "source-path": f"/share/{e['share_id']}", "bl": bl, "f.sid": fsid, "hl": "en-US", "rt": "c"}, data={"f.req": freq}, timeout=60,
+                        headers={"Content-Type": "application/x-www-form-urlencoded;charset=UTF-8", "X-Same-Domain": "1", "Referer": "https://gemini.google.com/", "Origin": "https://gemini.google.com", "Accept": "*/*"}))
+                except Exception as ex:
+                    raise RuntimeError("FETCH_FAILURE|" + f"{type(ex).__name__}: {ex}")
+                if r2.status_code != 200: raise RuntimeError(f"FETCH_FAILURE|ujx1Bf HTTP {r2.status_code}")
+                raw = r2.content
+                (RAW / f"{e['share_id']}.bin").write_bytes(raw)
+                e["response_bytes"] = len(raw); time.sleep(1)
+            try:
+                pl = gp.rpc_payloads(gp.parse_batchexecute(raw), gr.RPC_ID)
+                if len(pl) != 1: raise ValueError(f"{len(pl)} wrb.fr payloads for {gr.RPC_ID}")
+                inner = pl[0]; nrec = len(gp._get(inner, 0, 1))
+            except Exception as ex:
+                raise RuntimeError("PAYLOAD_PARSE_FAILURE|" + f"{type(ex).__name__}: {ex}")
+            try:
+                conv = gp.extract_conversation(inner)
+                if len(conv["turns"]) != nrec: raise ValueError("turn count mismatch")
+            except Exception as ex:
+                raise RuntimeError("EXTRACTION_FAILURE|" + f"{type(ex).__name__}: {ex}")
+            e["turn_count"] = len(conv["turns"]); e["title"] = conv["title"]
+            e["content_hash"] = content_hash(conv); e["structure_hash"] = structure_hash(conv)
+            e["structure_types"] = structures(conv, inner)
+            e["findings"] = findings(inner, conv)
+            e["_turn_hashes"] = turn_hashes(conv); e["_nrec"] = nrec
+            convs[u] = (conv, inner)
+            print(f"  ok   {e['source_filename']:22} {e['share_id']} turns={e['turn_count']:<3} hash={e['content_hash'][:10]} {e['structure_types']}")
+        except RuntimeError as ex:
+            kind, _, msg = str(ex).partition("|")
+            e["status"] = kind; e["error"] = msg
+            print(f"  FAIL {e['source_filename']:22} {kind}: {msg[:100]}")
 
-# ------------------------------------------------------------------ Phase B: deduplication by content hash
-by_hash = {}
-for u in gem_urls:
-    h = entries[u]["content_hash"]
-    if h: by_hash.setdefault(h, []).append(u)
-order = {u: (0 if u in TESTED else 1, (list(TESTED).index(u) if u in TESTED else 0), entries[u]["source_filename"]) for u in gem_urls}
-dup_groups = []
-for h, us in by_hash.items():
-    us = sorted(us, key=lambda x: order[x])
-    if len(us) > 1:
-        canon = us[0]
-        dup_groups.append({"content_hash": h, "canonical_source_filename": entries[canon]["source_filename"], "canonical_url": canon, "duplicates": [entries[x]["source_filename"] for x in us[1:]]})
-        for x in us[1:]:
-            entries[x]["status"] = "DUPLICATE"; entries[x]["duplicate_of"] = {"source_filename": entries[canon]["source_filename"], "url": canon, "share_id": entries[canon]["share_id"]}
-# subset / continuation relationships (not duplicates, but worth knowing)
-relations = []
-us = [u for u in gem_urls if entries[u].get("_turn_hashes")]
-for a in us:
-    for b in us:
-        if a != b and entries[a]["content_hash"] != entries[b]["content_hash"]:
-            ta, tb = entries[a]["_turn_hashes"], entries[b]["_turn_hashes"]
-            if len(ta) < len(tb) and tb[:len(ta)] == ta:
-                relations.append({"shorter": entries[a]["source_filename"], "is_prefix_of": entries[b]["source_filename"], "turns": [len(ta), len(tb)]})
-print(f"dedupe: {len(dup_groups)} duplicate group(s): {[(g['canonical_source_filename'], g['duplicates']) for g in dup_groups]} | prefix relations: {relations}")
+    # ------------------------------------------------------------------ Phase B: deduplication by content hash
+    by_hash = {}
+    for u in gem_urls:
+        h = entries[u]["content_hash"]
+        if h: by_hash.setdefault(h, []).append(u)
+    order = {u: (0 if u in TESTED else 1, (list(TESTED).index(u) if u in TESTED else 0), entries[u]["source_filename"]) for u in gem_urls}
+    dup_groups = []
+    for h, us in by_hash.items():
+        us = sorted(us, key=lambda x: order[x])
+        if len(us) > 1:
+            canon = us[0]
+            dup_groups.append({"content_hash": h, "canonical_source_filename": entries[canon]["source_filename"], "canonical_url": canon, "duplicates": [entries[x]["source_filename"] for x in us[1:]]})
+            for x in us[1:]:
+                entries[x]["status"] = "DUPLICATE"; entries[x]["duplicate_of"] = {"source_filename": entries[canon]["source_filename"], "url": canon, "share_id": entries[canon]["share_id"]}
+    # subset / continuation relationships (not duplicates, but worth knowing)
+    relations = []
+    us = [u for u in gem_urls if entries[u].get("_turn_hashes")]
+    for a in us:
+        for b in us:
+            if a != b and entries[a]["content_hash"] != entries[b]["content_hash"]:
+                ta, tb = entries[a]["_turn_hashes"], entries[b]["_turn_hashes"]
+                if len(ta) < len(tb) and tb[:len(ta)] == ta:
+                    relations.append({"shorter": entries[a]["source_filename"], "is_prefix_of": entries[b]["source_filename"], "turns": [len(ta), len(tb)]})
+    print(f"dedupe: {len(dup_groups)} duplicate group(s): {[(g['canonical_source_filename'], g['duplicates']) for g in dup_groups]} | prefix relations: {relations}")
 
-# ------------------------------------------------------------------ Phase C: unique remaining chats -> Markdown, checks, browser verification
-for u in gem_urls:
-    e = entries[u]
-    if u in TESTED or e["status"] in ("DUPLICATE",) or u not in convs: continue
-    conv, inner = convs[u]
-    md = gp.render_markdown(conv, u, "self_checked")
-    chk = payload_checks(conv, md, u, e["share_id"], e["_nrec"])
-    e["payload_checks"] = {k: v["pass"] for k, v in chk.items()}
-    failed = [k for k, v in chk.items() if not v["pass"]]
-    leak = sum(1 for s in thought_strings(inner) if s in md)
-    if leak: failed.append("reasoning_summaries_leaked_into_markdown")
-    level, bdetail = "SELF_CONSISTENT_WITH_PAYLOAD", {}
-    rendered = None
-    if USE_BROWSER and not failed:
-        total = sum(len(t["user_text"]) + len(t["gemini_text"]) for t in conv["turns"])
-        rendered = browser_render(u, f"b_{e['share_id']}", total)
-        if rendered and len(rendered) > 0.3 * total:
-            level, bdetail = browser_level(conv, md, rendered, u)
-        else:
-            bdetail = {"browser": "render unavailable or incomplete; payload-level verification only", "rendered_chars": len(rendered or "")}
-    e["verification_level"] = level; e["verification_detail"] = bdetail
-    risky = [x for x in e["findings"] if x["risk"] == "content_loss"]
-    if failed:
-        e["status"] = "VERIFICATION_FAILURE"; e["error"] = f"payload checks failed: {failed}"
-    elif level in ("BROWSER_COMPARED_UNEXPLAINED_GAP", "BROWSER_COMPARED_FAILED") or risky:
-        e["status"] = "UNSUPPORTED_STRUCTURE"
-        e["error"] = ("browser render contains tokens absent from the Markdown: " + str(bdetail.get("unexplained_tokens"))) if bdetail.get("unexplained_tokens") else f"content-loss-risk findings: {[x['kind'] for x in risky]}"
-    else:
-        e["status"] = "SUCCESS"
-    final_status = "verified" if level == "VERIFIED_AGAINST_BROWSER" else "self_checked"
-    if e["status"] in ("SUCCESS", "UNSUPPORTED_STRUCTURE", "VERIFICATION_FAILURE"):
-        path = OUT / f"{e['share_id']}__{slug(conv['title'])}.md"
-        if path.exists(): sys.exit(f"refusing to overwrite {path}")
-        path.write_text(gp.render_markdown(conv, u, final_status), encoding="utf-8")
-        e["output_path"] = str(path.relative_to(ROOT)); e["output_complete"] = e["status"] == "SUCCESS"
-    print(f"  {e['status']:22} {e['source_filename']:22} level={level} out={e['output_path']}")
-
-# ------------------------------------------------------------------ tested chats: canonical outputs + verification level (from existing evidence)
-for u in gem_urls:
-    if u not in TESTED: continue
-    e, T = entries[u], TESTED[u]
-    e["output_path"] = T["out"]; e["status"] = e["status"] or "SUCCESS"
-    if u in convs:
+    # ------------------------------------------------------------------ Phase C: unique remaining chats -> Markdown, checks, browser verification
+    for u in gem_urls:
+        e = entries[u]
+        if u in TESTED or e["status"] in ("DUPLICATE",) or u not in convs: continue
         conv, inner = convs[u]
         md = gp.render_markdown(conv, u, "self_checked")
-        if T["browser"] and (ROOT / T["browser"]).exists():
-            lvl, det = browser_level(conv, md, (ROOT / T["browser"]).read_text(encoding="utf-8"), u)
+        chk = payload_checks(conv, md, u, e["share_id"], e["_nrec"])
+        e["payload_checks"] = {k: v["pass"] for k, v in chk.items()}
+        failed = [k for k, v in chk.items() if not v["pass"]]
+        leak = sum(1 for s in thought_strings(inner) if s in md)
+        if leak: failed.append("reasoning_summaries_leaked_into_markdown")
+        level, bdetail = "SELF_CONSISTENT_WITH_PAYLOAD", {}
+        rendered = None
+        if USE_BROWSER and not failed:
+            total = sum(len(t["user_text"]) + len(t["gemini_text"]) for t in conv["turns"])
+            rendered = browser_render(u, f"b_{e['share_id']}", total)
+            if rendered and len(rendered) > 0.3 * total:
+                level, bdetail = browser_level(conv, md, rendered, u)
+            else:
+                bdetail = {"browser": "render unavailable or incomplete; payload-level verification only", "rendered_chars": len(rendered or "")}
+        e["verification_level"] = level; e["verification_detail"] = bdetail
+        risky = [x for x in e["findings"] if x["risk"] == "content_loss"]
+        if failed:
+            e["status"] = "VERIFICATION_FAILURE"; e["error"] = f"payload checks failed: {failed}"
+        elif level in ("BROWSER_COMPARED_UNEXPLAINED_GAP", "BROWSER_COMPARED_FAILED") or risky:
+            e["status"] = "UNSUPPORTED_STRUCTURE"
+            e["error"] = ("browser render contains tokens absent from the Markdown: " + str(bdetail.get("unexplained_tokens"))) if bdetail.get("unexplained_tokens") else f"content-loss-risk findings: {[x['kind'] for x in risky]}"
         else:
-            lvl, det = "SELF_CONSISTENT_WITH_PAYLOAD", {"note": "no browser reference captured for this chat"}
-        e["verification_level"] = lvl; e["verification_detail"] = det
-        e["output_complete"] = not [x for x in e["findings"] if x["risk"] == "content_loss"]
+            e["status"] = "SUCCESS"
+        final_status = "verified" if level == "VERIFIED_AGAINST_BROWSER" else "self_checked"
+        if e["status"] in ("SUCCESS", "UNSUPPORTED_STRUCTURE", "VERIFICATION_FAILURE"):
+            path = OUT / f"{e['share_id']}__{slug(conv['title'])}.md"
+            if path.exists(): sys.exit(f"refusing to overwrite {path}")
+            path.write_text(gp.render_markdown(conv, u, final_status), encoding="utf-8")
+            e["output_path"] = str(path.relative_to(OUT_ROOT)); e["output_complete"] = e["status"] == "SUCCESS"
+        print(f"  {e['status']:22} {e['source_filename']:22} level={level} out={e['output_path']}")
 
-# ------------------------------------------------------------------ manifest
-base = json.loads((LOGS / "parser_fix_baseline.json").read_text(encoding="utf-8"))["txt_sources_sha256"]
-now_txt = {str(Path(t["location"]) / t["file"]): t["sha256"] for t in txts}
-txt_unchanged = all(now_txt.get(k) == v for k, v in base.items()) and set(base) == set(now_txt)
-ai_prior = json.loads((LOGS / "google_ai_mode_classification.json").read_text(encoding="utf-8"))
-ai_entries = [{"source_filename": by_url[u][0]["file"], "source_url": u, "classification": "GOOGLE_AI_MODE_SHARE", "status": "SEPARATE_ADAPTER_REQUIRED",
-               "note": "not fetched or processed in this batch"} for u in ai_urls]
-for u, e in entries.items():
-    e.pop("_turn_hashes", None); e.pop("_nrec", None)
-statuses = Counter(e["status"] for e in entries.values())
-uniq_hashes = {e["content_hash"] for e in entries.values() if e["content_hash"]}
-manifest = {
-    "generated_at": NOW(), "parser": {"file": "gemini_parse.py", "sha256": PARSER_SHA, "replay_script_sha256": sha_f(ROOT / "gemini_replay.py")},
-    "totals": {"gemini_links": len(gem_urls), "previously_tested": len(TESTED), "newly_processed": len([u for u in gem_urls if u not in TESTED]),
-               "status_counts": dict(statuses), "unique_conversations": len(uniq_hashes), "duplicate_groups": len(dup_groups),
-               "ai_mode_links_not_processed": len(ai_urls), "other_links": len(other_urls)},
-    "duplicate_groups": dup_groups, "prefix_relations": relations,
-    "txt_sources": {"files_checked": len(now_txt), "all_byte_identical_to_baseline": txt_unchanged},
-    "entries": [entries[u] for u in gem_urls], "google_ai_mode_entries": ai_entries,
-}
-MANIFEST.write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
-print("manifest written:", MANIFEST)
-print("status counts:", dict(statuses), "| unique conversations:", len(uniq_hashes), "| TXT sources unchanged:", txt_unchanged)
+    # ------------------------------------------------------------------ tested chats: canonical outputs + verification level (from existing evidence)
+    for u in gem_urls:
+        if u not in TESTED: continue
+        e, T = entries[u], TESTED[u]
+        e["output_path"] = T["out"]; e["status"] = e["status"] or "SUCCESS"
+        if u in convs:
+            conv, inner = convs[u]
+            md = gp.render_markdown(conv, u, "self_checked")
+            if T["browser"] and (TESTED_BASE / T["browser"]).exists():
+                lvl, det = browser_level(conv, md, (TESTED_BASE / T["browser"]).read_text(encoding="utf-8"), u)
+            else:
+                lvl, det = "SELF_CONSISTENT_WITH_PAYLOAD", {"note": "no browser reference captured for this chat"}
+            e["verification_level"] = lvl; e["verification_detail"] = det
+            e["output_complete"] = not [x for x in e["findings"] if x["risk"] == "content_loss"]
+
+    # ------------------------------------------------------------------ manifest
+    if baseline_file:
+        base = json.loads(Path(baseline_file).read_text(encoding="utf-8"))["txt_sources_sha256"]
+        now_txt = {str(Path(t["location"]) / t["file"]): t["sha256"] for t in txts}
+        txt_unchanged = all(now_txt.get(k) == v for k, v in base.items()) and set(base) == set(now_txt)
+    else:  # no baseline given: nothing to compare against
+        now_txt = {str(Path(t["location"]) / t["file"]): t["sha256"] for t in txts}
+        txt_unchanged = None
+    ai_entries = [{"source_filename": by_url[u][0]["file"], "source_url": u, "classification": "GOOGLE_AI_MODE_SHARE", "status": "SEPARATE_ADAPTER_REQUIRED",
+                   "note": "not fetched or processed in this batch"} for u in ai_urls]
+    for u, e in entries.items():
+        e.pop("_turn_hashes", None); e.pop("_nrec", None)
+    statuses = Counter(e["status"] for e in entries.values())
+    uniq_hashes = {e["content_hash"] for e in entries.values() if e["content_hash"]}
+    manifest = {
+        "generated_at": NOW(), "parser": {"file": "gemini_parse.py", "sha256": PARSER_SHA, "replay_script_sha256": sha_f(ROOT / "gemini_replay.py")},
+        "totals": {"gemini_links": len(gem_urls), "previously_tested": len(TESTED), "newly_processed": len([u for u in gem_urls if u not in TESTED]),
+                   "status_counts": dict(statuses), "unique_conversations": len(uniq_hashes), "duplicate_groups": len(dup_groups),
+                   "ai_mode_links_not_processed": len(ai_urls), "other_links": len(other_urls)},
+        "duplicate_groups": dup_groups, "prefix_relations": relations,
+        "txt_sources": {"files_checked": len(now_txt), "all_byte_identical_to_baseline": txt_unchanged, "baseline": baseline_file},
+        "entries": [entries[u] for u in gem_urls], "google_ai_mode_entries": ai_entries,
+    }
+    MANIFEST.write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
+    print("manifest written:", MANIFEST)
+    print("status counts:", dict(statuses), "| unique conversations:", len(uniq_hashes), "| TXT sources unchanged:", txt_unchanged)
+
+
+if __name__ == "__main__":
+    main()

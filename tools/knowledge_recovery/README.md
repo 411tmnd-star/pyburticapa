@@ -1,8 +1,10 @@
 # knowledge_recovery
 
-Searches the cleaned ChatGPT archive (`CHATGPT_CLEAN_CONVERSATIONS\PROMPTS` and `\REPLIES`, made by `tools\chatgpt_takeout_split`) at message level and writes a grouped, source-traceable dossier for any subject. Standard library only (needs a Python whose SQLite has FTS5; the scripts check this and say so).
+Searches the cleaned ChatGPT archive (`PROMPTS` and `REPLIES` folders, made by `tools\chatgpt_takeout_split`) at message level and writes a grouped, source-traceable dossier for any subject. Standard library only (needs a Python whose SQLite has FTS5; the scripts check this and say so).
 
-Run with `python -I -X utf8 recover.py <command>` from this folder, or give the full path to `recover.py`.
+**One command, export folder to dossier:** `python -I -X utf8 run.py EXPORT_DIR OUT_DIR --subject "NAME"` (runs the split, verify, ingest, check and dossier steps below in order; `--subject` can repeat; `--aliases`/`--exclude` optional).
+
+Run the steps one at a time with `python -I -X utf8 recover.py <command>` from this folder, or give the full path to `recover.py`.
 
 Global options (before the command): `--db FILE`, `--aliases FILE` (default `aliases.json` here), `--exclude FILE` (default `exclude.json` here).
 

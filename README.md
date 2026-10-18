@@ -28,6 +28,8 @@ This builds a small invented export (4 conversations with a fork, a regenerated 
 
 ### Use it on your own export
 
+One command: `python -I -X utf8 tools/knowledge_recovery/run.py <export folder> <output folder> --subject "<your subject>"`. The same thing step by step:
+
 ```
 python -I -X utf8 tools/chatgpt_takeout_split/takeout_to_clean_md.py run  <export folder> <clean folder>
 python -I -X utf8 tools/chatgpt_takeout_split/takeout_to_clean_md.py verify <export folder> <clean folder>

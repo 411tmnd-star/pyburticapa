@@ -18,10 +18,21 @@ IMAGES_DIR = ROOT / "images"
 NOTES_DIR = ROOT / "output_notes"
 
 
+def _use_workdir(wd):
+    """Point every folder and log of this step at `wd` (same layout as the script folder: output_notes/, videos/, images/)."""
+    global ROOT, IMAGES_DIR, NOTES_DIR
+    wd = Path(wd).resolve()
+    ROOT = wd
+    IMAGES_DIR, NOTES_DIR = wd / "images", wd / "output_notes"
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--workdir", default=None, help="folder holding output_notes/, videos/, images/ and the logs (default: this script's folder)")
     args = ap.parse_args()
+    if args.workdir:
+        _use_workdir(args.workdir)
 
     # Find all images in subfolders
     images = []

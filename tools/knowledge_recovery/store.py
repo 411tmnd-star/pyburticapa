@@ -9,7 +9,6 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))  # the toolkit root (tools/knowledge_recovery -> tools -> root)
 DEFAULT_DB = os.path.join(ROOT, "output", "knowledge_recovery", "knowledge.db")
 DEFAULT_OUT = os.path.join(ROOT, "output", "knowledge_recovery", "dossiers")
-DEFAULT_ARCHIVE = os.path.join(os.path.expanduser("~"), "Desktop", "CHATGPT_CLEAN_CONVERSATIONS")
 ALIASES_FILE = os.path.join(HERE, "aliases.json")
 EXCLUDE_FILE = os.path.join(HERE, "exclude.json")
 

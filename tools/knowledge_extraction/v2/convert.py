@@ -1,13 +1,21 @@
+"""ChatGPT conversation JSON -> Markdown, one .md per .json file.
+
+Usage:
+    python convert.py [INPUT_DIR] [--out OUTPUT_DIR]
+
+INPUT_DIR  folder holding the .json files (default: current folder)
+OUTPUT_DIR default: converted
+"""
+import argparse
 import json
 import html
 import re
 from pathlib import Path
 from datetime import datetime
 
+# Set by main(); nothing runs at import time.
 INPUT_DIR = Path(".")
 OUTPUT_DIR = Path("converted")
-
-OUTPUT_DIR.mkdir(exist_ok=True)
 
 
 def clean_text(text):
@@ -133,39 +141,52 @@ def convert_file(input_file):
 # BULK CONVERSION
 # --------------------------------------------------
 
-json_files = [
-    f for f in INPUT_DIR.glob("*.json")
-    if f.name != "package.json"
-]
+def main(argv=None):
+    global INPUT_DIR, OUTPUT_DIR
+    ap = argparse.ArgumentParser(description="ChatGPT conversation JSON -> Markdown.")
+    ap.add_argument("input", nargs="?", default=".", help="folder with the .json files (default: current folder)")
+    ap.add_argument("--out", default="converted", help="output folder (default: converted)")
+    args = ap.parse_args(argv)
+    INPUT_DIR, OUTPUT_DIR = Path(args.input), Path(args.out)
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-print()
-print("=" * 55)
-print(" ChatGPT JSON → Markdown BULK CONVERTER")
-print("=" * 55)
-print(f"Found: {len(json_files)} JSON files")
-print()
+    json_files = [
+        f for f in INPUT_DIR.glob("*.json")
+        if f.name != "package.json"
+    ]
 
-successful = 0
-failed = 0
+    print()
+    print("=" * 55)
+    print(" ChatGPT JSON → Markdown BULK CONVERTER")
+    print("=" * 55)
+    print(f"Found: {len(json_files)} JSON files")
+    print()
 
-for input_file in sorted(json_files):
+    successful = 0
+    failed = 0
 
-    count, output_file = convert_file(input_file)
+    for input_file in sorted(json_files):
 
-    if output_file:
-        successful += 1
-        print(
-            f"✓ {input_file.name} → "
-            f"{output_file.name} ({count} messages)"
-        )
-    else:
-        failed += 1
+        count, output_file = convert_file(input_file)
 
-print()
-print("=" * 55)
-print(" BULK CONVERSION COMPLETE")
-print("=" * 55)
-print(f"Successful: {successful}")
-print(f"Failed:     {failed}")
-print(f"Output:     {OUTPUT_DIR.resolve()}")
-print("=" * 55)
+        if output_file:
+            successful += 1
+            print(
+                f"✓ {input_file.name} → "
+                f"{output_file.name} ({count} messages)"
+            )
+        else:
+            failed += 1
+
+    print()
+    print("=" * 55)
+    print(" BULK CONVERSION COMPLETE")
+    print("=" * 55)
+    print(f"Successful: {successful}")
+    print(f"Failed:     {failed}")
+    print(f"Output:     {OUTPUT_DIR.resolve()}")
+    print("=" * 55)
+
+
+if __name__ == "__main__":
+    main()

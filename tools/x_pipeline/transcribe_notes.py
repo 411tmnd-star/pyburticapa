@@ -66,9 +66,28 @@ def source_of(note: Path):
     return m.group(1) if m else None
 
 
+def _shown(path: Path) -> Path:
+    try:
+        return path.relative_to(ROOT)
+    except ValueError:
+        return path
+
+
 def log_failure(note: Path, reason: str) -> None:
     with open(FAILED_LOG, "a", encoding="utf-8") as f:
         f.write(f"{note.name}\t{reason}\n")
+
+
+def _use_workdir(wd):
+    """Point every folder and log of this step at `wd` (same layout as the script folder: output_notes/, videos/, images/)."""
+    global ROOT, NOTES_DIR, FAILED_LOG
+    import download_videos
+    wd = Path(wd).resolve()
+    ROOT = wd
+    NOTES_DIR = wd / "output_notes"
+    FAILED_LOG = wd / "failed_transcripts.txt"
+    download_videos.ROOT = wd
+    download_videos.VIDEOS_DIR = wd / "videos"
 
 
 def main() -> None:
@@ -80,7 +99,10 @@ def main() -> None:
     ap.add_argument("--limit", type=int, default=None, help="process at most N notes")
     ap.add_argument("--only", default=None, help="process only the note whose filename contains this id")
     ap.add_argument("--dry-run", action="store_true", help="list notes to process, do nothing else")
+    ap.add_argument("--workdir", default=None, help="folder holding output_notes/, videos/, images/ and the logs (default: this script's folder)")
     args = ap.parse_args()
+    if args.workdir:
+        _use_workdir(args.workdir)
 
     if not NOTES_DIR.is_dir():
         sys.exit(f"Notes folder not found: {NOTES_DIR}")
@@ -118,7 +140,7 @@ def main() -> None:
         try:
             for n, url in enumerate(urls, 1):
                 media = download(url, local_path(note.stem, n), source_of(note))
-                print(f"  video {n}: saved {media.relative_to(ROOT)}")
+                print(f"  video {n}: saved {_shown(media)}")
                 if not has_audio(media):
                     print(f"  video {n}: no audio track, skipping transcription")
                     label = f"{MARKER}" if len(urls) == 1 else f"{MARKER} (video {n})"

@@ -1,6 +1,7 @@
 """Adapter: run the existing converters on conversation exports, then separate prompts and replies.
 
-Usage:  python -I -X utf8 convert_for_pipeline.py SRC_DIR OUT_DIR
+Usage:  python -I -X utf8 convert_for_pipeline.py SRC_DIR OUT_DIR [--prepare]
+        --prepare  also run pipeline.py prepare (stage 2) so one command goes from SRC_DIR to OUT_DIR/prepared/
 
 What it does, per file in SRC_DIR (top level only):
   .jsonl                 -> jsonl_to_md.py (existing converter, run as a subprocess) -> staged .md -> separated
@@ -50,6 +51,8 @@ def run_converter(script, src_file, stage_dir):
 
 def main(argv=None):
     args = argv if argv is not None else sys.argv[1:]
+    prepare = "--prepare" in args
+    args = [a for a in args if a != "--prepare"]
     if len(args) != 2:
         print(__doc__)
         return 2
@@ -113,6 +116,8 @@ def main(argv=None):
         return 1
     write_discover_config(out)
     print("all inputs processed; sources unchanged")
+    if prepare:  # stage 2 as well, so one command takes SRC_DIR all the way to prepared/
+        print(P.cmd_prepare(out))
     return 0
 
 

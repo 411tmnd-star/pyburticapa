@@ -10,6 +10,7 @@ Every step skips work that is already done, so this is safe to stop and re-run.
 
 Usage:
     python run_all.py LINK_OR_FILE ...  # everything, for these links / link files
+    python run_all.py LINKS... --workdir DIR   # keep everything in DIR instead of the script folder
     python run_all.py --skip extract   # steps 2-4 only, on notes already in output_notes/
     python run_all.py --skip transcribe
     python run_all.py --only articles
@@ -18,6 +19,7 @@ Usage:
 """
 
 import argparse
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -36,6 +38,7 @@ def main() -> None:
     ap.add_argument("inputs", nargs="*", help="X links and/or text files containing X links (step 1 input)")
     ap.add_argument("--skip", action="append", default=[], choices=[s for s, _ in STEPS])
     ap.add_argument("--only", action="append", default=[], choices=[s for s, _ in STEPS])
+    ap.add_argument("--workdir", default=None, help="folder for output_notes/, videos/, images/ and logs (default: this script's folder)")
     ap.add_argument("--limit", type=int, default=None, help="max notes per step (not used by extract)")
     ap.add_argument("--model", default=None, help="whisper model for the transcribe step")
     ap.add_argument("--cookies-browser", default=None, help="e.g. chrome (for login-only videos)")
@@ -49,8 +52,10 @@ def main() -> None:
             print("\n===== extract: skipped (no links given; pass links or a file of links) =====")
             continue
         cmd = [sys.executable, str(ROOT / script)]
+        if args.workdir:
+            cmd += ["--workdir", os.path.abspath(args.workdir)]
         if name == "extract":
-            cmd += args.inputs
+            cmd += [os.path.abspath(i) if os.path.exists(i) else i for i in args.inputs]
         if args.limit and name != "extract":
             cmd += ["--limit", str(args.limit)]
         if name == "transcribe" and args.model:

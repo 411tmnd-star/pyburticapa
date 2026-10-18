@@ -164,13 +164,36 @@ def convert(source, destination, overwrite=False, tables_only=False):
             temp.unlink()
 
 
+def convert_folder(folder, out_dir, overwrite, tables_only):
+    """Convert every .pdf directly inside `folder` into `out_dir` (one .md per PDF). Returns the number that failed."""
+    pdfs = sorted(p for p in folder.iterdir() if p.is_file() and p.suffix.lower() == ".pdf")
+    if not pdfs:
+        print(f"No .pdf files in {folder}", file=sys.stderr)
+        return 1
+    out_dir.mkdir(parents=True, exist_ok=True)
+    failed = 0
+    for pdf in pdfs:
+        destination = out_dir / (pdf.stem + ".md")
+        try:
+            convert(pdf, destination, overwrite, tables_only)
+            print(f"Converted: {pdf} -> {destination}")
+        except Exception as exc:
+            failed += 1
+            print(f"ERROR: {pdf.name}: {type(exc).__name__}: {exc}", file=sys.stderr)
+    print(f"{len(pdfs) - failed} converted, {failed} failed")
+    return 1 if failed else 0
+
+
 def main():
     parser = argparse.ArgumentParser(description="Loss-preserving PDF-to-Markdown converter.")
-    parser.add_argument("input", type=Path)
-    parser.add_argument("output", nargs="?", type=Path)
+    parser.add_argument("input", type=Path, help="a PDF file, or a folder of PDFs")
+    parser.add_argument("output", nargs="?", type=Path,
+                        help="output .md file (for a file input) or output folder (for a folder input)")
     parser.add_argument("--overwrite", action="store_true")
     parser.add_argument("--tables-only", action="store_true")
     args = parser.parse_args()
+    if args.input.is_dir():
+        return convert_folder(args.input, args.output or args.input, args.overwrite, args.tables_only)
     destination = args.output or args.input.with_suffix(".md")
     try:
         convert(args.input, destination, args.overwrite, args.tables_only)

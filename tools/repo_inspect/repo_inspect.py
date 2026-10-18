@@ -198,11 +198,14 @@ def main() -> None:
     ap.add_argument("--keywords", default=None, help="comma-separated terms for one extra 'custom' area")
     ap.add_argument("--no-fetch", action="store_true", help="skip download, inspect existing copy")
     ap.add_argument("--dry-run", action="store_true", help="show what would happen, write nothing")
+    ap.add_argument("--out", default=None, help="output folder holding repos/ and reports/ (default: next to this script)")
     args = ap.parse_args()
 
+    repos_dir = Path(args.out).resolve() / "repos" if args.out else REPOS_DIR
+    reports_dir = Path(args.out).resolve() / "reports" if args.out else REPORTS_DIR
     owner, repo = parse_url(args.url)
-    dest = REPOS_DIR / f"{owner}__{repo}"
-    report = REPORTS_DIR / f"{owner}__{repo}.md"
+    dest = repos_dir / f"{owner}__{repo}"
+    report = reports_dir / f"{owner}__{repo}.md"
     areas = dict(DEFAULT_KEYWORDS)
     if args.keywords:
         areas["custom"] = [k.strip() for k in args.keywords.split(",") if k.strip()]
@@ -214,7 +217,7 @@ def main() -> None:
         fetch(owner, repo, dest)
     if not dest.is_dir():
         sys.exit(f"Nothing to inspect at {dest} (run without --no-fetch)")
-    REPORTS_DIR.mkdir(exist_ok=True)
+    reports_dir.mkdir(parents=True, exist_ok=True)
     report.write_text(build_report(owner, repo, dest, areas), encoding="utf-8")
     print(f"Report written: {report}")
 

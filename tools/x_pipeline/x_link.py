@@ -75,14 +75,16 @@ def capture(user, tid, notes_dir, fetch=None, build=None):
     return "saved", str(note)
 
 
-def _run_module(module, patches, argv):
+def _run_module(module, patches, argv, also=None):
     """Call module.main() with its folder constants pointed at our workspace and a fake argv.
-    Returns an exit-code-like int (0 ok)."""
-    old_attrs = {k: getattr(module, k) for k in patches if hasattr(module, k)}
+    `also` is {other_module: {NAME: value}} for modules it relies on. Returns an exit-code-like int (0 ok)."""
+    targets = [(module, patches)] + list((also or {}).items())
+    saved = [(m, {k: getattr(m, k) for k in p if hasattr(m, k)}) for m, p in targets]
     old_argv = sys.argv
     try:
-        for k, v in patches.items():
-            setattr(module, k, v)
+        for m, p in targets:
+            for k, v in p.items():
+                setattr(m, k, v)
         sys.argv = [module.__name__ + ".py", *argv]
         try:
             module.main()
@@ -91,8 +93,9 @@ def _run_module(module, patches, argv):
         return 0
     finally:
         sys.argv = old_argv
-        for k, v in old_attrs.items():
-            setattr(module, k, v)
+        for m, old in saved:
+            for k, v in old.items():
+                setattr(m, k, v)
 
 
 def default_stages(ws, args):
@@ -114,8 +117,11 @@ def default_stages(ws, args):
             "FAILED_LOG": root / "failed_downloads.txt"}, dl_argv)))
     if not args.no_transcribe and not args.no_download:
         tr_argv = ["--model", args.model] if args.model else []
+        # transcribe_notes fetches/finds videos through download_videos, so that module's folders must point
+        # at the workspace too (otherwise videos are looked up and re-downloaded in the script folder).
         stages.append(("transcribe", lambda: _run_module(transcribe_notes, {
-            "NOTES_DIR": ws["notes"], "FAILED_LOG": root / "failed_transcripts.txt"}, tr_argv)))
+            "NOTES_DIR": ws["notes"], "FAILED_LOG": root / "failed_transcripts.txt"}, tr_argv,
+            also={download_videos: {"VIDEOS_DIR": ws["videos"]}})))
     return stages
 
 

@@ -142,6 +142,52 @@ class RealModulesStayInTheWorkspace(unittest.TestCase):
             self.assertIn("1234567890123", (Path(t) / "articles_checked.txt").read_text())
             self.assertFalse((HERE.parent / "articles_checked.txt").exists())
 
+    def test_transcribe_step_looks_for_videos_in_the_workspace(self):
+        """Regression: transcribe_notes finds/downloads videos through download_videos, whose VIDEOS_DIR
+        must point at the workspace during that step (it used to stay in the script folder)."""
+        import download_videos
+        import transcribe_notes
+        seen = {}
+        real_main = transcribe_notes.main
+        transcribe_notes.main = lambda: seen.update(videos=download_videos.VIDEOS_DIR, notes=transcribe_notes.NOTES_DIR)
+        try:
+            with tempfile.TemporaryDirectory() as t:
+                ws = x_link.workspace(t)
+                before = download_videos.VIDEOS_DIR
+                stages = dict(x_link.default_stages(ws, args(out=t)))
+                self.assertEqual(stages["transcribe"](), 0)
+                self.assertEqual(seen["videos"], ws["videos"])
+                self.assertEqual(seen["notes"], ws["notes"])
+                self.assertEqual(download_videos.VIDEOS_DIR, before)  # restored afterwards
+        finally:
+            transcribe_notes.main = real_main
+
+
+class StepsAcceptWorkdir(unittest.TestCase):
+    def test_every_step_takes_workdir_and_writes_only_there(self):
+        import consolidate_images, consolidate_videos, download_videos, fetch_articles, transcribe_notes
+        for mod in (download_videos, fetch_articles, transcribe_notes, consolidate_images, consolidate_videos):
+            self.assertTrue(hasattr(mod, "_use_workdir"), mod.__name__)
+        with tempfile.TemporaryDirectory() as t:
+            saved = (download_videos.NOTES_DIR, download_videos.VIDEOS_DIR, download_videos.IMAGES_DIR,
+                     download_videos.FAILED_LOG, download_videos.ROOT)
+            try:
+                download_videos._use_workdir(t)
+                root = Path(t).resolve()
+                self.assertEqual(download_videos.NOTES_DIR, root / "output_notes")
+                self.assertEqual(download_videos.VIDEOS_DIR, root / "videos")
+                self.assertEqual(download_videos.FAILED_LOG, root / "failed_downloads.txt")
+            finally:
+                (download_videos.NOTES_DIR, download_videos.VIDEOS_DIR, download_videos.IMAGES_DIR,
+                 download_videos.FAILED_LOG, download_videos.ROOT) = saved
+
+    def test_extractor_reads_links_only_from_its_input(self):
+        import extractor
+        self.assertFalse(hasattr(extractor, "LINKS_127"))
+        self.assertEqual(extractor.extract_x_urls([]), [])
+        self.assertEqual(extractor.extract_x_urls(["see https://x.com/a/status/11 and https://twitter.com/b/status/22"]),
+                         ["https://x.com/a/status/11", "https://x.com/b/status/22"])
+
 
 if __name__ == "__main__":
     unittest.main()

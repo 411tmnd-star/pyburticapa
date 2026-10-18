@@ -15,6 +15,7 @@ quoted post (text + its images/videos), and every image/video URL. Later steps:
 Data comes from the vxtwitter API; if it fails, the fxtwitter API is used instead.
 Failures go to failed_links.txt.
 """
+import argparse
 import re
 import sys
 import time
@@ -265,8 +266,18 @@ def process_links(inputs):
         os.remove(FAILED_FILE)
 
 
+def main(argv=None):
+    global OUTPUT_DIR, FAILED_FILE
+    ap = argparse.ArgumentParser(description="X status links -> one markdown note per tweet in output_notes/.")
+    ap.add_argument("inputs", nargs="+", metavar="LINK_OR_FILE", help="X links and/or text files containing X links")
+    ap.add_argument("--workdir", default=None,
+                    help="folder that holds output_notes/ and failed_links.txt (default: this script's folder)")
+    args = ap.parse_args(argv)
+    if args.workdir:
+        wd = os.path.abspath(args.workdir)
+        OUTPUT_DIR, FAILED_FILE = os.path.join(wd, "output_notes"), os.path.join(wd, "failed_links.txt")
+    process_links(args.inputs)
+
+
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python extractor.py LINK_OR_FILE [LINK_OR_FILE ...]")
-        sys.exit(2)
-    process_links(sys.argv[1:])
+    main()

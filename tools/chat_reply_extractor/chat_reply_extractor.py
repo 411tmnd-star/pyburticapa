@@ -1,10 +1,14 @@
 """Chat reply extractor: strip prompts and metadata, keep only the LLM's replies.
 
 Usage:
-    python -I -X utf8 chat_reply_extractor.py SRC_DIR [--out OUT_DIR]
+    python -I -X utf8 chat_reply_extractor.py SRC_DIR [--out OUT_DIR] [--handlers handlers.json]
 
 SRC_DIR  folder holding the chat-export .md files (e.g. .../markdown_files)
 OUT_DIR  default: <SRC_DIR>/../markdown_files_cleaned
+handlers.json  says which source file gets which handler (file names, the
+         sentences the "untitled"/"x_post" handlers cut on, layout numbers for
+         "pdf_layout"). Default: handlers.json next to this script. No file name
+         or marker text is written in this code.
          chat_replies/        cleaned reply files
          documents_unchanged/ files that contain no prompts (copied as-is)
          audit/               one *_dropped.txt per cleaned file (what was removed)
@@ -39,15 +43,7 @@ import shutil
 import sys
 
 # --------------------------------------------------------------- config
-CHATGPT_JSON_FILES = ["1.md", "411{.md", "422{.md", "kkk{.md", "qqa{.md", "qqq{.md", "{.md"]
-UNCHANGED_DOCS = [
-    "medium_research_access_engine_decision.md",
-    "candidate_universe_reconciliation.md",
-    "research_sources.md",
-    "ure_research_source_pool_50.md",
-    "requirements-medium-extractor.md",
-]
-YOUTUBE_GLOB = "https___youtu.be_638GQZ9UZ4w_si=*.md"
+DEFAULT_HANDLERS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "handlers.json")
 LOGO = re.compile(r"^<img src=\"https://r2cdn\.perplexity\.ai")
 
 
@@ -154,20 +150,20 @@ def perplexity(text):
 
 
 # ----------------------------------------------------------------- untitled
-def untitled(text):
+def untitled(text, start_marker, end_marker):
+    """Keep the passage from the line starting with `start_marker` to the line containing `end_marker`."""
     lines = text.split("\n")
-    start = next(i for i, l in enumerate(lines) if l.startswith("Yes—we need to preserve"))
-    end = next(i for i, l in enumerate(lines) if "Is this the distinction you were pointing to" in l)
+    start = next(i for i, l in enumerate(lines) if l.startswith(start_marker))
+    end = next(i for i, l in enumerate(lines) if end_marker in l)
     dropped = [("outside reply (links, notes, pasted search URL)", lines[:start] + lines[end + 1:])]
     return squeeze(lines[start:end + 1]), dropped
 
 
 # ------------------------------------------------------------------- x_post
-def x_post(text):
+def x_post(text, marker):
     """The file opens with a pasted X post; the LLM replies follow it.
-    Drops the leading post (up to and including its closing line)."""
+    Drops the leading post (up to and including the line starting with `marker`)."""
     lines = text.split("\n")
-    marker = "Your potential customers are literally telling you what they need help with"
     end = next((i for i, l in enumerate(lines[:60]) if l.strip().startswith(marker)), None)
     if end is None:
         raise ValueError("X-post closing line not found; refusing to guess")
@@ -183,7 +179,7 @@ TS = re.compile(r"^(Yesterday|Today|Mon|Tue|Wed|Thu|Fri|Sat|Sun)\b.*\d+:\d+\s*[A
 LABELS = {"Plain text", "JSON", "Markdown", "Python", "Bash"}
 
 
-def pdf_layout(text):
+def pdf_layout(text, user_x0=202.28, code_x0=41.25, y_min=27, y_max=810):
     pages = re.split(r"\n## Page (\d+)\n", text)
     elems, dropped = [], []
     for k in range(1, len(pages), 2):
@@ -195,14 +191,14 @@ def pdf_layout(text):
             t = m.group(6).strip("\n")
             if not t.strip():
                 continue
-            if y0 < 27 or y0 > 810:  # page header / footer
+            if y0 < y_min or y0 > y_max:  # page header / footer
                 continue
             if t.strip() in LABELS or TS.match(t.strip()):
                 continue
-            if abs(x0 - 202.28) < 1.0:  # right-aligned user bubble
+            if abs(x0 - user_x0) < 1.0:  # right-aligned user bubble
                 dropped.append((f"user bubble p{pno}", [t]))
                 continue
-            elems.append((pno, x0, y0, t, abs(x0 - 41.25) < 1.0))
+            elems.append((pno, x0, y0, t, abs(x0 - code_x0) < 1.0))
     out, para, in_code, prev = [], None, False, None
     for pno, x0, y0, t, code in elems:
         if code:
@@ -249,6 +245,7 @@ UILABELS = {"Markdown", "Plain text", "JSON", "Python", "Bash", "Text"}
 
 
 def branch(text):
+    """Takes no options; the width numbers below are layout heuristics."""
     raw = text.split("\n")
     dropped = []
     # 1. page chrome
@@ -374,13 +371,36 @@ def write_audit(aud_dir, name, dropped):
     write(os.path.join(aud_dir, name + "_dropped.txt"), "\n".join(parts))
 
 
+HANDLERS = {"perplexity": perplexity, "untitled": untitled, "x_post": x_post,
+            "pdf_layout": pdf_layout, "branch": branch}
+
+
+def load_handlers(path):
+    with open(path, encoding="utf-8") as f:
+        cfg = json.load(f)
+    for entry in cfg.get("convert", []):
+        if entry.get("handler") not in HANDLERS:
+            raise ValueError(f"{path}: unknown handler {entry.get('handler')!r} for {entry.get('label')!r}; "
+                             f"known: {', '.join(sorted(HANDLERS))}")
+        if not entry.get("output") or not (entry.get("source") or entry.get("source_glob")):
+            raise ValueError(f"{path}: entry {entry.get('label')!r} needs 'output' and 'source' or 'source_glob'")
+    return cfg
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Keep only the LLM replies from chat-export .md files.")
     ap.add_argument("src", help="folder with the chat-export .md files")
     ap.add_argument("--out", help="output folder (default: <src>/../markdown_files_cleaned)")
     ap.add_argument("--only", help="process only source files whose name contains this text")
+    ap.add_argument("--handlers", default=DEFAULT_HANDLERS_FILE,
+                    help="JSON saying which source file gets which handler (default: handlers.json next to this script)")
     args = ap.parse_args(argv)
     only = args.only
+    try:
+        cfg = load_handlers(args.handlers)
+    except (OSError, ValueError) as e:
+        print(f"cannot use handlers file: {e}", file=sys.stderr)
+        return 2
 
     src = os.path.abspath(args.src)
     dst = os.path.abspath(args.out or os.path.join(src, "..", "markdown_files_cleaned"))
@@ -408,7 +428,7 @@ def main(argv=None):
             kinds[key] = kinds.get(key, 0) + 1
         report.append(f"{label}: wrote {out_name} ({len(out)} chars); dropped {kinds}")
 
-    for name in CHATGPT_JSON_FILES:
+    for name in cfg.get("chatgpt_json", []):
         if only and only not in name:
             continue
         path = os.path.join(src, name)
@@ -420,7 +440,7 @@ def main(argv=None):
         write(os.path.join(out_dir, out_name), out)
         report.append(f"{name}: wrote {out_name}; {note}")
 
-    for name in UNCHANGED_DOCS:
+    for name in cfg.get("copy_unchanged", []):
         if only and only not in name:
             continue
         path = os.path.join(src, name)
@@ -428,26 +448,20 @@ def main(argv=None):
             shutil.copyfile(path, os.path.join(doc_dir, name))
             report.append(f"{name}: copied unchanged")
 
-    run("kaka", "kaka.md", "kaka_replies.md", perplexity)
-    run("Deliverable A", "Deliverable A — Inventory Integrity Report.md",
-        "Deliverable_A_Inventory_Integrity_Report_replies.md", perplexity)
-
-    yt = sorted(glob.glob(os.path.join(src, YOUTUBE_GLOB)))
-    if yt:
-        digests = {hashlib.sha256(open(p, "rb").read()).hexdigest() for p in yt}
-        report.append(f"YouTube copies: {len(yt)} file(s), identical={len(digests) == 1}")
-        run("YouTube notes", os.path.basename(yt[0]), "youtu_638GQZ9UZ4w_replies.md", perplexity)
-
-    run("Untitled document", "Untitled document.md", "Untitled_document_replies.md", untitled)
-    run("X post + replies", "This is my favorite hack for findin.md",
-        "This_is_my_favorite_hack_replies.md", x_post)
-    run("Content Discovery Engine", "Content Discovery Engine.md",
-        "Content_Discovery_Engine_replies.md", pdf_layout)
-
-    branch_files = glob.glob(os.path.join(src, "Branch*.md"))
-    if branch_files:
-        run("Branch chat", os.path.basename(branch_files[0]),
-            "Branch_Validate_Registry_Architecture_replies.md", branch)
+    for entry in cfg.get("convert", []):
+        fn = HANDLERS[entry["handler"]]
+        opts = entry.get("options") or {}
+        handler = (lambda text, fn=fn, opts=opts: fn(text, **opts))
+        if entry.get("source"):
+            run(entry["label"], entry["source"], entry["output"], handler)
+            continue
+        matches = sorted(glob.glob(os.path.join(src, entry["source_glob"])))
+        if not matches:
+            continue
+        if entry.get("report_copies"):
+            digests = {hashlib.sha256(open(p, "rb").read()).hexdigest() for p in matches}
+            report.append(f"{entry['report_copies']} copies: {len(matches)} file(s), identical={len(digests) == 1}")
+        run(entry["label"], os.path.basename(matches[0]), entry["output"], handler)
 
     print("\n".join(report))
     return 0

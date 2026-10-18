@@ -209,7 +209,8 @@ def split_md_turns(md):
     return out
 
 
-def verify(conv, md, rendered, source_url, expected_turns=9):
+def verify(conv, md, rendered, source_url, expected_turns=None, min_markdown_chars=5000):
+    """expected_turns=None means no expected count was supplied (the check then only requires >= 1 turn)."""
     checks, warnings = {}, []
     ok = True
 
@@ -219,9 +220,12 @@ def verify(conv, md, rendered, source_url, expected_turns=9):
         ok = ok and bool(cond)
 
     turns = conv["turns"]
-    check("turn_count", len(turns) == expected_turns, f"{len(turns)} turns extracted, expected {expected_turns}")
+    if expected_turns is None:
+        check("turn_count", len(turns) >= 1, f"{len(turns)} turns extracted (no expected count supplied)")
+    else:
+        check("turn_count", len(turns) == expected_turns, f"{len(turns)} turns extracted, expected {expected_turns}")
     check("source_url_in_front_matter", f'source_url: {_yaml(source_url)}' in md.split("\n---\n", 1)[0] + "\n", source_url)
-    check("markdown_nonempty", len(md) > 5000, f"{len(md)} chars")
+    check("markdown_nonempty", len(md) > min_markdown_chars, f"{len(md)} chars")
 
     split = split_md_turns(md)
     check("markdown_turn_blocks", len(split) == len(turns) and all(split), f"{len(split)} blocks recovered from Markdown")

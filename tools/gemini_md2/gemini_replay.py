@@ -2,7 +2,11 @@
 """One-link prototype: reproduce the observed Gemini shared-chat `ujx1Bf` batchexecute request in plain Python.
 
 Usage:
-    python gemini_replay.py "https://share.gemini.google/<id>" [--fetch-only]
+    python gemini_replay.py "https://share.gemini.google/<id>" [--fetch-only] [--out DIR] [--reference FILE]
+
+  --out DIR        write debug/, logs/ and output/ under DIR (default: this script's folder)
+  --reference FILE browser-rendered text of the same chat (ground truth). With it the Markdown is verified against
+                   the browser page; without it the Markdown is written as "unverified" (no browser comparison).
 
 Requests made (nothing else):
   1. GET  <original share URL>  (follows redirects to https://gemini.google.com/share/<share_id>)
@@ -23,7 +27,9 @@ import requests
 import gemini_parse as gp
 
 HERE = Path(__file__).resolve().parent
-DEBUG, LOGS = HERE / "debug", HERE / "logs"
+OUT_BASE = HERE                                  # changed by --out
+DEBUG, LOGS = OUT_BASE / "debug", OUT_BASE / "logs"
+REFERENCE = None                                 # set by --reference
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
       "Chrome/154.0.0.0 Safari/537.36")
 RPC_ID = "ujx1Bf"
@@ -51,10 +57,27 @@ def wiz_value(html, key):
     return m.group(1) if m else None
 
 
+def _opt(name):
+    """Value of `--name VALUE` in sys.argv, or None."""
+    if name in sys.argv:
+        i = sys.argv.index(name)
+        if i + 1 < len(sys.argv):
+            return sys.argv[i + 1]
+        sys.exit(f"{name} needs a value")
+    return None
+
+
 def main():
-    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    global OUT_BASE, DEBUG, LOGS, REFERENCE
+    out_opt, ref_opt = _opt("--out"), _opt("--reference")
+    if out_opt:
+        OUT_BASE = Path(out_opt).resolve()
+        DEBUG, LOGS = OUT_BASE / "debug", OUT_BASE / "logs"
+    REFERENCE = Path(ref_opt) if ref_opt else None
+    values = {out_opt, ref_opt} - {None}
+    args = [a for a in sys.argv[1:] if not a.startswith("--") and a not in values]
     if len(args) != 1:
-        sys.exit('usage: python gemini_replay.py "<share URL>" [--fetch-only]')
+        sys.exit('usage: python gemini_replay.py "<share URL>" [--fetch-only] [--out DIR] [--reference FILE]')
     original_url = args[0]
     meta = {"original_url": original_url, "rpc_id": RPC_ID, "started_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
             "warnings": [], "errors": []}
@@ -139,27 +162,35 @@ def post_process(meta, resp, original_url, share_id, final_url):
         result["turn_count"] = len(conv["turns"])
         if conv["share_id"] != share_id:
             result["warnings"].append(f"payload share_id {conv['share_id']} differs from URL share id {share_id}")
-        rendered_path = DEBUG / "browser_rendered_text.txt"
-        if not rendered_path.exists():
-            raise FileNotFoundError("browser_rendered_text.txt (ground truth) is missing")
-        rendered = rendered_path.read_text(encoding="utf-8")
-        md = gp.render_markdown(conv, original_url, "unverified")
-        v = gp.verify(conv, md, rendered, original_url)
-        result["verification_checks"] = v["checks"]
-        result["warnings"] += v["warnings"]
-        result["extracted_character_count"] = v["extracted_characters"]
-        result["rendered_reference_characters"] = v["rendered_reference_characters"]
-        result["verification_result"] = "VERIFIED" if v["verified"] else "FAILED"
-        if v["verified"]:
-            out = HERE / "output" / "prototype_gemini_conversation.md"
-            out.parent.mkdir(exist_ok=True)
+        out = OUT_BASE / "output" / "prototype_gemini_conversation.md"
+        if REFERENCE is None:
+            # No browser ground truth for this chat: write the Markdown, clearly labelled unverified.
+            out.parent.mkdir(parents=True, exist_ok=True)
             if out.exists():
                 raise FileExistsError(f"refusing to overwrite {out}")
-            out.write_text(gp.render_markdown(conv, original_url, "verified"), encoding="utf-8")
+            out.write_text(gp.render_markdown(conv, original_url, "unverified"), encoding="utf-8")
             result["output_file"] = str(out)
+            result["verification_result"] = "UNVERIFIED_NO_REFERENCE"
+            result["warnings"].append("no --reference given: Markdown not compared with the browser-rendered page")
         else:
-            (DEBUG / "unverified_conversation.md").write_text(md, encoding="utf-8")
-            result["warnings"].append("verification failed; Markdown NOT written to output/ (saved to debug/unverified_conversation.md)")
+            rendered = REFERENCE.read_text(encoding="utf-8")
+            md = gp.render_markdown(conv, original_url, "unverified")
+            v = gp.verify(conv, md, rendered, original_url)
+            result["verification_checks"] = v["checks"]
+            result["warnings"] += v["warnings"]
+            result["extracted_character_count"] = v["extracted_characters"]
+            result["rendered_reference_characters"] = v["rendered_reference_characters"]
+            result["verification_result"] = "VERIFIED" if v["verified"] else "FAILED"
+            if v["verified"]:
+                out.parent.mkdir(parents=True, exist_ok=True)
+                if out.exists():
+                    raise FileExistsError(f"refusing to overwrite {out}")
+                out.write_text(gp.render_markdown(conv, original_url, "verified"), encoding="utf-8")
+                result["output_file"] = str(out)
+            else:
+                DEBUG.mkdir(parents=True, exist_ok=True)
+                (DEBUG / "unverified_conversation.md").write_text(md, encoding="utf-8")
+                result["warnings"].append("verification failed; Markdown NOT written to output/ (saved to debug/unverified_conversation.md)")
     except Exception as e:
         result["errors"].append(f"{type(e).__name__}: {e}")
         result["verification_result"] = "FAILED"
@@ -169,7 +200,7 @@ def post_process(meta, resp, original_url, share_id, final_url):
     print("RESULT:", json.dumps({k: v for k, v in result.items() if k != "verification_checks"}, indent=2, ensure_ascii=False))
     for k, v in result.get("verification_checks", {}).items():
         print(("  PASS " if v["pass"] else "  FAIL ") + k, "-", v["detail"])
-    return finish(meta, 0 if result["verification_result"] == "VERIFIED" else 1)
+    return finish(meta, 0 if result["verification_result"] in ("VERIFIED", "UNVERIFIED_NO_REFERENCE") else 1)
 
 
 def finish(meta, code):

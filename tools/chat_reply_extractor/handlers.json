@@ -1,0 +1,76 @@
+{
+  "chatgpt_json": [
+    "1.md",
+    "411{.md",
+    "422{.md",
+    "kkk{.md",
+    "qqa{.md",
+    "qqq{.md",
+    "{.md"
+  ],
+  "copy_unchanged": [
+    "medium_research_access_engine_decision.md",
+    "candidate_universe_reconciliation.md",
+    "research_sources.md",
+    "ure_research_source_pool_50.md",
+    "requirements-medium-extractor.md"
+  ],
+  "convert": [
+    {
+      "label": "kaka",
+      "source": "kaka.md",
+      "output": "kaka_replies.md",
+      "handler": "perplexity"
+    },
+    {
+      "label": "Deliverable A",
+      "source": "Deliverable A — Inventory Integrity Report.md",
+      "output": "Deliverable_A_Inventory_Integrity_Report_replies.md",
+      "handler": "perplexity"
+    },
+    {
+      "label": "YouTube notes",
+      "source_glob": "https___youtu.be_638GQZ9UZ4w_si=*.md",
+      "report_copies": "YouTube",
+      "output": "youtu_638GQZ9UZ4w_replies.md",
+      "handler": "perplexity"
+    },
+    {
+      "label": "Untitled document",
+      "source": "Untitled document.md",
+      "output": "Untitled_document_replies.md",
+      "handler": "untitled",
+      "options": {
+        "start_marker": "Yes—we need to preserve",
+        "end_marker": "Is this the distinction you were pointing to"
+      }
+    },
+    {
+      "label": "X post + replies",
+      "source": "This is my favorite hack for findin.md",
+      "output": "This_is_my_favorite_hack_replies.md",
+      "handler": "x_post",
+      "options": {
+        "marker": "Your potential customers are literally telling you what they need help with"
+      }
+    },
+    {
+      "label": "Content Discovery Engine",
+      "source": "Content Discovery Engine.md",
+      "output": "Content_Discovery_Engine_replies.md",
+      "handler": "pdf_layout",
+      "options": {
+        "user_x0": 202.28,
+        "code_x0": 41.25,
+        "y_min": 27,
+        "y_max": 810
+      }
+    },
+    {
+      "label": "Branch chat",
+      "source_glob": "Branch*.md",
+      "output": "Branch_Validate_Registry_Architecture_replies.md",
+      "handler": "branch"
+    }
+  ]
+}

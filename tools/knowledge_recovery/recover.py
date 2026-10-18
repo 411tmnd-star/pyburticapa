@@ -24,7 +24,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))  # -I removes the
 from dossier import write_dossier  # noqa: E402
 from ingest import ENTRY, ingest  # noqa: E402
 from search import (excluded_words, load_aliases, plan_query, related_search, run_search, terms_report)  # noqa: E402
-from store import (ALIASES_FILE, DEFAULT_ARCHIVE, DEFAULT_DB, DEFAULT_OUT, EXCLUDE_FILE, connect,  # noqa: E402
+from store import (ALIASES_FILE, DEFAULT_DB, DEFAULT_OUT, EXCLUDE_FILE, connect,  # noqa: E402
                    require_fts5)
 
 ALIASES = [ALIASES_FILE]  # replaced by --aliases
@@ -227,7 +227,7 @@ def main(argv=None):
     ap.add_argument("--exclude", default=EXCLUDE_FILE, help="conversations to leave out (JSON)")
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("ingest")
-    p.add_argument("--archive", default=DEFAULT_ARCHIVE)
+    p.add_argument("--archive", required=True, help="folder holding PROMPTS/ and REPLIES/ (made by takeout_to_clean_md.py)")
     sub.add_parser("check")
     for name in ("search", "terms", "dossier", "domain"):
         p = sub.add_parser(name)

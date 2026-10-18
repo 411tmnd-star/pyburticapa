@@ -192,6 +192,15 @@ def run_images(args) -> int:
     return failed
 
 
+def _use_workdir(wd):
+    """Point every folder and log of this step at `wd` (same layout as the script folder: output_notes/, videos/, images/)."""
+    global ROOT, NOTES_DIR, VIDEOS_DIR, IMAGES_DIR, FAILED_LOG
+    wd = Path(wd).resolve()
+    ROOT = wd
+    NOTES_DIR, VIDEOS_DIR, IMAGES_DIR = wd / "output_notes", wd / "videos", wd / "images"
+    FAILED_LOG = wd / "failed_downloads.txt"
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--dry-run", action="store_true")
@@ -200,7 +209,10 @@ def main() -> None:
     ap.add_argument("--cookies-browser", default=None, help="e.g. chrome, edge, firefox (for login-only posts)")
     ap.add_argument("--images-only", action="store_true", help="skip videos")
     ap.add_argument("--videos-only", action="store_true", help="skip images")
+    ap.add_argument("--workdir", default=None, help="folder holding output_notes/, videos/, images/ and the logs (default: this script's folder)")
     args = ap.parse_args()
+    if args.workdir:
+        _use_workdir(args.workdir)
 
     if not args.videos_only:
         run_images(args)

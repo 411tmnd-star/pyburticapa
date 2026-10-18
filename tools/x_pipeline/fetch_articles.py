@@ -255,11 +255,23 @@ def plan(note: Path, checked: set):
     return ("full", [])  # no article link in the text: look at the source tweet itself
 
 
+def _use_workdir(wd):
+    """Point every folder and log of this step at `wd` (same layout as the script folder: output_notes/, videos/, images/)."""
+    global ROOT, NOTES_DIR, FAILED_LOG, CHECKED_LOG
+    wd = Path(wd).resolve()
+    ROOT = wd
+    NOTES_DIR = wd / "output_notes"
+    FAILED_LOG, CHECKED_LOG = wd / "failed_articles.txt", wd / "articles_checked.txt"
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--limit", type=int, default=None, help="process at most N notes")
     ap.add_argument("--dry-run", action="store_true", help="list notes to update, do nothing else")
+    ap.add_argument("--workdir", default=None, help="folder holding output_notes/, videos/, images/ and the logs (default: this script's folder)")
     args = ap.parse_args()
+    if args.workdir:
+        _use_workdir(args.workdir)
 
     if not NOTES_DIR.is_dir():
         sys.exit(f"Notes folder not found: {NOTES_DIR}")

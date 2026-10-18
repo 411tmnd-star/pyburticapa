@@ -1,19 +1,19 @@
 ---
 name: x-extractor
-description: Turn X/Twitter links into a folder with post text, article, images, video and transcript by running python_skills/x_pipeline/x_link.py. Use when the user gives X or twitter.com status links to capture.
+description: Turn X/Twitter links into a folder with post text, article, images, video and transcript by running python_skills/confirmed/x_pipeline/x_link.py. Use when the user gives X or twitter.com status links to capture.
 ---
 
 # x-extractor (pure Python skill, Claude Code only)
 
-All the work is done by `python_skills/x_pipeline/x_link.py`. There is no LLM step.
+All the work is done by `python_skills/confirmed/x_pipeline/x_link.py`. There is no LLM step.
 
 ## Run
 
-From the repo root, after `pip install -r python_skills/x_pipeline/requirements.txt`:
+From the repo root, after `pip install -r python_skills/confirmed/x_pipeline/requirements.txt`:
 
 ```
-python python_skills/x_pipeline/x_link.py LINK1 LINK2 --out x_inbox
-python python_skills/x_pipeline/x_link.py --links-file links.txt
+python python_skills/confirmed/x_pipeline/x_link.py LINK1 LINK2 --out x_inbox
+python python_skills/confirmed/x_pipeline/x_link.py --links-file links.txt
 ```
 
 Options: `--model small|medium` (whisper), `--no-transcribe`, `--no-download`, `--no-articles`, `--cookies-browser chrome` (protected posts).

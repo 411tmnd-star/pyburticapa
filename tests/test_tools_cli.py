@@ -13,7 +13,7 @@ import tempfile
 import unittest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-T = lambda *p: os.path.join(ROOT, "python_skills", *p)
+T = lambda *p: os.path.join(ROOT, "python_skills", "confirmed", *p)
 
 
 def py(*args, cwd=None):

@@ -6,16 +6,16 @@ __pycache__/
 node_modules/
 
 # Local clone of the upstream course repository. It is its own Git repository (about 106 MB of history),
-# its content is public upstream, and the part the Toolkit uses is already in imports/ai_engineering/.
-# Provenance: imports/PROVENANCE.md (commit 1c8e62b526e78b8773559594aab3a3487d9998ac).
+# its content is public upstream, and the part the Toolkit uses is already in python_skills/course/ai_engineering/.
+# Provenance: python_skills/course/PROVENANCE.md (commit 1c8e62b526e78b8773559594aab3a3487d9998ac).
 ai-engineering-from-scratch/
 
-# Local knowledge database and dossiers built from the private ChatGPT export (python_skills/knowledge_recovery).
+# Local knowledge database and dossiers built from the private ChatGPT export (python_skills/confirmed/knowledge_recovery).
 # Contains personal conversation text: never commit.
 output/knowledge_recovery/
 
-# Personal exclusion list for python_skills/knowledge_recovery (names private conversations); copy exclude.example.json.
-python_skills/knowledge_recovery/exclude.json
+# Personal exclusion list for python_skills/confirmed/knowledge_recovery (names private conversations); copy exclude.example.json.
+python_skills/confirmed/knowledge_recovery/exclude.json
 
 # Demo output (python demo.py); rebuilt from fabricated data on every run
 outputs/demo/

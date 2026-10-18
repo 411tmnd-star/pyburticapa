@@ -9,7 +9,7 @@ PASS/FAIL/LATER report and exit codes. Changed: the probes and routes describe t
 (import names are probed with importlib.util.find_spec, so nothing is imported or installed), and
 `--route all` is added, and command_result takes a version_flag (ffmpeg uses `-version`). Upstream's course routes and torch/gpu probes were removed.
 
-Usage: python -I -X utf8 python_skills/env_preflight/env_preflight.py --route pipeline [--show-later]
+Usage: python -I -X utf8 python_skills/confirmed/env_preflight/env_preflight.py --route pipeline [--show-later]
 """
 
 from __future__ import annotations
@@ -140,25 +140,25 @@ ROUTES = {
         "Prompt/reply pipeline (stdlib core)",
         ("python",),
         ("ollama", "requests"),
-        "python -B -X utf8 python_skills/prompt_reply_pipeline/tests/test_pipeline.py",
+        "python -B -X utf8 python_skills/confirmed/prompt_reply_pipeline/tests/test_pipeline.py",
     ),
     "converters": Route(
         "PDF / MHT / JSONL converters",
         ("python", "pymupdf", "bs4", "markdownify"),
         (),
-        "python -I -X utf8 python_skills/pdf_to_md/pdf_to_md.py --help",
+        "python -I -X utf8 python_skills/confirmed/pdf_to_md/pdf_to_md.py --help",
     ),
     "x_pipeline": Route(
         "X pipeline (network; accepted unchanged)",
         ("python", "requests"),
         ("faster_whisper", "av", "ffmpeg"),
-        "See python_skills/x_pipeline (not run by this preflight).",
+        "See python_skills/confirmed/x_pipeline (not run by this preflight).",
     ),
     "gemini": Route(
         "Gemini tools (network / Chrome CDP)",
         ("python", "requests"),
         ("websockets", "ijson"),
-        "See python_skills/gemini_md2 (not run by this preflight).",
+        "See python_skills/confirmed/gemini_md2 (not run by this preflight).",
     ),
     "audio_lab": Route(
         "AudioLab (external project at Desktop/audio_lab)",

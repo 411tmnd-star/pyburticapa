@@ -6,8 +6,8 @@ import tempfile
 import unittest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-RUN = os.path.join(ROOT, "python_skills", "knowledge_recovery", "run.py")
-RECOVER = os.path.join(ROOT, "python_skills", "knowledge_recovery", "recover.py")
+RUN = os.path.join(ROOT, "python_skills", "confirmed", "knowledge_recovery", "run.py")
+RECOVER = os.path.join(ROOT, "python_skills", "confirmed", "knowledge_recovery", "recover.py")
 sys.path.insert(0, os.path.join(ROOT, "tests", "fixtures"))
 import make_takeout  # noqa: E402
 

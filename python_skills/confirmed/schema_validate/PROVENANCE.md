@@ -7,4 +7,4 @@ Toolkit layer: **Layer 2 (Mathematics & Verification)** - validates JSON-like da
 - Changes: provenance header on both files; test import `main` -> `schema_validate`. No logic change.
 - Original repository files were not modified.
 - Limits (read from source): no `$ref`, `oneOf`, `additionalProperties`, `minimum/maximum`, `format`; `validate_schema_shape` rejects them. `required` only checked on objects.
-- Run tests: `python -B -X utf8 python_skills\schema_validate\tests\test_schema_validate.py`
+- Run tests: `python -B -X utf8 python_skills\confirmed\schema_validate\tests\test_schema_validate.py`

@@ -6,7 +6,8 @@ Notes on the wording below, which is from before 2026-10-18:
 - `tools\` and `tools/` now read `python_skills\` and `python_skills/`.
 - `discover.py` and the `discover/` folder were removed; mentions of them are historical.
 - The words "implemented" and "not implemented" are replaced by *Python skill* and *discovery* (see the README).
-- The CSV files named here are now in `records/`.
+- The CSV files named here are now in `records/`, except `INVENTORY.csv`, which is in `python_skills/`.
+- `imports\` is now `python_skills/course/` (course material) and `python_skills/pc_workflows/` (AudioLab); the skill folders are under `python_skills/confirmed/`.
 
 ## Contents
 

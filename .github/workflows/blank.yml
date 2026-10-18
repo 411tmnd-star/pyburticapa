@@ -25,17 +25,17 @@ jobs:
       - name: Prompt/reply pipeline
         run: |
           python -m pip install beautifulsoup4 markdownify
-          python -B -X utf8 python_skills/prompt_reply_pipeline/tests/test_pipeline.py
-          python -B -X utf8 python_skills/prompt_reply_pipeline/tests/test_speaker_cases.py
+          python -B -X utf8 python_skills/confirmed/prompt_reply_pipeline/tests/test_pipeline.py
+          python -B -X utf8 python_skills/confirmed/prompt_reply_pipeline/tests/test_speaker_cases.py
       - name: X link intake
         run: |
           python -m pip install requests
-          python -B -X utf8 python_skills/x_pipeline/tests/test_x_link.py
+          python -B -X utf8 python_skills/confirmed/x_pipeline/tests/test_x_link.py
       - name: yt-outliers
         run: |
-          python -B -X utf8 -m unittest discover -s python_skills/yt_outliers/tests -v
-          python -B -X utf8 python_skills/yt_outliers/yt_outliers.py --dry-run --out yt_dry_run
+          python -B -X utf8 -m unittest discover -s python_skills/confirmed/yt_outliers/tests -v
+          python -B -X utf8 python_skills/confirmed/yt_outliers/yt_outliers.py --dry-run --out yt_dry_run
       - name: Schema validator
-        run: python -B -X utf8 python_skills/schema_validate/tests/test_schema_validate.py
+        run: python -B -X utf8 python_skills/confirmed/schema_validate/tests/test_schema_validate.py
       - name: Demo runs
         run: python demo.py

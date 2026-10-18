@@ -8,10 +8,12 @@ Python tools for turning years of AI chat history into knowledge you can search 
 
 | Folder or file | What is in it |
 |---|---|
-| `python_skills/` | The Python skills, one folder each (code, tests, README). The list with commands is [below](#python-skills) |
+| `python_skills/confirmed/` | Your confirmed workflows: the Python skills, one folder each (code, tests, README). The list with commands is [below](#python-skills) |
+| `python_skills/pc_workflows/` | General workflows from your whole PC: `PC_SCAN_ROWS.csv` (the 2,313 laptop-scan rows from `INVENTORY.csv`; those files are still on the laptop, not in this repo) and the AudioLab files that were imported |
+| `python_skills/course/` | The course material: the whole `ai_engineering` copy (Python, other languages, and the LLM instructions), import manifests and provenance |
+| `python_skills/INVENTORY.csv` | The master list, 9,763 rows, with tier 1, 2 and 3 for every file |
 | `docs/REFERENCE.md` | All the notes in one file: capabilities, workflows, next actions, dependencies, scope review (5 parts, with contents list) |
-| `records/` | The CSV records: `INVENTORY.csv` (every collected Python file, 9,763 rows), `MIGRATION_LOG.csv` (every copy, with hashes), `VERIFICATION.csv` (checks and evidence), `SCOPE_REVIEW.csv`, `GEMINI_SCRIPT_CLASSIFICATION.csv` |
-| `imports/` | Discoveries: course and project material collected but not built into skills (has its own `PROVENANCE.md` and `IMPORT_REPORT.md`) |
+| `records/` | The other CSV records: `MIGRATION_LOG.csv` (every copy, with hashes), `VERIFICATION.csv` (checks and evidence), `SCOPE_REVIEW.csv`, `GEMINI_SCRIPT_CLASSIFICATION.csv` |
 | `tests/` | End-to-end tests for the knowledge-recovery skill; each skill's own tests are in its folder |
 | `outputs/` | Where workflow runs write by default (`python demo.py` writes `outputs/demo/`) |
 | `.claude/skills/` | Claude Code skills that run the Python on the laptop |
@@ -44,14 +46,14 @@ This builds a small invented export (4 conversations with a fork, a regenerated 
 
 ### Use it on your own export
 
-One command: `python -I -X utf8 python_skills/knowledge_recovery/run.py <export folder> <output folder> --subject "<your subject>"`. The same thing step by step:
+One command: `python -I -X utf8 python_skills/confirmed/knowledge_recovery/run.py <export folder> <output folder> --subject "<your subject>"`. The same thing step by step:
 
 ```
-python -I -X utf8 python_skills/chatgpt_takeout_split/takeout_to_clean_md.py run  <export folder> <clean folder>
-python -I -X utf8 python_skills/chatgpt_takeout_split/takeout_to_clean_md.py verify <export folder> <clean folder>
-python -I -X utf8 python_skills/knowledge_recovery/recover.py ingest --archive <clean folder>
-python -I -X utf8 python_skills/knowledge_recovery/recover.py check
-python -I -X utf8 python_skills/knowledge_recovery/recover.py dossier "<your subject>"
+python -I -X utf8 python_skills/confirmed/chatgpt_takeout_split/takeout_to_clean_md.py run  <export folder> <clean folder>
+python -I -X utf8 python_skills/confirmed/chatgpt_takeout_split/takeout_to_clean_md.py verify <export folder> <clean folder>
+python -I -X utf8 python_skills/confirmed/knowledge_recovery/recover.py ingest --archive <clean folder>
+python -I -X utf8 python_skills/confirmed/knowledge_recovery/recover.py check
+python -I -X utf8 python_skills/confirmed/knowledge_recovery/recover.py dossier "<your subject>"
 ```
 
 The export folder is the unzipped ChatGPT data export (`conversations.json`, or sharded `conversations-000.json` …). Subject spellings, topics and domain terms go in `aliases.json` (`--aliases` to use another file). Private conversations can be left out with `exclude.json` (`--exclude`). The database and dossiers hold private text and are git-ignored.
@@ -71,7 +73,7 @@ python -m unittest discover -s tests -v
 Two words are used in this repo, and only two.
 
 - **Python skill**: a workflow you can install and run. It has one command, a defined input and a defined output.
-- **Discovery**: a Python item that was collected (the 2,300+ rows in `records/INVENTORY.csv`, the course material in `imports/`) but has not been built into something installed and run as part of your work. A discovery becomes a Python skill when it is built into a runnable workflow.
+- **Discovery**: a Python item that was collected (the 2,300+ rows in `python_skills/INVENTORY.csv`, the course material in `python_skills/course/`) but has not been built into something installed and run as part of your work. A discovery becomes a Python skill when it is built into a runnable workflow.
 
 The old "implemented / not implemented" split in `docs/REFERENCE.md` is replaced by this one.
 
@@ -95,24 +97,24 @@ A skill is **established** when it gives accurate output for many inputs, includ
 
 | Python skill | Kind | One command | Input -> output | Evidence |
 | --- | --- | --- | --- | --- |
-| ChatGPT knowledge recovery | pure | `python -I -X utf8 python_skills/knowledge_recovery/run.py EXPORT OUT --subject NAME` | ChatGPT export folder -> `OUT/clean`, `OUT/knowledge.db`, `OUT/dossiers/` | Owner-run on the real export; 16 end-to-end tests here, CI on Linux and Windows |
-| X extractor | pure | `python python_skills/x_pipeline/x_link.py LINK... --out DIR` (or `run_all.py LINKS --workdir DIR`) | X links -> notes, article text, images, videos, transcripts, `SUMMARY.md` | Owner-run (original steps); `x_link.py` and the `--workdir` options tested here offline only. Claude Code skill: `.claude/skills/x-extractor` |
-| yt-outliers | pure | `python python_skills/yt_outliers/yt_outliers.py --channels ID... --out DIR` | YouTube channel ids -> ranked outlier list (`digest.md`), CSV | `python_skills/yt_outliers/` (copy of repo `411tmnd-star/yt-outliers`, MIT): 22 tests and the sample run in CI; needs a YouTube Data API key (`YOUTUBE_API_KEY`) for real channels; a live run was not seen |
-| Chat reply extractor | pure | `python -I -X utf8 python_skills/chat_reply_extractor/chat_reply_extractor.py SRC --out OUT [--handlers handlers.json]` | chat-export `.md` folder -> replies only, `audit/` | Owner-run; tested here on invented files; file names live in `handlers.json` |
-| PDF to Markdown | pure | `python python_skills/pdf_to_md/pdf_to_md.py PDF_OR_FOLDER [OUT]` | PDF or folder -> `.md` | Owner-run; tested here |
-| MHT to Markdown | pure | `python python_skills/mht_to_md_tool/mht_to_md.py --source DIR --output DIR` | MHT/MHTML folder -> `.md`, manifest, log | Owner-run; tested here |
-| Google AI Mode MHT, JSONL, ChatGPT JSON to Markdown | pure | `python python_skills/knowledge_extraction/v2/{mht_to_md,jsonl_to_md,convert}.py INPUT --out DIR` | file/folder -> `.md` | Owner-run; tested here |
-| Gemini share links to Markdown | pure | `python python_skills/gemini_md2/gemini_batch.py LINK... --out DIR` | Gemini links (or `--src DIR` of `.txt` files) -> `.md`, manifest | Owner-run; offline checks only here (Gemini unreachable from the test environment) |
-| Prompt/reply pipeline | hybrid (step 3 not built) | `python -I -X utf8 python_skills/prompt_reply_pipeline/convert_for_pipeline.py SRC OUT --prepare` | mixed exports -> prompts, replies, prepared sections | Steps 1, 2 and 4 tested (29 tests). Step 3 is written for Ollama and was never run; it should become a Claude step with a fixed output format |
-| Repo inspection | pure | `python python_skills/repo_inspect/repo_inspect.py URL --out DIR` | GitHub URL -> read-only report | Owner-run; offline check here |
-| Environment preflight, schema validator | pure | `python_skills/env_preflight/env_preflight.py`, `python_skills/schema_validate/schema_validate.py` | - | Tested here (adapted, MIT) |
+| ChatGPT knowledge recovery | pure | `python -I -X utf8 python_skills/confirmed/knowledge_recovery/run.py EXPORT OUT --subject NAME` | ChatGPT export folder -> `OUT/clean`, `OUT/knowledge.db`, `OUT/dossiers/` | Owner-run on the real export; 16 end-to-end tests here, CI on Linux and Windows |
+| X extractor | pure | `python python_skills/confirmed/x_pipeline/x_link.py LINK... --out DIR` (or `run_all.py LINKS --workdir DIR`) | X links -> notes, article text, images, videos, transcripts, `SUMMARY.md` | Owner-run (original steps); `x_link.py` and the `--workdir` options tested here offline only. Claude Code skill: `.claude/skills/x-extractor` |
+| yt-outliers | pure | `python python_skills/confirmed/yt_outliers/yt_outliers.py --channels ID... --out DIR` | YouTube channel ids -> ranked outlier list (`digest.md`), CSV | `python_skills/confirmed/yt_outliers/` (copy of repo `411tmnd-star/yt-outliers`, MIT): 22 tests and the sample run in CI; needs a YouTube Data API key (`YOUTUBE_API_KEY`) for real channels; a live run was not seen |
+| Chat reply extractor | pure | `python -I -X utf8 python_skills/confirmed/chat_reply_extractor/chat_reply_extractor.py SRC --out OUT [--handlers handlers.json]` | chat-export `.md` folder -> replies only, `audit/` | Owner-run; tested here on invented files; file names live in `handlers.json` |
+| PDF to Markdown | pure | `python python_skills/confirmed/pdf_to_md/pdf_to_md.py PDF_OR_FOLDER [OUT]` | PDF or folder -> `.md` | Owner-run; tested here |
+| MHT to Markdown | pure | `python python_skills/confirmed/mht_to_md_tool/mht_to_md.py --source DIR --output DIR` | MHT/MHTML folder -> `.md`, manifest, log | Owner-run; tested here |
+| Google AI Mode MHT, JSONL, ChatGPT JSON to Markdown | pure | `python python_skills/confirmed/knowledge_extraction/v2/{mht_to_md,jsonl_to_md,convert}.py INPUT --out DIR` | file/folder -> `.md` | Owner-run; tested here |
+| Gemini share links to Markdown | pure | `python python_skills/confirmed/gemini_md2/gemini_batch.py LINK... --out DIR` | Gemini links (or `--src DIR` of `.txt` files) -> `.md`, manifest | Owner-run; offline checks only here (Gemini unreachable from the test environment) |
+| Prompt/reply pipeline | hybrid (step 3 not built) | `python -I -X utf8 python_skills/confirmed/prompt_reply_pipeline/convert_for_pipeline.py SRC OUT --prepare` | mixed exports -> prompts, replies, prepared sections | Steps 1, 2 and 4 tested (29 tests). Step 3 is written for Ollama and was never run; it should become a Claude step with a fixed output format |
+| Repo inspection | pure | `python python_skills/confirmed/repo_inspect/repo_inspect.py URL --out DIR` | GitHub URL -> read-only report | Owner-run; offline check here |
+| Environment preflight, schema validator | pure | `python_skills/confirmed/env_preflight/env_preflight.py`, `python_skills/confirmed/schema_validate/schema_validate.py` | - | Tested here (adapted, MIT) |
 
-Also here, but not a skill: `python_skills/gemini_md2/test*_validate.py`, `survey_candidates.py`, `gemini_to_md.py` and `debug/` are records of the experiments that produced the Gemini parser, with the four test chats written into them.
+Also here, but not a skill: `python_skills/confirmed/gemini_md2/test*_validate.py`, `survey_candidates.py`, `gemini_to_md.py` and `debug/` are records of the experiments that produced the Gemini parser, with the four test chats written into them.
 
 ### Discoveries
 
-Everything under `imports/` (course and project material, never run as a workflow) and the Tier 1 and Tier 2 rows of `records/INVENTORY.csv` (reference material and candidate code). `records/INVENTORY.csv` keeps its original `tier` column for now; Tier 3 means "core and active tool", which is the list of Python skills above plus AudioLab.
+Everything under `python_skills/course/` (course and project material, never run as a workflow) and the Tier 1 and Tier 2 rows of `python_skills/INVENTORY.csv` (reference material and candidate code). `python_skills/INVENTORY.csv` keeps its original `tier` column for now; Tier 3 means "core and active tool", which is the list of Python skills above plus AudioLab.
 
 ## Status words in the records
 
-confirmed present, verified execution, not verified, proposed, unresolved (columns in `records/INVENTORY.csv`). "Verified execution" means a check in `records/VERIFICATION.csv` passed; `--help` only is labelled as such.
+confirmed present, verified execution, not verified, proposed, unresolved (columns in `python_skills/INVENTORY.csv`). "Verified execution" means a check in `records/VERIFICATION.csv` passed; `--help` only is labelled as such.

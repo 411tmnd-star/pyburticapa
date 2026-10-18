@@ -1,0 +1,20 @@
+# Capstone track: GPT from scratch
+
+[Corpus](../../../README.md) / [projects](../../README.md)  ·  12 entries  ·  discovery 12
+
+**Course:** [ai_engineering/phases/19-capstone-projects](../../../../course/ai_engineering/phases/19-capstone-projects)
+
+| ID | Entry | Python | Needs | Status |
+|---|---|---|---|---|
+| L19-30 | [BPE Tokenizer From Scratch](../../../../course/ai_engineering/phases/19-capstone-projects/30-bpe-tokenizer-from-scratch "Bytes in, ids out, ids back to the same bytes. Build the tokenizer that every modern text model still starts from.") | 2 files | standard library only | discovery |
+| L19-31 | [Tokenized Dataset with Sliding Window](../../../../course/ai_engineering/phases/19-capstone-projects/31-tokenized-dataset-sliding-window "A pretraining run is a function from token ids to gradients. This lesson builds the conveyor that feeds the ids in.") | 2 files | torch | discovery |
+| L19-32 | [Token and Positional Embeddings](../../../../course/ai_engineering/phases/19-capstone-projects/32-token-positional-embeddings "Ids are integers. The model wants vectors. Two lookup tables sit between them, and the choice of the positional one shapes what the model ca") | 2 files | torch | discovery |
+| L19-33 | [Multi-Head Self-Attention](../../../../course/ai_engineering/phases/19-capstone-projects/33-multihead-self-attention "One linear projection, three views, H parallel heads, one mask. The attention block as the model actually uses it.") | 2 files | torch | discovery |
+| L19-34 | [Transformer Block from Scratch](../../../../course/ai_engineering/phases/19-capstone-projects/34-transformer-block "One block is the unit of every modern decoder LLM. Layer norm, multi head attention, residual, MLP, residual. The pre-LN variant trains stab") | 2 files | torch | discovery |
+| L19-35 | [GPT Model Assembly](../../../../course/ai_engineering/phases/19-capstone-projects/35-gpt-model-assembly "Twelve blocks stacked, a token embedding, a learned position embedding, a final LayerNorm, and a tied language model head. That is the entir") | 2 files | torch | discovery |
+| L19-36 | [Training Loop and Evaluation](../../../../course/ai_engineering/phases/19-capstone-projects/36-training-loop-eval "A loop that does not measure is a loop that lies. This lesson builds the training loop that drives the GPT model: AdamW with weight decay sp") | 2 files | torch | discovery |
+| L19-37 | [Loading Pretrained Weights](../../../../course/ai_engineering/phases/19-capstone-projects/37-loading-pretrained-weights "Training a 124 million parameter model from scratch is a budget decision; loading a published checkpoint is a Tuesday. This lesson loads pre") | 2 files | safetensors, torch | discovery |
+| L19-38 | [Capstone Lesson 38: Classifier Fine-Tuning by Head Swap](../../../../course/ai_engineering/phases/19-capstone-projects/38-classifier-finetuning "Track B's first capstone. A pretrained language model is a stack of self-attention blocks ending in a token-prediction head. When you want s") | 2 files | numpy, torch | discovery |
+| L19-39 | [Capstone Lesson 39: Instruction Tuning by Supervised Fine-Tuning](../../../../course/ai_engineering/phases/19-capstone-projects/39-instruction-tuning-sft "A pretrained base model can extend a sequence but cannot follow an instruction. Supervised fine-tuning is the smallest change that fixes thi") | 2 files | numpy, torch | discovery |
+| L19-40 | [Capstone Lesson 40: Direct Preference Optimization from Scratch](../../../../course/ai_engineering/phases/19-capstone-projects/40-dpo-from-scratch "Reward models and PPO are the classical RLHF stack. DPO collapses that stack into a single supervised loss that fits a policy directly again") | 2 files | numpy, torch | discovery |
+| L19-41 | [Capstone Lesson 41: Full Evaluation Pipeline](../../../../course/ai_engineering/phases/19-capstone-projects/41-eval-pipeline "Training is the part you can monitor with loss curves. Evaluation is the part you have to design. This lesson builds a unified eval pipeline") | 2 files | numpy, torch | discovery |

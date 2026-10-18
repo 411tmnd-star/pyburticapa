@@ -1,0 +1,18 @@
+# Capstone track: agent harness
+
+[Corpus](../../../README.md) / [projects](../../README.md)  ·  10 entries  ·  discovery 10
+
+**Course:** [ai_engineering/phases/19-capstone-projects](../../../../course/ai_engineering/phases/19-capstone-projects)
+
+| ID | Entry | Python | Needs | Status |
+|---|---|---|---|---|
+| L19-20 | [Agent Harness Loop Contract](../../../../course/ai_engineering/phases/19-capstone-projects/20-agent-harness-loop-contract "The harness is the agent. The model is a coprocessor. This lesson freezes the loop contract you can wire any model into.") | 2 files | standard library only | discovery |
+| L19-21 | [Tool Registry with Schema Validation](../../../../course/ai_engineering/phases/19-capstone-projects/21-tool-registry-schema-validation "A tool the agent cannot validate is a tool the agent cannot call. Build the registry and the schema checker before you build the tools.") | 2 files | standard library only | discovery |
+| L19-22 | [JSON-RPC 2.0 Over Newline-Delimited Stdio](../../../../course/ai_engineering/phases/19-capstone-projects/22-jsonrpc-stdio-transport "The transport between a model client and a tool server is JSON-RPC over stdio. Hand-rolling it once teaches you what every framing layer is ") | 2 files | standard library only | discovery |
+| L19-23 | [Function Call Dispatcher](../../../../course/ai_engineering/phases/19-capstone-projects/23-function-call-dispatcher "The dispatcher is where the harness pays for every promise the schema made. Timeouts, retries, dedupe, error mapping. All on one seam.") | 2 files | standard library only | discovery |
+| L19-24 | [Plan-Execute Control Flow](../../../../course/ai_engineering/phases/19-capstone-projects/24-plan-execute-control-flow "A plan that cannot survive a failure is a script. A script that can replan is an agent. Build the replanner first.") | 2 files | standard library only | discovery |
+| L19-25 | [Capstone Lesson 25: Verification Gates and the Observation Budget](../../../../course/ai_engineering/phases/19-capstone-projects/25-verification-gates-observation-budget "An agent harness without a verification layer is a wish in a trenchcoat. This lesson builds the deterministic gate chain that decides whethe") | 2 files | standard library only | discovery |
+| L19-26 | [Capstone Lesson 26: Sandbox Runner with Denylist and Path Jail](../../../../course/ai_engineering/phases/19-capstone-projects/26-sandbox-runner-denylist "The verification gate decides whether a tool call should run. The sandbox decides what happens when it does. This lesson ships a subprocess ") | 2 files | standard library only | discovery |
+| L19-27 | [Capstone Lesson 27: Eval Harness with Fixture Tasks](../../../../course/ai_engineering/phases/19-capstone-projects/27-eval-harness-fixture-tasks "A coding agent is only as good as the suite of tasks you measure it against. This lesson builds an evaluation harness that takes a folder of") | 12 files | standard library only | discovery |
+| L19-28 | [Capstone Lesson 28: Observability with OTel GenAI Spans and Prometheus Metrics](../../../../course/ai_engineering/phases/19-capstone-projects/28-observability-otel-traces "An agent harness without observability is a black box that costs money. This lesson hand-rolls a span builder that emits records compliant w") | 2 files | standard library only | discovery |
+| L19-29 | [Capstone Lesson 29: End-to-End Coding Agent on the Harness](../../../../course/ai_engineering/phases/19-capstone-projects/29-end-to-end-coding-task-demo "Track A's payoff. This lesson stitches the gate chain, the sandbox, the eval harness, and the OTel spans into one working coding agent that ") | 5 files | standard library only | discovery |

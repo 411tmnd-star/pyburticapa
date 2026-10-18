@@ -1,9 +1,10 @@
 """
 Step 1: turn X/Twitter status links into one markdown note per tweet in output_notes/.
 
-Links come from the built-in LINKS_127 list AND from the old extraction file
-(x-chat-extraction_Oct9_to_Oct1.md, or a path passed as argv[1]). Notes that
-already exist are skipped, so it is safe to stop and re-run.
+Input only: there is no built-in link list. Pass X links and/or paths to text
+files that contain X links:
+    python extractor.py https://x.com/someone/status/123 more_links.txt
+Notes that already exist are skipped, so it is safe to stop and re-run.
 
 Each note holds: author, dates, engagement, full text, alt-text captions, the
 quoted post (text + its images/videos), and every image/video URL. Later steps:
@@ -23,143 +24,11 @@ from datetime import datetime
 
 # Configuration
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-INPUT_FILE = os.path.join(SCRIPT_DIR, "x-chat-extraction_Oct9_to_Oct1.md")  # or pass a path as argv[1]
 OUTPUT_DIR = os.path.join(SCRIPT_DIR, "output_notes")
 FAILED_FILE = os.path.join(SCRIPT_DIR, "failed_links.txt")
 REQUEST_TIMEOUT = 20
 MAX_RETRIES = 4
 SLEEP_BETWEEN = 2
-
-# The 127 links to process, as "handle/tweet-id". Add more here (or pass a file path as argv[1]).
-LINKS_127 = """
-kashvi/2108104494345322812
-Jeffar_AI/2108047803914367273
-precisox/2108313026931704110
-irabukht/2108364924464546088
-antinertia/2108173188827922680
-nurijanian/2108234466753970664
-kalashnikovapv/2108086030402269296
-AkterBrist39045/2108152640396054909
-dsqjaffa/2108141562521670116
-rossaxbt/2108208425708454247
-coreyhainesco/2013272998191812906
-charliejhills/2034205896298107167
-rubenhassid/2031667053371732044
-maxwellcopy/2106158536917156187
-ihteshamali/2039342079957164145
-dsqjaffa/2107866686594380241
-CEO_Vlad/2107553198609146343
-rubenhassid/2042558212990292013
-boringmarketer/1925334915383538077
-Mohiniuni/2107772729575587954
-irabukht/2107618232945504605
-irabukht/2107618234816143528
-Graphed/2107818235731087773
-iamrichygold/2101757701642502550
-SEONAWAF/2106963591022743801
-himanshubuildss/2108540618553356666
-RiverKhan/2108603405103235330
-ihteshamali/2108920149801586769
-dsqjaffa/2108643981600911622
-thegreatest_sv/2108529912537661559
-0xCodez/2077758938938818714
-twoclipping/2103835273813496100
-OBAxbt/2108835430925738045
-sergiorocaa/2099871638548361280
-Bharambe2Kiran/2109121949855265155
-beamnxw/2108616740846420354
-Marlenuii/2109323814672724093
-beamnxw/2109304262597443724
-MikuBTC/2109330548267040809
-0xKiyoro/2109242059492081860
-N01ennn/2109230605908975962
-0xbobaaa/2109207788803027407
-grokkedd/2109334638967607404
-undefinedKi/2109296112968384824
-0xCodila/2107119130239185232
-flxrnc/2105311836190978392
-renproton/2109329800565506227
-0xMovez/2109334686488990093
-0xForce_/2109081839579120089
-VibeEverything/2109293698836205573
-francescoinweb3/2109379528787374560
-alex_prompter/2109218702264815684
-IamKhanPhD/2109260787546038726
-thegreatest_sv/2109253932979732719
-0xCarnagee/2109399139280716281
-elessarqq/2109341740163375456
-_heyfaisal/2109114430361575639
-0xbobaaa/2109318248277651853
-AndyL5cc/2109133876702703805
-Voxyz_ai/2109358372873183564
-0xWast3/2109343932681171125
-rossaxbt/2109323251004428562
-PrajwalTomar_/2109267986527969468
-KanaWorks_AI/2109458972646502432
-0xCarnagee/2109317788678439148
-deanwperkins/2109357283327037930
-0xCodez/2104978308421091737
-0xCodez/2104556525805089151
-0xCodez/2104257855142474136
-0xMovez/2104216919033192746
-0xMovez/2105768550711558491
-claudeai/2102435511222890900
-Talsiach/2105631873783210125
-rexan_wong/2103707054108299437
-MengTo/2103491024287084744
-AndrewOnXYZ/2103865359988125706
-neropursue/2105535981135007824
-bearlyai/2105784343960629738
-cambreedesigns/2104999693113766152
-konstantinsaifo/2108953956168687770
-konstantinsaifo/2106859262836437326
-jasonugc/2104266492204417448
-benabmathew/2109340846294474770
-minchoi/2104227722377757031
-VullnetAdemaj/2104169192438296889
-chhddavid/2102666619029999989
-leomeethewoo/2103601512786333928
-Avenoxai/2102500841097756743
-Artedeingenio/2105749426115371028
-ridark_eth/2106479297989136561
-humzaakhalid/2106327155873636836
-humzaakhalid/2107399283121209708
-seeconvm/2106406061066342876
-berlified/2106642408121479558
-berlified/2107021117064204427
-warraich_Ai2/2106927945587794301
-Nexoxh/2104950064837751031
-Nexoxh/2104858904576545234
-dsqjaffa/2107643263180042264
-0xMfox/2108301207710191660
-gregisenberg/2106184476300574911
-gregisenberg/2108188646973313195
-moritzkremb/2108283825440575951
-VibeMarketer_/2108257927211426298
-shannholmberg/2108327831243788456
-earthtojake/2106120308037947785
-observie/2106301475261423651
-DeRonin_/2105975830799102390
-seejayhess/2106054961469567084
-MaziyarPanahi/2106368674500358351
-himanshubuildss/2106449317406056903
-iamtanzil_/2108066324907962575
-allen_lattimer/2108222137412854244
-Bencera/2106256893266260327
-mehdi_made/2106715509450493993
-AmirMushich/2106716622761189875
-adskFusion/2106613306215510024
-MecAgent/2107093936363717046
-LinusEkenstam/2106356911859814862
-KateCaballero_/2105674407234720148
-carlosbannon/2106139082116174197
-Minsi_AI/2106391117155770427
-AmitSha77280075/2106998674433990936
-ishverduzco/2107998499891728837
-Thecreativemena/2108151856425730353
-wheresryan22/2106476722463900105
-MustafyOf/2106189075350700333
-""".split()
 
 URL_PATTERN = re.compile(
     r'https?://(?:www\.)?(?:twitter\.com|x\.com)/([^/\s]+)/status/(\d+)'
@@ -168,15 +37,18 @@ IMAGE_EXTS = ('.jpg', '.jpeg', '.png', '.webp', '.gif')
 HEADERS = {"User-Agent": "Mozilla/5.0"}
 
 
-def extract_x_urls(filepath):
-    """Unique X/Twitter status URLs: LINKS_127 first, then any found in `filepath`."""
+def extract_x_urls(inputs):
+    """Unique X/Twitter status URLs found in `inputs`.
+
+    Each input is either a link itself or a path to a text file containing links.
+    """
     seen = {}
-    for item in LINKS_127:
-        user, tweet_id = item.split("/")
-        seen.setdefault(tweet_id, f"https://x.com/{user}/status/{tweet_id}")
-    if filepath and os.path.isfile(filepath):
-        with open(filepath, 'r', encoding='utf-8') as f:
-            content = f.read()
+    for item in inputs or []:
+        if os.path.isfile(item):
+            with open(item, 'r', encoding='utf-8') as f:
+                content = f.read()
+        else:
+            content = item
         for m in URL_PATTERN.finditer(content):
             user, tweet_id = m.group(1), m.group(2)
             seen.setdefault(tweet_id, f"https://x.com/{user}/status/{tweet_id}")
@@ -348,9 +220,9 @@ def build_note(url, data):
     return note
 
 
-def process_links(input_file):
+def process_links(inputs):
     os.makedirs(OUTPUT_DIR, exist_ok=True)
-    urls = extract_x_urls(input_file)
+    urls = extract_x_urls(inputs)
     print(f"Found {len(urls)} unique X links.")
 
     failed = []
@@ -394,5 +266,7 @@ def process_links(input_file):
 
 
 if __name__ == "__main__":
-    path = sys.argv[1] if len(sys.argv) > 1 else INPUT_FILE
-    process_links(path)
+    if len(sys.argv) < 2:
+        print("Usage: python extractor.py LINK_OR_FILE [LINK_OR_FILE ...]")
+        sys.exit(2)
+    process_links(sys.argv[1:])

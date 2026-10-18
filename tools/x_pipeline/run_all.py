@@ -1,5 +1,5 @@
 """
-Run the whole pipeline for the 127 links, in order:
+Run the whole pipeline, in order:
 
     1. extractor.py        -> one note per link in output_notes/ (text, captions, quoted post, media URLs)
     2. fetch_articles.py   -> full X Article text + cover/inline images appended to the notes
@@ -9,7 +9,8 @@ Run the whole pipeline for the 127 links, in order:
 Every step skips work that is already done, so this is safe to stop and re-run.
 
 Usage:
-    python run_all.py                  # everything
+    python run_all.py LINK_OR_FILE ...  # everything, for these links / link files
+    python run_all.py --skip extract   # steps 2-4 only, on notes already in output_notes/
     python run_all.py --skip transcribe
     python run_all.py --only articles
     python run_all.py --limit 3        # try 3 notes per step first (steps 2-4)
@@ -32,6 +33,7 @@ STEPS = [
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("inputs", nargs="*", help="X links and/or text files containing X links (step 1 input)")
     ap.add_argument("--skip", action="append", default=[], choices=[s for s, _ in STEPS])
     ap.add_argument("--only", action="append", default=[], choices=[s for s, _ in STEPS])
     ap.add_argument("--limit", type=int, default=None, help="max notes per step (not used by extract)")
@@ -43,7 +45,12 @@ def main() -> None:
     for name, script in STEPS:
         if name in args.skip or (args.only and name not in args.only):
             continue
+        if name == "extract" and not args.inputs:
+            print("\n===== extract: skipped (no links given; pass links or a file of links) =====")
+            continue
         cmd = [sys.executable, str(ROOT / script)]
+        if name == "extract":
+            cmd += args.inputs
         if args.limit and name != "extract":
             cmd += ["--limit", str(args.limit)]
         if name == "transcribe" and args.model:

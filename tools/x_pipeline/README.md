@@ -16,6 +16,6 @@ Tests (no network): `python -B tests/test_x_link.py`
 
 Transcripts come from a local speech model, so names and numbers can be wrong.
 
-## The full 127-link batch
+## Many links
 
-`python run_all.py` runs the original four steps over the built-in link list (see the docstring there).
+`python run_all.py LINK_OR_FILE ...` runs the four original steps into `output_notes/`. Give it links, or text files containing links. There is no built-in link list.

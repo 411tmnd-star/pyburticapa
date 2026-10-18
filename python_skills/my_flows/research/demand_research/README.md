@@ -55,6 +55,8 @@ python3 -I ../verify_quotes.py claims.jsonl snapshots/
 
 Result (verified here): d1 passes, d2 passes despite a curly apostrophe and extra spaces in the snapshot, d3 fails (invented quote), d4 fails (no `retrieved_at`). `2/4 claims pass`, exit 1. A pass proves the words exist in your capture; whether they support the claim stays your call.
 
+Add `--accepted accepted.md` to also write the claims that pass **and** carry `"review_status": "accepted"` in `claims.jsonl`, in the same format `verify.py` writes. That file feeds [`confirmed/demand_report`](../../../confirmed/demand_report/README.md) and [`confirmed/evidence_judge`](../../../confirmed/evidence_judge/README.md).
+
 ## Traps
 
 | Trap | Counter |

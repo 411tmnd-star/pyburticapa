@@ -1,0 +1,3 @@
+- One renter says they would honestly pay a small monthly fee for something that splits rent [d1].
+- Most renters in the city would pay 20 pounds a month for it [d1].
+- The same thread says a shared spreadsheet is always out of date [d2].

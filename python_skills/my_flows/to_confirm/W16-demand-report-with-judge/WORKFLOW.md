@@ -1,6 +1,6 @@
 # W16 · Demand report with judge
 
-**Type** A: course + our workflow · **Goals** research and 411 · **Status** to confirm
+**Type** A: course + our workflow · **Goals** research and 411 · **Status** confirmed 2026-10-18 (see ../REGISTRY.csv)
 
 From accepted claims to a demand report where every sentence can be checked: the course's Research Report Agent drafts from accepted rows only, Document QA's citation receipt and Report Judge check it.
 
@@ -14,7 +14,7 @@ From accepted claims to a demand report where every sentence can be checked: the
 ## Run (target)
 
 ```bash
-python report.py question.md accepted.md --out report.md
+python -I -X utf8 python_skills/confirmed/demand_report/report.py question.md accepted.md [--draft draft.md] --out report.md
 ```
 
 ## Pass

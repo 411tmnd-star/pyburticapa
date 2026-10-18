@@ -13,7 +13,7 @@ Make leads.py's model steps safe and cheap: every model reply is checked against
 ## Run (target)
 
 ```bash
-python3 -I leads.py --dry-run --out leads_out && python3 -I test_prompts.py
+python -I -X utf8 leads.py --dry-run --out leads_out && python -I -X utf8 test_prompts.py   # test_prompts.py is written by this workflow; it does not exist yet
 ```
 
 ## Pass

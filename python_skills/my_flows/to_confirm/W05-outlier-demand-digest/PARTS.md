@@ -18,3 +18,7 @@ Paths are relative to `python_skills/`. Course paths point at the untouched cour
 ## Outside
 
 - none
+
+## Port note
+
+The Python in this workflow is a port. Its course source is `P-feedback-theme-board` (JavaScript/TypeScript), left untouched under `course/`. The port keeps the theme board's behaviour and fixtures' intent, in stdlib Python tested with unittest.

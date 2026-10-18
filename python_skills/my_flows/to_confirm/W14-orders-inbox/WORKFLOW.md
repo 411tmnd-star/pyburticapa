@@ -14,7 +14,7 @@ Receive Better Style payment webhooks once and safely: verify the signature, sto
 ## Run (target)
 
 ```bash
-python -m pytest orders_inbox/tests
+python -I -X utf8 -m unittest discover -s orders_inbox/tests   # stdlib unittest; the repo does not use pytest
 ```
 
 ## Pass

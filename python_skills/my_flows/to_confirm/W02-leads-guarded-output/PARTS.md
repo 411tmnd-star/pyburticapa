@@ -19,3 +19,7 @@ Paths are relative to `python_skills/`. Course paths point at the untouched cour
 ## Outside
 
 - none
+
+## Port note
+
+The Python in this workflow is a port. Its course source is `P-json-schema-output-guard` (TypeScript), left untouched under `course/`. The port keeps the output guard's behaviour and fixtures' intent, in stdlib Python tested with unittest.

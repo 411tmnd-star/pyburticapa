@@ -16,3 +16,7 @@ Paths are relative to `python_skills/`. Course paths point at the untouched cour
 
 - https://github.com/supabase/supabase-py (MIT)
 - Paystack webhooks (the storefront-payment-check chat skill holds the checks)
+
+## Port note
+
+The Python in this workflow is a port. Its course source is `P-signed-webhook-inbox` (Go), left untouched under `course/`. The port keeps the signed webhook inbox's behaviour and fixtures' intent, in stdlib Python tested with unittest.

@@ -17,7 +17,7 @@ Verified in chat: verify.py 7/13 (exit 1, as designed), verify_quotes.py 2/4, le
 ## First session on the laptop
 
 1. `git pull`, then `python -m unittest discover -s tests` from the repo root. Everything must be green.
-2. Check `python --version`, `ffmpeg -version`, and that `bpy` 5.2.2 installs in a Python 3.13 environment (only needed for W09, W10).
+2. Check `python --version`, `ffmpeg -version`. The laptop has Python 3.11 and 3.14 (no 3.13), so `bpy` 5.2.2 cannot install yet: W09, W10 and W13 are deferred (blocked: needs bpy/3.13).
 3. Small fixes that need the laptop:
    - `ui_ux/rebuilds/liquid-glass/SOURCE.md`: copy the X post link and creator handle from the 12 Oct session.
    - `ui_ux/references/DESIGN_REPOS.md`: record the licence and commit of the three repos in `tool harness\prompts\` (`git -C <repo> log -1 --format="%H %cI"` and the LICENSE file).

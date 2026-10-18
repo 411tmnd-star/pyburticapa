@@ -14,7 +14,7 @@ A small, tested geometry module the 3D work shares: vectors, rotations, camera i
 ## Run (target)
 
 ```bash
-python -m pytest geometry/tests
+python -I -X utf8 -m unittest discover -s geometry/tests   # stdlib unittest; the repo does not use pytest
 ```
 
 ## Pass

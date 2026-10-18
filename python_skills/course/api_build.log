@@ -1,0 +1,55 @@
+== node site/fetch-translation-coverage.js
+translation-coverage.json: zh 528, hi 528, es 528, ar 528, fr 528, pt 528, pt-BR 528, tr 528, vi 528, fa 528
+== node site/build.js
+📖 Reading source files...
+   wrote build-meta.js (ref: main)
+   wrote langs.js (12 languages)
+   wrote figure-manifest.js (582 routed figures)
+🔍 Parsing ROADMAP.md...
+🔍 Parsing README.md...
+Parsing focused learning paths...
+🔍 Parsing glossary/terms.md...
+🔍 Discovering outputs + Phase 14 missions...
+🎓 Parsing certification programs...
+   wrote certification-data.js (5 tracks)
+📚 Extracting lesson summaries + keywords from docs/en.md...
+🔎 Generating lesson and certification SEO manifests...
+   wrote lesson-seo.json (590 lessons)
+   wrote certification-seo.json (5 tracks)
+   refreshed no-JavaScript catalog discovery links
+Writing glossary term pages and phase hubs...
+   wrote 237 glossary term pages (13 short entries stay on /glossary) and 20 phase hubs
+
+📊 Stats:
+   Phases: 20
+   Lessons: 523
+   Complete: 523
+   Summaries: 523, Keywords: 457
+   Glossary terms: 250
+   Artifacts: 507
+   Curriculum edges: 21
+   Focused learning paths: 12
+   Certification tracks: 5
+   Certification lessons: 67
+   Practice assessments: 12
+
+✅ Generated C:\Users\USER\Desktop\Python_Toolkit\imports\ai_engineering\site\data.js
+   rendered sponsors.html from SPONSORS.md
+   wrote sitemap.xml (686 URLs)
+   wrote sitemap-index.xml (10 translated lesson sitemaps)
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+   wrote llms.txt
+   wrote og-cards.json (351 social cards)
+== node site/build-projects.js --strict
+projects-data.js: 76 ready, 26 planned
+== node site/build-agents.js
+Built 666 agent resources and 12 Markdown pages.
+== node site/build-manuals.js
+built 2 manual page(s); 2 listed on manuals.html
+== node site/clean-urls.js
+Published clean URLs for 20 pages.
+== node site/version-assets.js
+Versioned 30 assets across 21 HTML pages.
+BUILD_OK
+BUILD_EXIT=0

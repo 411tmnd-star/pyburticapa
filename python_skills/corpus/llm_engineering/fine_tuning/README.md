@@ -1,9 +1,9 @@
 # Fine-tuning
 
-[Corpus](../../README.md) / [llm engineering](../README.md)  ·  1 entries  ·  discovery 1
+[Corpus](../../README.md) / [llm_engineering](../README.md)  ·  Course: [ai_engineering/phases/11-llm-engineering/08-fine-tuning-lora](../../../course/ai_engineering/phases/11-llm-engineering/08-fine-tuning-lora)
 
-**Course:** [ai_engineering/phases/11-llm-engineering/08-fine-tuning-lora](../../../course/ai_engineering/phases/11-llm-engineering/08-fine-tuning-lora)
+Each folder holds the Python of one lesson or project. Open it, read the script, run it.
 
-| ID | Entry | Python | Needs | Status | Instructions |
-|---|---|---|---|---|---|
-| L11-08 | [Fine-Tuning with LoRA & QLoRA](../../../course/ai_engineering/phases/11-llm-engineering/08-fine-tuning-lora "Full fine-tuning a 7B model requires 56GB of VRAM. You don't have that. Neither do most companies. LoRA lets you fine-tune the same model in") | 1 file | torch | discovery | [prompt-lora-advisor.md](../../../llm_instructions/prompts/phases/11-llm-engineering/08-fine-tuning-lora/outputs/prompt-lora-advisor.md), [skill-fine-tuning-guide.md](../../../llm_instructions/skills/phases/11-llm-engineering/08-fine-tuning-lora/outputs/skill-fine-tuning-guide.md) |
+| Folder | What the script does | Run |
+|---|---|---|
+| [08-fine-tuning-lora/](08-fine-tuning-lora/README.md) |  | `python lora.py` |

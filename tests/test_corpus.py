@@ -37,6 +37,16 @@ class Corpus(unittest.TestCase):
             on_disk += [os.path.relpath(os.path.join(d, f), B.COURSE).replace(os.sep, "/") for f in files if f.endswith(".py")]
         self.assertEqual(sorted(x.replace(os.sep, "/") for x in linked), sorted(on_disk))
 
+    def test_every_unit_has_its_pages_and_exact_copies(self):
+        files = B.outputs(B.merge(B.build_entries(), B.load_hand_columns()))
+        units = {os.path.dirname(p) for p in files if p.endswith("HOW_IT_WORKS.md")}
+        self.assertGreater(len(units), 600)
+        for u in units:
+            for page in ("README.md", "LINKS.md"):
+                self.assertIn(os.path.join(u, page), files, u)
+        copies = [p for p, c in files.items() if isinstance(c, bytes) and c]
+        self.assertGreater(len(copies), 1000)
+
     def test_hand_columns_survive_a_rebuild(self):
         src = self.entries[0]["source"]
         merged = B.merge(B.build_entries(), {src: {"status": "tested", "evidence": "ran it", "notes": "n"}})

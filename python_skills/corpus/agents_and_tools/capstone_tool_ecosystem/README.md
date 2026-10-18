@@ -1,9 +1,9 @@
-# Capstone: tool ecosystem
+# tool ecosystem
 
-[Corpus](../../README.md) / [agents and tools](../README.md)  ·  1 entries  ·  discovery 1
+[Corpus](../../README.md) / [agents_and_tools](../README.md)  ·  Course: [ai_engineering/phases/13-tools-and-protocols/23-capstone-tool-ecosystem](../../../course/ai_engineering/phases/13-tools-and-protocols/23-capstone-tool-ecosystem)
 
-**Course:** [ai_engineering/phases/13-tools-and-protocols/23-capstone-tool-ecosystem](../../../course/ai_engineering/phases/13-tools-and-protocols/23-capstone-tool-ecosystem)
+Each folder holds the Python of one lesson or project. Open it, read the script, run it.
 
-| ID | Entry | Python | Needs | Status | Instructions |
-|---|---|---|---|---|---|
-| L13-23 | [Capstone: Stateless Tool Ecosystem](../../../course/ai_engineering/phases/13-tools-and-protocols/23-capstone-tool-ecosystem "A production agent system is a set of boundaries, not a pile of features. This capstone separates a readable in-process simulation from the ") | 2 files | standard library only | discovery | [skill-ecosystem-blueprint.md](../../../llm_instructions/skills/phases/13-tools-and-protocols/23-capstone-tool-ecosystem/outputs/skill-ecosystem-blueprint.md) |
+| Folder | What the script does | Run |
+|---|---|---|
+| [23-capstone-tool-ecosystem/](23-capstone-tool-ecosystem/README.md) | Phase 13 Capstone - stateless in-process research-and-report simulation | `python code/main.py` |

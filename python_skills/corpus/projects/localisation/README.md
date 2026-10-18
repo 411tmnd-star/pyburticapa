@@ -1,10 +1,13 @@
 # Localisation
 
-[Corpus](../../README.md) / [projects](../README.md)  ·  2 entries  ·  discovery 2
+[Corpus](../../README.md) / [projects](../README.md)  ·  Course: [ai_engineering/projects](../../../course/ai_engineering/projects)
 
-**Course:** [ai_engineering/projects](../../../course/ai_engineering/projects)
+Each folder holds the Python of one lesson or project. Open it, read the script, run it.
 
-| ID | Entry | Python | Needs | Status |
-|---|---|---|---|---|
-| P-subtitle-localization-desk | [Subtitle Localization Desk](../../../course/ai_engineering/projects/subtitle-localization-desk "Translate captions while keeping the timing and terminology visible.") | 10 files | standard library only | discovery |
-| P-ui-string-localization-workbench | [UI String Localization Workbench](../../../course/ai_engineering/projects/ui-string-localization-workbench "Review translated interface text without breaking its placeholders.") | none (JavaScript, TypeScript only) |  | discovery |
+| Folder | What the script does | Run |
+|---|---|---|
+| [subtitle-localization-desk/](subtitle-localization-desk/README.md) |  | `python main.py` |
+
+## Also here (links to the course)
+
+- [UI String Localization Workbench](../../../course/ai_engineering/projects/ui-string-localization-workbench) (JavaScript, TypeScript only)

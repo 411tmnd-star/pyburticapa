@@ -1,6 +1,19 @@
 # Learning corpus
 
-The course *AI Engineering from Scratch* (MIT licence, by Rohit Ghumare) arranged by subject, with Python as the main source. Open a category folder, then a subfolder: each one lists its lessons or projects and links to the original course. The course itself is kept unchanged in [`../course/ai_engineering/`](../course/ai_engineering/).
+The course *AI Engineering from Scratch* (MIT licence, by Rohit Ghumare) arranged by subject, with Python as the main source. Open a category folder, then a subfolder, then a lesson or project folder: the Python is right there. The course itself is kept unchanged in [`../course/ai_engineering/`](../course/ai_engineering/).
+
+## Inside a lesson or project folder
+
+| File | What it is |
+|---|---|
+| `main.py` (or the lesson's own file names) | The code: an exact copy from the course, checked by CI to stay identical |
+| `README.md` | The front door: what it is, the run command, which file to open for what |
+| `HOW_IT_WORKS.md` | The script's own explanation and a map of its functions and classes, with line links |
+| `THEORY.md` | The lesson text, copied from the course, with its pictures and links pointing back to the course |
+| `LINKS.md` | Quiz, diagrams, other-language versions, skill and prompt files, the original folder |
+| `WORKFLOW.md` | Only once adapted: how you use it in your own workflow (from the `notes` column of `CATALOG.csv`) |
+
+Run commands work from inside the folder. Code that reads or writes files next to its code (for example `outputs/`) keeps the course's own layout, so it is run as `python code/main.py`. Projects show the course's own command for the finished solution.
 
 **726 entries** (523 lessons, 76 projects, 67 certification lessons, 60 reference and tooling items) · 1286 Python files · progress: discovery 726
 

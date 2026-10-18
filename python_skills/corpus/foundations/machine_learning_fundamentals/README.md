@@ -1,26 +1,26 @@
 # Machine learning fundamentals
 
-[Corpus](../../README.md) / [foundations](../README.md)  ·  18 entries  ·  discovery 18
+[Corpus](../../README.md) / [foundations](../README.md)  ·  Course: [ai_engineering/phases/02-ml-fundamentals](../../../course/ai_engineering/phases/02-ml-fundamentals)
 
-**Course:** [ai_engineering/phases/02-ml-fundamentals](../../../course/ai_engineering/phases/02-ml-fundamentals)
+Each folder holds the Python of one lesson or project. Open it, read the script, run it.
 
-| ID | Entry | Python | Needs | Status | Instructions |
-|---|---|---|---|---|---|
-| L02-01 | [What Is Machine Learning](../../../course/ai_engineering/phases/02-ml-fundamentals/01-what-is-machine-learning "Machine learning is teaching computers to find patterns in data instead of writing rules by hand.") | 1 file | numpy | discovery | [prompt-ml-problem-framer.md](../../../llm_instructions/prompts/phases/02-ml-fundamentals/01-what-is-machine-learning/outputs/prompt-ml-problem-framer.md) |
-| L02-02 | [Linear Regression](../../../course/ai_engineering/phases/02-ml-fundamentals/02-linear-regression "Linear regression draws the best straight line through your data. It is the 'hello world' of machine learning.") | 1 file + Julia | numpy, sklearn | discovery | [skill-regression.md](../../../llm_instructions/skills/phases/02-ml-fundamentals/02-linear-regression/outputs/skill-regression.md) |
-| L02-03 | [Logistic Regression](../../../course/ai_engineering/phases/02-ml-fundamentals/03-logistic-regression "Logistic regression bends a straight line into an S-curve to answer yes-or-no questions with probabilities.") | 1 file + Julia | numpy, sklearn | discovery | [skill-classification-baseline.md](../../../llm_instructions/skills/phases/02-ml-fundamentals/03-logistic-regression/outputs/skill-classification-baseline.md) |
-| L02-04 | [Decision Trees and Random Forests](../../../course/ai_engineering/phases/02-ml-fundamentals/04-decision-trees "A decision tree is just a flowchart. But a forest of them is one of the most powerful tools in ML.") | 1 file | standard library only | discovery | [prompt-tree-interpreter.md](../../../llm_instructions/prompts/phases/02-ml-fundamentals/04-decision-trees/outputs/prompt-tree-interpreter.md) |
-| L02-05 | [Support Vector Machines](../../../course/ai_engineering/phases/02-ml-fundamentals/05-support-vector-machines "Find the widest street between two classes. That is the entire idea.") | 1 file + Julia | standard library only | discovery | [skill-svm-kernel-chooser.md](../../../llm_instructions/skills/phases/02-ml-fundamentals/05-support-vector-machines/outputs/skill-svm-kernel-chooser.md) |
-| L02-06 | [K-Nearest Neighbors and Distances](../../../course/ai_engineering/phases/02-ml-fundamentals/06-knn-and-distances "Store everything. Predict by looking at your neighbors. The simplest algorithm that actually works.") | 1 file | standard library only | discovery | [prompt-distance-metric-advisor.md](../../../llm_instructions/prompts/phases/02-ml-fundamentals/06-knn-and-distances/outputs/prompt-distance-metric-advisor.md) |
-| L02-07 | [Unsupervised Learning](../../../course/ai_engineering/phases/02-ml-fundamentals/07-unsupervised-learning "No labels, no teacher. The algorithm finds structure on its own.") | 1 file | standard library only | discovery | [skill-clustering-guide.md](../../../llm_instructions/skills/phases/02-ml-fundamentals/07-unsupervised-learning/outputs/skill-clustering-guide.md) |
-| L02-08 | [Feature Engineering & Selection](../../../course/ai_engineering/phases/02-ml-fundamentals/08-feature-engineering "A good feature is worth a thousand data points.") | 1 file | standard library only | discovery | [prompt-feature-engineer.md](../../../llm_instructions/prompts/phases/02-ml-fundamentals/08-feature-engineering/outputs/prompt-feature-engineer.md) |
-| L02-09 | [Model Evaluation](../../../course/ai_engineering/phases/02-ml-fundamentals/09-model-evaluation "A model is only as good as the way you measure it.") | 1 file + Julia | standard library only | discovery | [skill-evaluation.md](../../../llm_instructions/skills/phases/02-ml-fundamentals/09-model-evaluation/outputs/skill-evaluation.md) |
-| L02-10 | [Bias-Variance Tradeoff](../../../course/ai_engineering/phases/02-ml-fundamentals/10-bias-variance "Every model error comes from one of three sources: bias, variance, or noise. You can only control the first two.") | 1 file | numpy | discovery | [prompt-model-diagnostics.md](../../../llm_instructions/prompts/phases/02-ml-fundamentals/10-bias-variance/outputs/prompt-model-diagnostics.md) |
-| L02-11 | [Ensemble Methods](../../../course/ai_engineering/phases/02-ml-fundamentals/11-ensemble-methods "A group of weak learners, combined correctly, becomes a strong learner. This is not a metaphor. It is a theorem.") | 1 file | numpy, sklearn | discovery | [prompt-ensemble-selector.md](../../../llm_instructions/prompts/phases/02-ml-fundamentals/11-ensemble-methods/outputs/prompt-ensemble-selector.md), [skill-ensemble-builder.md](../../../llm_instructions/skills/phases/02-ml-fundamentals/11-ensemble-methods/outputs/skill-ensemble-builder.md) |
-| L02-12 | [Hyperparameter Tuning](../../../course/ai_engineering/phases/02-ml-fundamentals/12-hyperparameter-tuning "Hyperparameters are the knobs you turn before training starts. Turning them well is the difference between a mediocre model and a great one.") | 1 file | numpy, optuna | discovery | [prompt-tuning-strategy.md](../../../llm_instructions/prompts/phases/02-ml-fundamentals/12-hyperparameter-tuning/outputs/prompt-tuning-strategy.md) |
-| L02-13 | [ML Pipelines](../../../course/ai_engineering/phases/02-ml-fundamentals/13-ml-pipelines "A model is not a product. A pipeline is. The pipeline is everything from raw data to deployed prediction, and every step must be reproducibl") | 1 file | numpy, pandas, sklearn | discovery | [prompt-ml-pipeline.md](../../../llm_instructions/prompts/phases/02-ml-fundamentals/13-ml-pipelines/outputs/prompt-ml-pipeline.md) |
-| L02-14 | [Naive Bayes](../../../course/ai_engineering/phases/02-ml-fundamentals/14-naive-bayes "The 'naive' assumption is wrong, and it works anyway. That's the beauty of it.") | 1 file | numpy | discovery | [skill-naive-bayes-chooser.md](../../../llm_instructions/skills/phases/02-ml-fundamentals/14-naive-bayes/outputs/skill-naive-bayes-chooser.md) |
-| L02-15 | [Time Series Fundamentals](../../../course/ai_engineering/phases/02-ml-fundamentals/15-time-series "Past performance does predict future results -- if you check for stationarity first.") | 1 file | numpy | discovery | [prompt-time-series-advisor.md](../../../llm_instructions/prompts/phases/02-ml-fundamentals/15-time-series/outputs/prompt-time-series-advisor.md) |
-| L02-16 | [Anomaly Detection](../../../course/ai_engineering/phases/02-ml-fundamentals/16-anomaly-detection "Normal is easy to define. Abnormal is whatever doesn't fit.") | 1 file | numpy | discovery | [skill-anomaly-detector.md](../../../llm_instructions/skills/phases/02-ml-fundamentals/16-anomaly-detection/outputs/skill-anomaly-detector.md) |
-| L02-17 | [Handling Imbalanced Data](../../../course/ai_engineering/phases/02-ml-fundamentals/17-imbalanced-data "When 99% of your data is 'normal,' accuracy is a lie.") | 1 file | numpy | discovery | [skill-imbalanced-data.md](../../../llm_instructions/skills/phases/02-ml-fundamentals/17-imbalanced-data/outputs/skill-imbalanced-data.md) |
-| L02-18 | [Feature Selection](../../../course/ai_engineering/phases/02-ml-fundamentals/18-feature-selection "More features is not better. The right features is better.") | 1 file | numpy | discovery | [skill-feature-selector.md](../../../llm_instructions/skills/phases/02-ml-fundamentals/18-feature-selection/outputs/skill-feature-selector.md) |
+| Folder | What the script does | Run |
+|---|---|---|
+| [01-what-is-machine-learning/](01-what-is-machine-learning/README.md) |  | `python ml_intro.py` |
+| [02-linear-regression/](02-linear-regression/README.md) |  | `python linear_regression.py` |
+| [03-logistic-regression/](03-logistic-regression/README.md) |  | `python logistic_regression.py` |
+| [04-decision-trees/](04-decision-trees/README.md) |  | `python trees.py` |
+| [05-support-vector-machines/](05-support-vector-machines/README.md) |  | `python svm.py` |
+| [06-knn-and-distances/](06-knn-and-distances/README.md) |  | `python knn.py` |
+| [07-unsupervised-learning/](07-unsupervised-learning/README.md) |  | `python clustering.py` |
+| [08-feature-engineering/](08-feature-engineering/README.md) |  | `python features.py` |
+| [09-model-evaluation/](09-model-evaluation/README.md) |  | `python evaluation.py` |
+| [10-bias-variance/](10-bias-variance/README.md) |  | `python bias_variance.py` |
+| [11-ensemble-methods/](11-ensemble-methods/README.md) |  | `python ensembles.py` |
+| [12-hyperparameter-tuning/](12-hyperparameter-tuning/README.md) |  | `python tuning.py` |
+| [13-ml-pipelines/](13-ml-pipelines/README.md) |  | `python pipeline.py` |
+| [14-naive-bayes/](14-naive-bayes/README.md) |  | `python naive_bayes.py` |
+| [15-time-series/](15-time-series/README.md) |  | `python time_series.py` |
+| [16-anomaly-detection/](16-anomaly-detection/README.md) |  | `python anomaly_detection.py` |
+| [17-imbalanced-data/](17-imbalanced-data/README.md) |  | `python imbalanced.py` |
+| [18-feature-selection/](18-feature-selection/README.md) |  | `python feature_selection.py` |

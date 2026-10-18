@@ -1,0 +1,13 @@
+# Links: Capstone 17 — Personal AI Tutor (Adaptive, Multimodal, with Memory)
+
+- Quiz: [phases/19-capstone-projects/17-personal-ai-tutor/quiz.json](../../../../course/ai_engineering/phases/19-capstone-projects/17-personal-ai-tutor/quiz.json)
+- Diagram: [phases/19-capstone-projects/17-personal-ai-tutor/assets/tutor-loop.svg](../../../../course/ai_engineering/phases/19-capstone-projects/17-personal-ai-tutor/assets/tutor-loop.svg)
+- TypeScript version: [phases/19-capstone-projects/17-personal-ai-tutor/code/ts/src/curriculum.ts](../../../../course/ai_engineering/phases/19-capstone-projects/17-personal-ai-tutor/code/ts/src/curriculum.ts)
+- TypeScript version: [phases/19-capstone-projects/17-personal-ai-tutor/code/ts/src/index.ts](../../../../course/ai_engineering/phases/19-capstone-projects/17-personal-ai-tutor/code/ts/src/index.ts)
+- TypeScript version: [phases/19-capstone-projects/17-personal-ai-tutor/code/ts/src/mastery.ts](../../../../course/ai_engineering/phases/19-capstone-projects/17-personal-ai-tutor/code/ts/src/mastery.ts)
+- TypeScript version: [phases/19-capstone-projects/17-personal-ai-tutor/code/ts/src/repetition.ts](../../../../course/ai_engineering/phases/19-capstone-projects/17-personal-ai-tutor/code/ts/src/repetition.ts)
+- TypeScript version: [phases/19-capstone-projects/17-personal-ai-tutor/code/ts/src/server.ts](../../../../course/ai_engineering/phases/19-capstone-projects/17-personal-ai-tutor/code/ts/src/server.ts)
+- TypeScript version: [phases/19-capstone-projects/17-personal-ai-tutor/code/ts/src/types.ts](../../../../course/ai_engineering/phases/19-capstone-projects/17-personal-ai-tutor/code/ts/src/types.ts)
+- TypeScript version: [phases/19-capstone-projects/17-personal-ai-tutor/code/ts/tests/curriculum.test.ts](../../../../course/ai_engineering/phases/19-capstone-projects/17-personal-ai-tutor/code/ts/tests/curriculum.test.ts)
+- LLM skill: [skill-ai-tutor.md](../../../../llm_instructions/skills/phases/19-capstone-projects/17-personal-ai-tutor/outputs/skill-ai-tutor.md)
+- Original lesson folder: [phases/19-capstone-projects/17-personal-ai-tutor](../../../../course/ai_engineering/phases/19-capstone-projects/17-personal-ai-tutor)

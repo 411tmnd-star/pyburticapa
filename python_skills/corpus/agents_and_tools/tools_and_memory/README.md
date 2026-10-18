@@ -1,13 +1,13 @@
 # Tools and memory
 
-[Corpus](../../README.md) / [agents and tools](../README.md)  ·  5 entries  ·  discovery 5
+[Corpus](../../README.md) / [agents_and_tools](../README.md)  ·  Course: [ai_engineering/phases/14-agent-engineering](../../../course/ai_engineering/phases/14-agent-engineering)
 
-**Course:** [ai_engineering/phases/14-agent-engineering](../../../course/ai_engineering/phases/14-agent-engineering)
+Each folder holds the Python of one lesson or project. Open it, read the script, run it.
 
-| ID | Entry | Python | Needs | Status | Instructions |
-|---|---|---|---|---|---|
-| L14-06 | [Tool Use and Function Calling](../../../course/ai_engineering/phases/14-agent-engineering/06-tool-use-and-function-calling "Toolformer (Schick et al., 2023) started self-supervised tool annotation. Berkeley Function Calling Leaderboard V4 (Patil et al., 2025) sets") | 1 file + TypeScript | standard library only | discovery | [skill-tool-registry.md](../../../llm_instructions/skills/phases/14-agent-engineering/06-tool-use-and-function-calling/outputs/skill-tool-registry.md) |
-| L14-07 | [Agent Memory — Virtual Context and Memory Paging](../../../course/ai_engineering/phases/14-agent-engineering/07-memory-virtual-context-memgpt "Context windows are finite. Conversations, documents, and tool traces are not. The fix is OS virtual memory restated — main context is RAM, ") | 1 file | standard library only | discovery | [skill-virtual-memory.md](../../../llm_instructions/skills/phases/14-agent-engineering/07-memory-virtual-context-memgpt/outputs/skill-virtual-memory.md) |
-| L14-08 | [Memory Blocks and Sleep-Time Compute](../../../course/ai_engineering/phases/14-agent-engineering/08-memory-blocks-sleep-time-compute "Discrete functional memory blocks the model can edit directly, and a sleep-time agent that consolidates memory asynchronously while the prim") | 1 file | standard library only | discovery | [skill-memory-blocks.md](../../../llm_instructions/skills/phases/14-agent-engineering/08-memory-blocks-sleep-time-compute/outputs/skill-memory-blocks.md) |
-| L14-09 | [Hybrid Memory: Vector + Graph + KV](../../../course/ai_engineering/phases/14-agent-engineering/09-hybrid-memory-mem0 "Hybrid memory runs three stores in parallel — vector for semantic similarity, KV for fast fact lookup, graph for entity-relationship reasoni") | 1 file | standard library only | discovery | [skill-hybrid-memory.md](../../../llm_instructions/skills/phases/14-agent-engineering/09-hybrid-memory-mem0/outputs/skill-hybrid-memory.md) |
-| L14-10 | [Skill Libraries and Lifelong Learning (Voyager)](../../../course/ai_engineering/phases/14-agent-engineering/10-skill-libraries-voyager "Voyager (Wang et al., TMLR 2024) treats executable code as a skill. Skills are named, retrievable, composable, and refined by environment fe") | 1 file | standard library only | discovery | [skill-skill-library.md](../../../llm_instructions/skills/phases/14-agent-engineering/10-skill-libraries-voyager/outputs/skill-skill-library.md) |
+| Folder | What the script does | Run |
+|---|---|---|
+| [06-tool-use-and-function-calling/](06-tool-use-and-function-calling/README.md) | Stdlib tool registry with JSON Schema subset validation and parallel dispatch | `python main.py` |
+| [07-memory-virtual-context-memgpt/](07-memory-virtual-context-memgpt/README.md) | MemGPT-shaped two-tier memory in stdlib | `python main.py` |
+| [08-memory-blocks-sleep-time-compute/](08-memory-blocks-sleep-time-compute/README.md) | Letta-shaped memory blocks with a sleep-time consolidation agent | `python main.py` |
+| [09-hybrid-memory-mem0/](09-hybrid-memory-mem0/README.md) | Mem0-shaped hybrid memory: vector + KV + graph with fusion scoring | `python main.py` |
+| [10-skill-libraries-voyager/](10-skill-libraries-voyager/README.md) | Voyager-shaped skill library: register, retrieve, compose, refine | `python main.py` |

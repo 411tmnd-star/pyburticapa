@@ -1,0 +1,13 @@
+# Links: Capstone 09 — Code Migration Agent (Repo-Level Language / Runtime Upgrade)
+
+- Quiz: [phases/19-capstone-projects/09-code-migration-agent/quiz.json](../../../../course/ai_engineering/phases/19-capstone-projects/09-code-migration-agent/quiz.json)
+- Diagram: [phases/19-capstone-projects/09-code-migration-agent/assets/migration-pipeline.svg](../../../../course/ai_engineering/phases/19-capstone-projects/09-code-migration-agent/assets/migration-pipeline.svg)
+- TypeScript version: [phases/19-capstone-projects/09-code-migration-agent/code/ts/src/cost.ts](../../../../course/ai_engineering/phases/19-capstone-projects/09-code-migration-agent/code/ts/src/cost.ts)
+- TypeScript version: [phases/19-capstone-projects/09-code-migration-agent/code/ts/src/index.ts](../../../../course/ai_engineering/phases/19-capstone-projects/09-code-migration-agent/code/ts/src/index.ts)
+- TypeScript version: [phases/19-capstone-projects/09-code-migration-agent/code/ts/src/migrations.ts](../../../../course/ai_engineering/phases/19-capstone-projects/09-code-migration-agent/code/ts/src/migrations.ts)
+- TypeScript version: [phases/19-capstone-projects/09-code-migration-agent/code/ts/src/server.ts](../../../../course/ai_engineering/phases/19-capstone-projects/09-code-migration-agent/code/ts/src/server.ts)
+- TypeScript version: [phases/19-capstone-projects/09-code-migration-agent/code/ts/src/types.ts](../../../../course/ai_engineering/phases/19-capstone-projects/09-code-migration-agent/code/ts/src/types.ts)
+- TypeScript version: [phases/19-capstone-projects/09-code-migration-agent/code/ts/tests/cost.test.ts](../../../../course/ai_engineering/phases/19-capstone-projects/09-code-migration-agent/code/ts/tests/cost.test.ts)
+- TypeScript version: [phases/19-capstone-projects/09-code-migration-agent/code/ts/tests/migrations.test.ts](../../../../course/ai_engineering/phases/19-capstone-projects/09-code-migration-agent/code/ts/tests/migrations.test.ts)
+- LLM skill: [skill-migration-agent.md](../../../../llm_instructions/skills/phases/19-capstone-projects/09-code-migration-agent/outputs/skill-migration-agent.md)
+- Original lesson folder: [phases/19-capstone-projects/09-code-migration-agent](../../../../course/ai_engineering/phases/19-capstone-projects/09-code-migration-agent)

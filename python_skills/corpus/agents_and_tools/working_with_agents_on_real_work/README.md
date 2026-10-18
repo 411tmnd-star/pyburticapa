@@ -1,20 +1,20 @@
 # Working with agents on real work
 
-[Corpus](../../README.md) / [agents and tools](../README.md)  ·  12 entries  ·  discovery 12
+[Corpus](../../README.md) / [agents_and_tools](../README.md)  ·  Course: [ai_engineering/phases/14-agent-engineering](../../../course/ai_engineering/phases/14-agent-engineering)
 
-**Course:** [ai_engineering/phases/14-agent-engineering](../../../course/ai_engineering/phases/14-agent-engineering)
+Each folder holds the Python of one lesson or project. Open it, read the script, run it.
 
-| ID | Entry | Python | Needs | Status |
-|---|---|---|---|---|
-| L14-43 | [Frame the Task Before the Agent Writes Code](../../../course/ai_engineering/phases/14-agent-engineering/43-frame-the-task-before-code "A coding agent can implement a clear task quickly. It can also implement an unclear task quickly. The speed is the same. The cost is not.") | 2 files | standard library only | discovery |
-| L14-44 | [Build an Evidence-Backed Execution Plan](../../../course/ai_engineering/phases/14-agent-engineering/44-plan-from-evidence "A plan is not a prettier to-do list. It is a dependency graph in which every change has a reason and every terminal node has proof.") | 2 files | standard library only | discovery |
-| L14-45 | [Delegate Agent Work with Isolation and Merge Contracts](../../../course/ai_engineering/phases/14-agent-engineering/45-delegate-with-isolation "Parallel agents save wall time only when the work is independent. Otherwise they convert one clear task into a coordination problem with a f") | 2 files | standard library only | discovery |
-| L14-46 | [Turn Every Agent Correction into a System Improvement](../../../course/ai_engineering/phases/14-agent-engineering/46-turn-feedback-into-system "A correction that lives only in chat fixes one run. A correction promoted into a test, boundary, example, or tool improves every later run.") | 2 files | standard library only | discovery |
-| L14-47 | [Define the Outcome Before You Choose the Output](../../../course/ai_engineering/phases/14-agent-engineering/47-outcomes-before-output "Fast implementation increases the penalty for choosing the wrong problem. Shape the outcome first so speed points in the right direction.") | 2 files | standard library only | discovery |
-| L14-48 | [Discover the Workflow People Actually Perform](../../../course/ai_engineering/phases/14-agent-engineering/48-discover-the-real-workflow "Requirements are not waiting in a meeting to be collected. They are scattered across actions, workarounds, records, and disagreements.") | 2 files | standard library only | discovery |
-| L14-49 | [Map Assumptions and Resolve the Riskiest One First](../../../course/ai_engineering/phases/14-agent-engineering/49-map-assumptions-and-risk "A roadmap hides uncertainty inside features. An assumption map exposes what must be true before those features deserve to exist.") | 2 files | standard library only | discovery |
-| L14-50 | [Choose the Smallest Slice That Can Change the Decision](../../../course/ai_engineering/phases/14-agent-engineering/50-choose-the-smallest-testable-slice "Small is useful only when it proves something important. A tiny build that cannot change the next decision is merely incomplete.") | 2 files | standard library only | discovery |
-| L14-51 | [Write Specifications That Preserve Judgment](../../../course/ai_engineering/phases/14-agent-engineering/51-write-specifications-that-preserve-judgment "A useful specification fixes invariants and evidence while leaving reversible implementation choices open. It is a decision boundary, not a ") | 2 files | standard library only | discovery |
-| L14-52 | [Design Success Metrics Before the Result Exists](../../../course/ai_engineering/phases/14-agent-engineering/52-design-success-metrics "Measurement should answer a decision, not decorate a dashboard. Start with the goal, derive questions, then choose the smallest metrics that") | 2 files | standard library only | discovery |
-| L14-53 | [Choose Prototype, Pilot, or Production Deliberately](../../../course/ai_engineering/phases/14-agent-engineering/53-prototype-pilot-or-production "These are different learning environments, not levels of polish. Choose the stage that answers the current unknown with the least unnecessar") | 2 files | standard library only | discovery |
-| L14-54 | [Build a Feedback Ratchet with Ownership and Retirement](../../../course/ai_engineering/phases/14-agent-engineering/54-build-the-feedback-ratchet "Shipping closes one build loop and opens the learning loop. Evidence must change the system or it becomes telemetry nobody owns.") | 2 files | standard library only | discovery |
+| Folder | What the script does | Run |
+|---|---|---|
+| [43-frame-the-task-before-code/](43-frame-the-task-before-code/README.md) |  | `python code/main.py` |
+| [44-plan-from-evidence/](44-plan-from-evidence/README.md) |  | `python code/main.py` |
+| [45-delegate-with-isolation/](45-delegate-with-isolation/README.md) |  | `python code/main.py` |
+| [46-turn-feedback-into-system/](46-turn-feedback-into-system/README.md) |  | `python code/main.py` |
+| [47-outcomes-before-output/](47-outcomes-before-output/README.md) |  | `python code/main.py` |
+| [48-discover-the-real-workflow/](48-discover-the-real-workflow/README.md) |  | `python code/main.py` |
+| [49-map-assumptions-and-risk/](49-map-assumptions-and-risk/README.md) |  | `python code/main.py` |
+| [50-choose-the-smallest-testable-slice/](50-choose-the-smallest-testable-slice/README.md) |  | `python code/main.py` |
+| [51-write-specifications-that-preserve-judgment/](51-write-specifications-that-preserve-judgment/README.md) |  | `python code/main.py` |
+| [52-design-success-metrics/](52-design-success-metrics/README.md) |  | `python code/main.py` |
+| [53-prototype-pilot-or-production/](53-prototype-pilot-or-production/README.md) |  | `python code/main.py` |
+| [54-build-the-feedback-ratchet/](54-build-the-feedback-ratchet/README.md) |  | `python code/main.py` |

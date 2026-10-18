@@ -260,8 +260,12 @@ def lesson_num(name):
     return int(m.group(1)) if m else None
 
 
+LLM_FILES = []
+
+
 def build_entries():
     llm = llm_index()
+    LLM_FILES[:] = llm
 
     def llm_for(src):
         prefix = src.rstrip("/") + "/"
@@ -505,8 +509,18 @@ def readme(entries):
     std = sum(1 for e in entries if e["needs"] == "standard library only")
     L = ["# Learning corpus", "",
          "The course *AI Engineering from Scratch* (MIT licence, by Rohit Ghumare) arranged by subject, with Python as the main source. "
-         "Open a category folder, then a subfolder: each one lists its lessons or projects and links to the original course. "
+         "Open a category folder, then a subfolder, then a lesson or project folder: the Python is right there. "
          "The course itself is kept unchanged in [`../course/ai_engineering/`](../course/ai_engineering/).", "",
+         "## Inside a lesson or project folder", "",
+         "| File | What it is |", "|---|---|",
+         "| `main.py` (or the lesson's own file names) | The code: an exact copy from the course, checked by CI to stay identical |",
+         "| `README.md` | The front door: what it is, the run command, which file to open for what |",
+         "| `HOW_IT_WORKS.md` | The script's own explanation and a map of its functions and classes, with line links |",
+         "| `THEORY.md` | The lesson text, copied from the course, with its pictures and links pointing back to the course |",
+         "| `LINKS.md` | Quiz, diagrams, other-language versions, skill and prompt files, the original folder |",
+         "| `WORKFLOW.md` | Only once adapted: how you use it in your own workflow (from the `notes` column of `CATALOG.csv`) |", "",
+         "Run commands work from inside the folder. Code that reads or writes files next to its code (for example `outputs/`) "
+         "keeps the course's own layout, so it is run as `python code/main.py`. Projects show the course's own command for the finished solution.", "",
          f"**{len(entries)} entries** ({kinds['lesson']} lessons, {kinds['project']} projects, {kinds['certification lesson']} certification lessons, "
          f"{len(entries) - kinds['lesson'] - kinds['project'] - kinds['certification lesson']} reference and tooling items) · "
          f"{total_py} Python files · progress: {status_bar(entries)}", "",
@@ -543,18 +557,65 @@ def in_unit_scope(folder, scope):
 
 
 def unit_name(e):
-    return slug(os.path.basename(e["source"]))
+    """The exact course folder name, so code that refers to other lessons by folder name still finds them."""
+    return os.path.basename(e["source"])
 
 
-def unit_sources(e):
-    """{path inside the unit: course file} for the Python of one entry, copied exactly."""
+PARENT_RE = re.compile(r"parents?\[\s*[1-9]|\.parent\.parent|os\.pardir|[\"']\.\.[\"'/]")
+
+
+def code_dir(e):
+    return os.path.join(COURSE, e["source"], "solution" if e["kind"] == "project" else "code")
+
+
+def reaches_outside(e):
+    """True when the lesson code uses paths outside its code/ folder (for example ../outputs)."""
+    if e["kind"] == "project" or not os.path.isdir(code_dir(e)):
+        return False
+    return any(PARENT_RE.search(read(f)) for f in walk_files(code_dir(e)) if f.endswith(".py"))
+
+
+def moved_but_used(e):
+    """Files of this lesson's outputs/ that were moved to llm_instructions/ but that the lesson code reads by name.
+
+    {path inside the unit: file in llm_instructions/}"""
+    if e["kind"] == "project" or not os.path.isdir(code_dir(e)):
+        return {}
+    code = "\n".join(read(f) for f in walk_files(code_dir(e)) if f.endswith(".py"))
+    prefix = e["source"].rstrip("/") + "/outputs/"
+    out = {}
+    for course_rel, dst in LLM_FILES:
+        if course_rel.startswith(prefix):
+            first = course_rel[len(prefix):].split("/")[0]
+            if first in code:
+                out["outputs/" + course_rel[len(prefix):]] = os.path.join(LLM, dst)
+    return out
+
+
+def unit_sources(e, mirror=False):
+    """{path inside the unit: course file} for the Python of one entry, copied exactly.
+
+    Normally the code sits at the top of the unit (main.py first). With `mirror` the unit keeps the course's own
+    layout (code/ and outputs/), for code that reads or writes files next to its code/ folder."""
     src = os.path.join(COURSE, e["source"])
-    base = os.path.join(src, "solution" if e["kind"] == "project" else "code")
+    base = code_dir(e)
     out = {}
     if os.path.isdir(base):  # the code folder (lesson) or the finished solution (project), minus other-language sources
-        for f in walk_files(base):
-            if os.path.splitext(f)[1] not in OTHER_EXT:
-                out[os.path.relpath(f, base).replace(os.sep, "/")] = f
+        files = list(walk_files(base))
+        py_text = "\n".join(read(f) for f in files if f.endswith(".py"))
+        for f in files:
+            # other-language files are linked, not copied, unless the Python code or its tests use them by name
+            if os.path.splitext(f)[1] not in OTHER_EXT or os.path.basename(f) in py_text:
+                r = os.path.relpath(f, base).replace(os.sep, "/")
+                out[("code/" + r) if mirror else r] = f
+    if mirror and os.path.isdir(os.path.join(src, "outputs")):
+        for f in walk_files(os.path.join(src, "outputs")):
+            out[os.path.relpath(f, src).replace(os.sep, "/")] = f
+    if mirror:
+        out.update(moved_but_used(e))
+    if mirror and not any(k.startswith("outputs/") for k in out) and \
+            any("outputs" in read(f) for f in walk_files(base) if f.endswith(".py")):
+        out["outputs/.gitkeep"] = None  # the code writes into outputs/, which holds no course files (only skill files, now in llm_instructions/)
     if e["kind"] != "project":  # lesson Python that lives outside code/ keeps its path
         for f in walk_files(src):
             r = os.path.relpath(f, src).replace(os.sep, "/")
@@ -575,65 +636,231 @@ def runnable(py):
     return re.search(r"^if __name__ == ['\"]__main__['\"]", read(py), re.M) is not None
 
 
-def main_file(names):
-    top = [n for n in names if n.endswith(".py") and "/" not in n]
+def top_py(names, cd=""):
+    return [n for n in names if n.endswith(".py") and n.startswith(cd) and "/" not in n[len(cd):]]
+
+
+def main_file(names, cd=""):
+    top = top_py(names, cd)
+    for pref in ("main.py", "cli.py", "app.py"):
+        if cd + pref in top:
+            return cd + pref
     for pref in ("main.py", "cli.py", "app.py"):
         if pref in top:
             return pref
     return sorted(top)[0] if top else None
 
 
-def unit_readme(e, unit, copied):
+def docstring(py):
+    try:
+        return (ast.get_docstring(ast.parse(read(py))) or "").strip()
+    except SyntaxError:
+        return ""
+
+
+def function_map(py, name):
+    """Classes, their methods and top-level functions of one file, with line links and first docstring line."""
+    try:
+        tree = ast.parse(read(py))
+    except SyntaxError:
+        return [f"- `{name}` could not be parsed"]
+    out = []
+
+    def line(node, indent=""):
+        kind = "class" if isinstance(node, ast.ClassDef) else "def"
+        args = "" if kind == "class" else "(" + ", ".join(a.arg for a in node.args.args) + ")"
+        d = (ast.get_docstring(node) or "").strip().split("\n")[0]
+        return f"{indent}- [`{kind} {node.name}{args}`]({name}#L{node.lineno})" + (f": {d}" if d else "")
+
+    for node in tree.body:
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            out.append(line(node))
+        elif isinstance(node, ast.ClassDef):
+            out.append(line(node))
+            out += [line(n, "  ") for n in node.body if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef)) and not n.name.startswith("__")]
+    return out or ["- no functions or classes (a plain script)"]
+
+
+def needs_args(py):
+    """True when the script's argparse has a required argument, so a bare run would only print usage."""
+    try:
+        tree = ast.parse(read(py))
+    except SyntaxError:
+        return False
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Call) and getattr(node.func, "attr", "") == "add_argument" and node.args:
+            first = node.args[0]
+            kw = {k.arg: k.value for k in node.keywords}
+            if "required" in kw and isinstance(kw["required"], ast.Constant) and kw["required"].value is True:
+                return True
+            optional_flag = isinstance(first, ast.Constant) and isinstance(first.value, str) and first.value.startswith("-")
+            nargs = kw.get("nargs")
+            loose = isinstance(nargs, ast.Constant) and nargs.value in ("?", "*")
+            if not optional_flag and not loose and "default" not in kw:
+                return True  # a positional argument (also when its name is a variable)
+    return False
+
+
+def project_commands(e):
+    """The course's own commands for running the finished solution (README section after `cd projects/<name>/solution`)."""
+    readme_path = os.path.join(COURSE, e["source"], "README.md")
+    if e["kind"] != "project" or not os.path.isfile(readme_path):
+        return []
+    out, inside, after_cd = [], False, False
+    for line in read(readme_path).splitlines():
+        s = line.strip()
+        if s.startswith("```"):
+            inside, after_cd = not inside, False
+            continue
+        if inside and re.match(r"cd projects/[^/]+/solution/?$", s):
+            after_cd = True
+            continue
+        if inside and after_cd and s:
+            if s.startswith("cd "):
+                after_cd = False
+                continue
+            cmd = re.sub(r"^python3 ", "python ", s)
+            if cmd not in out:
+                out.append(cmd)
+    return out
+
+
+def run_lines(names, copied, mf, cd="", e=None):
+    from_course = project_commands(e) if e else []
+    if from_course:
+        return from_course
+    runs = [n for n in top_py(names, cd) if runnable(copied[n])]
+    runs = ([mf] if mf in runs else []) + [n for n in runs if n != mf]
+    return [f"python {n} --help" if needs_args(copied[n]) else f"python {n}" for n in runs]
+
+
+def test_lines(names, copied, cd=""):
+    out = []
+    pat = re.compile(re.escape(cd) + r"tests?/")
+    for tdir in sorted({cd + n[len(cd):].split("/")[0] for n in names if n.endswith(".py") and pat.match(n)}):
+        uses_pytest = any("pytest" in imports_of(copied[n]) for n in names if n.startswith(tdir + "/") and n.endswith(".py"))
+        out.append(f"python -m pytest {tdir}" if uses_pytest else f"python -m unittest discover -s {tdir}")
+    return out
+
+
+MD_LINK = re.compile(r"(!?\[[^\]]*\]\()([^)\s]+)((?:\s+\"[^\"]*\")?\))")
+HTML_SRC = re.compile(r"""((?:src|href)=["'])([^"']+)(["'])""")
+
+
+def theory_text(doc_path, unit):
+    """The lesson text, with relative links and images pointed back to the course so they still work from the unit."""
+    text = read(doc_path)
+    base = os.path.dirname(doc_path)
+
+    def fix(target):
+        if re.match(r"^([a-z]+:|#|/)", target):
+            return target
+        path, _, frag = target.partition("#")
+        new = os.path.relpath(os.path.normpath(os.path.join(base, path)), unit).replace(os.sep, "/")
+        return new + ("#" + frag if frag else "")
+
+    text = MD_LINK.sub(lambda m: m.group(1) + fix(m.group(2)) + m.group(3), text)
+    text = HTML_SRC.sub(lambda m: m.group(1) + fix(m.group(2)) + m.group(3), text)
+    src = os.path.relpath(doc_path, COURSE).replace(os.sep, "/")
+    head = (f"<!-- Copied from course/ai_engineering/{src} by build_corpus.py; links point back into the course. -->\n"
+            f"*Lesson text from the course ([original]({os.path.relpath(doc_path, unit).replace(os.sep, '/')})).*\n\n")
+    return head + text
+
+
+def theory_source(e):
+    src = os.path.join(COURSE, e["source"])
+    for cand in ("docs/en.md", "README.md"):
+        if os.path.isfile(os.path.join(src, cand)):
+            return os.path.join(src, cand)
+    return None
+
+
+def unit_pages(e, unit, copied):
+    """{file name: text} for one unit: README, HOW_IT_WORKS, THEORY, LINKS and, once adapted, WORKFLOW."""
     src = os.path.join(COURSE, e["source"])
     names = sorted(copied)
-    mf = main_file(names)
-    doc = ""
-    if mf:
-        try:
-            doc = (ast.get_docstring(ast.parse(read(copied[mf]))) or "").strip()
-        except SyntaxError:
-            doc = ""
-    L = [f"# {e['title']}", ""]
+    cd = "code/" if any(n.startswith("code/") for n in names) else ""
+    mf = main_file(names, cd)
+    runs, tests = run_lines(names, copied, mf, cd, e), test_lines(names, copied, cd)
+    th = theory_source(e)
+    pages = {}
+
+    # README: the front door
+    R = [f"# {e['title']}", ""]
     if e["summary"]:
-        L += [f"> {e['summary']}", ""]
-    L += [f"## What `{mf}` does" if mf else "## What it does", ""]
-    L += (["```text"] + doc.splitlines()[:25] + ["```"]) if doc else ["See the files below."]
-    L += ["", "(from the script's own docstring)" if doc else "", ""]
-    runs = [n for n in names if n.endswith(".py") and "/" not in n and runnable(copied[n])]
-    runs = ([mf] if mf in runs else []) + [n for n in runs if n != mf]
-    tests = sorted({n.split("/")[0] for n in names if n.endswith(".py") and re.search(r"(^|/)tests?/", n)})
-    L += ["## Run it", "", "From this folder:", "", "```"]
-    L += [f"python {n}" for n in runs] or ["(no script with a main block; import it from Python)"]
-    for tdir in tests:
-        uses_pytest = any("pytest" in imports_of(copied[n]) for n in names if n.startswith(tdir + "/") and n.endswith(".py"))
-        L.append(f"python -m pytest {tdir}" if uses_pytest else f"python -m unittest discover -s {tdir}")
-    L += ["```", "", f"Needs: {e['needs'] or 'nothing'}", "",
-          "## Files", ""]
-    L += [f"- [`{n}`]({n})" for n in names]
-    L += ["", "These are exact copies from the course; `build_corpus.py` checks they stay identical. "
-          "Adapt the code in your own skill under `python_skills/confirmed/`, not here.", "", "## Learn more", ""]
-    links = []
+        R += [e["summary"], ""]
+    R += ["```", *(runs or ["(no script with a main block: import it from Python)"]), "```", "",
+          f"Needs: {e['needs'] or 'nothing'}" + ("  ·  Tests: `" + "`, `".join(tests) + "`" if tests else ""), "",
+          "| File | Open it to… |", "|---|---|"]
+    py_top = top_py(names, cd)
+    for n in ([mf] if mf else []) + [x for x in py_top if x != mf]:
+        run_file = any(re.search(r"(^|\s)" + re.escape(n) + r"(\s|$)", r) for r in runs)
+        R.append(f"| [`{n}`]({n}) | " + ("read and run the code" if n == mf and (run_file or not runs) else
+                                       "the code" if n == mf else "run it (command above)" if run_file else "part of the code") + " |")
+    for d in sorted({cd + n[len(cd):].split("/")[0] for n in names if n.startswith(cd) and "/" in n[len(cd):]}):
+        R.append(f"| [`{d}/`]({d}) | " + ("the tests |" if re.search(r"tests?$", d) else "files the code uses |"))
+    if cd and any(n.startswith("outputs/") for n in names):
+        R.append("| [`outputs/`](outputs) | files the code reads or writes (kept in the course's layout) |")
+    data = [n for n in names if n.startswith(cd) and "/" not in n[len(cd):] and not n.endswith(".py")]
+    for n in data:
+        R.append(f"| [`{n}`]({n}) | a file the code uses |")
+    R += ["| [`HOW_IT_WORKS.md`](HOW_IT_WORKS.md) | understand how the code is built |"]
+    if th:
+        R += ["| [`THEORY.md`](THEORY.md) | learn the idea behind it |"]
+    R += ["| [`LINKS.md`](LINKS.md) | quiz, diagrams, other languages, skill files, the original |"]
+    if e["notes"]:
+        R += ["| [`WORKFLOW.md`](WORKFLOW.md) | how it is used in your workflow |"]
+    pages["README.md"] = "\n".join(R) + "\n"
+
+    # HOW_IT_WORKS: the Python
+    H = [f"# How it works: {e['title']}", ""]
+    for n in ([mf] if mf else []) + [x for x in py_top if x != mf]:
+        doc = docstring(copied[n])
+        H += [f"## `{n}`", ""]
+        if doc:
+            H += ["```text", *doc.splitlines()[:30], "```", "", "(the script's own docstring)", ""]
+        H += ["Functions and classes, in file order (click to jump to the line):", "", *function_map(copied[n], n), ""]
+    if runs or tests:
+        H += ["## Run and test", "", "From this folder:", "", "```", *runs, *tests, "```", ""]
+    H += ["These files are exact copies from the course; `build_corpus.py` checks they stay identical. "
+          "Adapt the code in your own skill under `python_skills/confirmed/`, not here.", ""]
+    pages["HOW_IT_WORKS.md"] = "\n".join(H)
+
+    # THEORY: the lesson text
+    if th:
+        pages["THEORY.md"] = theory_text(th, unit)
+
+    # LINKS: everything else
+    K = [f"# Links: {e['title']}", ""]
+
     def add(label, path):
         if os.path.exists(path):
-            links.append(f"- {label}: [{os.path.relpath(path, COURSE).replace(os.sep, '/')}]({os.path.relpath(path, unit).replace(os.sep, '/')})")
-    add("Theory", os.path.join(src, "docs", "en.md"))
-    add("Project guide", os.path.join(src, "README.md"))
-    add("API", os.path.join(src, "API.md"))
+            K.append(f"- {label}: [{os.path.relpath(path, COURSE).replace(os.sep, '/')}]({os.path.relpath(path, unit).replace(os.sep, '/')})")
+
     add("Quiz", os.path.join(src, "quiz.json"))
-    for f in sorted(walk_files(os.path.join(src, "assets"))) if os.path.isdir(os.path.join(src, "assets")) else []:
-        add("Diagram", f)
-    if e["kind"] == "project" and os.path.isdir(os.path.join(src, "stages")):
-        for s in sorted(os.listdir(os.path.join(src, "stages"))):
-            add(f"Stage {s}", os.path.join(src, "stages", s))
-    for f in sorted(walk_files(os.path.join(src, "code"))) if os.path.isdir(os.path.join(src, "code")) else []:
+    if os.path.isdir(os.path.join(src, "assets")):
+        for f in sorted(walk_files(os.path.join(src, "assets"))):
+            add("Diagram", f)
+    if e["kind"] == "project":
+        add("API", os.path.join(src, "API.md"))
+        if os.path.isdir(os.path.join(src, "stages")):
+            for s in sorted(os.listdir(os.path.join(src, "stages"))):
+                add(f"Stage {s}", os.path.join(src, "stages", s))
+    for f in sorted(walk_files(os.path.join(src, "solution" if e["kind"] == "project" else "code"))) \
+            if os.path.isdir(os.path.join(src, "solution" if e["kind"] == "project" else "code")) else []:
         if os.path.splitext(f)[1] in OTHER_EXT:
             add(f"{OTHER_EXT[os.path.splitext(f)[1]]} version", f)
     for x in [x for x in e["llm_instructions"].split("; ") if x]:
-        links.append(f"- LLM instructions: [{os.path.basename(x)}]({os.path.relpath(os.path.join(LLM, x), unit).replace(os.sep, '/')})")
+        kind = x.split("/")[0].rstrip("s")
+        K.append(f"- LLM {kind}: [{os.path.basename(x)}]({os.path.relpath(os.path.join(LLM, x), unit).replace(os.sep, '/')})")
     add("Original lesson folder" if e["kind"] != "project" else "Original project folder", src)
-    L += links + ["", "## Use it in a workflow", "",
-                  (e["notes"] or "Not adapted yet. When you adapt it, write the skill name in the `notes` column of `CATALOG.csv`."), ""]
-    return "\n".join(L)
+    pages["LINKS.md"] = "\n".join(K) + "\n"
+
+    # WORKFLOW: only once adapted
+    if e["notes"]:
+        pages["WORKFLOW.md"] = "\n".join([f"# In my workflow: {e['title']}", "", e["notes"], "",
+                                          f"Status: `{e['status']}`" + (f"  ·  Evidence: {e['evidence']}" if e["evidence"] else ""), ""])
+    return pages
 
 
 def unit_map(folder, own, units):
@@ -651,15 +878,19 @@ def unit_map(folder, own, units):
     for e in own:
         if e["source"] in units:
             name, copied = units[e["source"]]
-            mf = main_file(sorted(copied))
+            cdx = "code/" if any(n.startswith("code/") for n in copied) else ""
+            mf = main_file(sorted(copied), cdx)
             what = first_paragraph(copied[mf]) if mf else e["summary"]
             what = esc(what.split(". ")[0].rstrip(".")[:120])
             L.append(f"| [{name}/]({name}/README.md) | {what} | `python {mf}` |" if mf else f"| [{name}/]({name}/README.md) | {what} | |")
         else:
             others.append(e)
     if others:
-        L += ["", "## Not Python (links only)", ""]
-        L += [f"- [{esc(e['title'])}]({course_link(folder, e['source'])}) ({e['other_languages'] or 'no code'})" for e in others]
+        L += ["", "## Also here (links to the course)", ""]
+        for e in others:
+            why = ("Python only in the project stages" if e["python_files"] else
+                   f"{e['other_languages']} only" if e["other_languages"] else "no code")
+            L.append(f"- [{esc(e['title'])}]({course_link(folder, e['source'])}) ({why})")
     return "\n".join(L) + "\n"
 
 
@@ -685,19 +916,27 @@ def outputs(entries):
         if os.path.normpath(f) == os.path.normpath(HERE):
             continue
         own = by_dir.get(f, [])
-        if own and in_unit_scope(f, scope):
+        if own and in_unit_scope(f, scope) and any(e["kind"] in UNIT_KINDS for e in own):
             units = {}
+            names_here = {os.path.basename(x["source"]) for x in own}
+            linked = any(n in read(py) for x in own if x["kind"] in UNIT_KINDS and os.path.isdir(code_dir(x))
+                         for py in walk_files(code_dir(x)) if py.endswith(".py")
+                         for n in names_here - {os.path.basename(x["source"])})
             for e in own:
                 if e["kind"] in UNIT_KINDS and e["python_files"]:
-                    copied = unit_sources(e)
+                    copied = unit_sources(e, mirror=e["kind"] != "project" and (linked or reaches_outside(e) or bool(moved_but_used(e))))
                     if copied:
                         name = unit_name(e)
                         units[e["source"]] = (name, copied)
                         udir = os.path.join(f, name)
                         for r, srcf in copied.items():
+                            if srcf is None:
+                                files[os.path.join(udir, *r.split("/"))] = b""
+                                continue
                             with open(srcf, "rb") as fh:
                                 files[os.path.join(udir, *r.split("/"))] = fh.read()
-                        files[os.path.join(udir, "README.md")] = unit_readme(e, udir, copied)
+                        for page, text in unit_pages(e, udir, copied).items():
+                            files[os.path.join(udir, page)] = text
             files[os.path.join(f, "README.md")] = unit_map(f, own, units)
         else:
             files[os.path.join(f, "README.md")] = page_for(f, tree, by_dir)

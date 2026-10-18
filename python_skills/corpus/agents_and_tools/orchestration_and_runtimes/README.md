@@ -1,11 +1,11 @@
 # Orchestration and runtimes
 
-[Corpus](../../README.md) / [agents and tools](../README.md)  ·  3 entries  ·  discovery 3
+[Corpus](../../README.md) / [agents_and_tools](../README.md)  ·  Course: [ai_engineering/phases/14-agent-engineering](../../../course/ai_engineering/phases/14-agent-engineering)
 
-**Course:** [ai_engineering/phases/14-agent-engineering](../../../course/ai_engineering/phases/14-agent-engineering)
+Each folder holds the Python of one lesson or project. Open it, read the script, run it.
 
-| ID | Entry | Python | Needs | Status | Instructions |
-|---|---|---|---|---|---|
-| L14-25 | [Multi-Agent Debate and Collaboration](../../../course/ai_engineering/phases/14-agent-engineering/25-multi-agent-debate "Du et al. (ICML 2024, 'Society of Minds') run N model instances that independently propose answers, then iteratively critique each other ove") | 1 file | standard library only | discovery | [skill-debate.md](../../../llm_instructions/skills/phases/14-agent-engineering/25-multi-agent-debate/outputs/skill-debate.md) |
-| L14-28 | [Orchestration Patterns: Supervisor, Swarm, Hierarchical](../../../course/ai_engineering/phases/14-agent-engineering/28-orchestration-patterns "Four orchestration patterns recur across 2026 frameworks: supervisor-worker, swarm / peer-to-peer, hierarchical, debate. Anthropic's guidanc") | 1 file | standard library only | discovery | [skill-orchestration-picker.md](../../../llm_instructions/skills/phases/14-agent-engineering/28-orchestration-patterns/outputs/skill-orchestration-picker.md) |
-| L14-29 | [Production Runtimes: Queue, Event, Cron](../../../course/ai_engineering/phases/14-agent-engineering/29-production-runtimes "Production agents run on six runtime shapes: request-response, streaming, durable execution, queue-based background, event-driven, and sched") | 1 file | standard library only | discovery | [skill-runtime-shape.md](../../../llm_instructions/skills/phases/14-agent-engineering/29-production-runtimes/outputs/skill-runtime-shape.md) |
+| Folder | What the script does | Run |
+|---|---|---|
+| [25-multi-agent-debate/](25-multi-agent-debate/README.md) | Multi-agent debate: full mesh vs sparse (star) topology | `python main.py` |
+| [28-orchestration-patterns/](28-orchestration-patterns/README.md) | Four orchestration patterns: supervisor, swarm, hierarchical, debate | `python main.py` |
+| [29-production-runtimes/](29-production-runtimes/README.md) | Four production runtime shapes: request-response, streaming, queue, event | `python main.py` |

@@ -1,10 +1,10 @@
 # Failure modes and defence
 
-[Corpus](../../README.md) / [agents and tools](../README.md)  ·  2 entries  ·  discovery 2
+[Corpus](../../README.md) / [agents_and_tools](../README.md)  ·  Course: [ai_engineering/phases/14-agent-engineering](../../../course/ai_engineering/phases/14-agent-engineering)
 
-**Course:** [ai_engineering/phases/14-agent-engineering](../../../course/ai_engineering/phases/14-agent-engineering)
+Each folder holds the Python of one lesson or project. Open it, read the script, run it.
 
-| ID | Entry | Python | Needs | Status | Instructions |
-|---|---|---|---|---|---|
-| L14-26 | [Failure Modes: Why Agents Break](../../../course/ai_engineering/phases/14-agent-engineering/26-failure-modes-agentic "MASFT (Berkeley, 2025) catalogs 14 multi-agent failure modes in 3 categories. Microsoft's Taxonomy documents how existing AI failures amplif") | 1 file | standard library only | discovery | [skill-failure-detector.md](../../../llm_instructions/skills/phases/14-agent-engineering/26-failure-modes-agentic/outputs/skill-failure-detector.md) |
-| L14-27 | [Prompt Injection and the PVE Defense](../../../course/ai_engineering/phases/14-agent-engineering/27-prompt-injection-defense "Greshake et al. (AISec 2023) established indirect prompt injection as the defining agent security problem. Attacker plants instructions in d") | 1 file | standard library only | discovery | [skill-injection-defense.md](../../../llm_instructions/skills/phases/14-agent-engineering/27-prompt-injection-defense/outputs/skill-injection-defense.md) |
+| Folder | What the script does | Run |
+|---|---|---|
+| [26-failure-modes-agentic/](26-failure-modes-agentic/README.md) | Stdlib failure-mode tagger for agent traces | `python main.py` |
+| [27-prompt-injection-defense/](27-prompt-injection-defense/README.md) | PVE: Prompt-Validator-Executor for tool calls | `python main.py` |

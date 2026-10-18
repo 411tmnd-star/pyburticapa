@@ -1,14 +1,14 @@
-# Capstone track: safety gate
+# safety gate
 
-[Corpus](../../../README.md) / [projects](../../README.md)  ·  6 entries  ·  discovery 6
+[Corpus](../../../README.md) / [projects](../../README.md)  ·  Course: [ai_engineering/phases/19-capstone-projects](../../../../course/ai_engineering/phases/19-capstone-projects)
 
-**Course:** [ai_engineering/phases/19-capstone-projects](../../../../course/ai_engineering/phases/19-capstone-projects)
+Each folder holds the Python of one lesson or project. Open it, read the script, run it.
 
-| ID | Entry | Python | Needs | Status | Instructions |
-|---|---|---|---|---|---|
-| L19-82 | [Capstone 82 — Jailbreak Taxonomy](../../../../course/ai_engineering/phases/19-capstone-projects/82-jailbreak-taxonomy "A safety harness without a taxonomy is a coin flip. Name the attack before you defend it.") | 3 files | numpy | discovery | [skill-jailbreak-taxonomy.md](../../../../llm_instructions/skills/phases/19-capstone-projects/82-jailbreak-taxonomy/outputs/skill-jailbreak-taxonomy.md) |
-| L19-83 | [Capstone 83 — Prompt Injection Detector](../../../../course/ai_engineering/phases/19-capstone-projects/83-prompt-injection-detector "A detector is a function from prompt to confidence and category. Anything else is a vibe.") | 4 files | standard library only | discovery | [skill-prompt-injection-detector.md](../../../../llm_instructions/skills/phases/19-capstone-projects/83-prompt-injection-detector/outputs/skill-prompt-injection-detector.md) |
-| L19-84 | [Capstone 84 — Refusal Evaluation](../../../../course/ai_engineering/phases/19-capstone-projects/84-refusal-evaluation "Helpfulness on benign prompts and refusal on harmful prompts are two metrics, not one. Measure both.") | 4 files | numpy | discovery | [skill-refusal-evaluation.md](../../../../llm_instructions/skills/phases/19-capstone-projects/84-refusal-evaluation/outputs/skill-refusal-evaluation.md) |
-| L19-85 | [Capstone 85 — Content Classifier Integration](../../../../course/ai_engineering/phases/19-capstone-projects/85-content-classifier-integration "Classifiers on the output side answer a different question than rules on the input side. Both need a policy router.") | 3 files | standard library only | discovery | [skill-content-classifier-integration.md](../../../../llm_instructions/skills/phases/19-capstone-projects/85-content-classifier-integration/outputs/skill-content-classifier-integration.md) |
-| L19-86 | [Capstone 86 — Constitutional Rules Engine](../../../../course/ai_engineering/phases/19-capstone-projects/86-constitutional-rules-engine "A rule is a name, a predicate, and an explanation. Anything missing one of those three is a vibe, not a rule.") | 3 files | yaml | discovery | [skill-constitutional-rules-engine.md](../../../../llm_instructions/skills/phases/19-capstone-projects/86-constitutional-rules-engine/outputs/skill-constitutional-rules-engine.md) |
-| L19-87 | [Capstone 87 — End-to-End Safety Gate](../../../../course/ai_engineering/phases/19-capstone-projects/87-end-to-end-safety-gate "Pre-gen, during-gen, post-gen. Three checkpoints, one verdict, an audit trail per request.") | 4 files | standard library only | discovery | [skill-end-to-end-safety-gate.md](../../../../llm_instructions/skills/phases/19-capstone-projects/87-end-to-end-safety-gate/outputs/skill-end-to-end-safety-gate.md) |
+| Folder | What the script does | Run |
+|---|---|---|
+| [82-jailbreak-taxonomy/](82-jailbreak-taxonomy/README.md) | Jailbreak Taxonomy loader, validator, and trigram nearest-fixture matcher | `python code/main.py` |
+| [83-prompt-injection-detector/](83-prompt-injection-detector/README.md) | Prompt injection detector with normalize -> substring -> regex pipeline | `python code/main.py` |
+| [84-refusal-evaluation/](84-refusal-evaluation/README.md) | Refusal evaluation framework | `python code/main.py` |
+| [85-content-classifier-integration/](85-content-classifier-integration/README.md) | Content classifier router | `python code/main.py` |
+| [86-constitutional-rules-engine/](86-constitutional-rules-engine/README.md) | Constitutional rules engine | `python code/main.py` |
+| [87-end-to-end-safety-gate/](87-end-to-end-safety-gate/README.md) | End-to-end safety gate demo over the lesson 82 taxonomy | `python code/main.py` |

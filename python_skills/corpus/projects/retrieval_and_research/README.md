@@ -1,14 +1,14 @@
 # Retrieval and research
 
-[Corpus](../../README.md) / [projects](../README.md)  ·  6 entries  ·  discovery 6
+[Corpus](../../README.md) / [projects](../README.md)  ·  Course: [ai_engineering/projects](../../../course/ai_engineering/projects)
 
-**Course:** [ai_engineering/projects](../../../course/ai_engineering/projects)
+Each folder holds the Python of one lesson or project. Open it, read the script, run it.
 
-| ID | Entry | Python | Needs | Status |
-|---|---|---|---|---|
-| P-doc-qa-with-citations | [Document QA With Citations and LangChain](../../../course/ai_engineering/projects/doc-qa-with-citations "A citation receipt that separates exact source support from relevance to the question.") | 18 files | langchain_core, langchain_text_splitters | discovery |
-| P-rag-freshness-pipeline | [RAG Freshness Pipeline](../../../course/ai_engineering/projects/rag-freshness-pipeline "Build a content-addressed document index with deletion tracking, version checks, and freshness-aware retrieval.") | 17 files | standard library only | discovery |
-| P-report-judge | [Report Judge](../../../course/ai_engineering/projects/report-judge "Audit sentence-level citations, test lexical support, and compare report revisions with a paired uncertainty interval.") | 18 files | standard library only | discovery |
-| P-research-report-agent | [Research Report Agent](../../../course/ai_engineering/projects/research-report-agent "Turn a question and a pile of documents into a report where every sentence can be checked.") | 35 files + Rust, TypeScript | report_agent | discovery |
-| P-retrieval-evaluation-lab | [Retrieval Evaluation Lab](../../../course/ai_engineering/projects/retrieval-evaluation-lab "Measure ranking quality with precision, recall, reciprocal rank, and discounted gain while exposing duplicates and missing judgments.") | 10 files | standard library only | discovery |
-| P-semantic-notes-search | [Semantic Notes Search](../../../course/ai_engineering/projects/semantic-notes-search "Search your markdown notes with Unicode normalization, explicit aliases and inspectable lexical scores.") | 11 files | standard library only | discovery |
+| Folder | What the script does | Run |
+|---|---|---|
+| [doc-qa-with-citations/](doc-qa-with-citations/README.md) | Search local text documents and retain exact source evidence | `python cli.py` |
+| [rag-freshness-pipeline/](rag-freshness-pipeline/README.md) | A complete-corpus ingestion contract, with durable POSIX snapshots | `python cli.py` |
+| [report-judge/](report-judge/README.md) | Audit a research report JSON payload and publish inspectable claim evidence | `python cli.py` |
+| [research-report-agent/](research-report-agent/README.md) | Command line entry point for the Research Report Agent | `python run_report.py` |
+| [retrieval-evaluation-lab/](retrieval-evaluation-lab/README.md) |  | `python main.py` |
+| [semantic-notes-search/](semantic-notes-search/README.md) |  | `python main.py` |

@@ -1,12 +1,12 @@
 # Prompting
 
-[Corpus](../../README.md) / [llm engineering](../README.md)  ·  4 entries  ·  discovery 4
+[Corpus](../../README.md) / [llm_engineering](../README.md)  ·  Course: [ai_engineering/phases/11-llm-engineering](../../../course/ai_engineering/phases/11-llm-engineering)
 
-**Course:** [ai_engineering/phases/11-llm-engineering](../../../course/ai_engineering/phases/11-llm-engineering)
+Each folder holds the Python of one lesson or project. Open it, read the script, run it.
 
-| ID | Entry | Python | Needs | Status | Instructions |
-|---|---|---|---|---|---|
-| L11-01 | [Prompt Engineering: Techniques & Patterns](../../../course/ai_engineering/phases/11-llm-engineering/01-prompt-engineering "Most people write prompts like they are texting a friend. Then they wonder why a 200-billion parameter model gives mediocre answers. Prompt ") | 1 file + TypeScript | standard library only | discovery | [prompt-prompt-optimizer.md](../../../llm_instructions/prompts/phases/11-llm-engineering/01-prompt-engineering/outputs/prompt-prompt-optimizer.md), [skill-prompt-patterns.md](../../../llm_instructions/skills/phases/11-llm-engineering/01-prompt-engineering/outputs/skill-prompt-patterns.md) |
-| L11-02 | [Few-Shot, Chain-of-Thought, Tree-of-Thought](../../../course/ai_engineering/phases/11-llm-engineering/02-few-shot-cot "Telling a model what to do is prompting. Showing it how to think is engineering. The gap between 78% and 91% accuracy on the same model, sam") | 1 file | openai | discovery | [prompt-reasoning-chain.md](../../../llm_instructions/prompts/phases/11-llm-engineering/02-few-shot-cot/outputs/prompt-reasoning-chain.md), [skill-cot-patterns.md](../../../llm_instructions/skills/phases/11-llm-engineering/02-few-shot-cot/outputs/skill-cot-patterns.md) |
-| L11-03 | [Structured Outputs: JSON, Schema Validation, Constrained Decoding](../../../course/ai_engineering/phases/11-llm-engineering/03-structured-outputs "Your LLM returns a string. Your application needs JSON. That gap has crashed more production systems than any model hallucination. Structure") | 1 file + TypeScript | standard library only | discovery | [prompt-structured-extractor.md](../../../llm_instructions/prompts/phases/11-llm-engineering/03-structured-outputs/outputs/prompt-structured-extractor.md), [skill-structured-outputs.md](../../../llm_instructions/skills/phases/11-llm-engineering/03-structured-outputs/outputs/skill-structured-outputs.md) |
-| L11-05 | [Context Engineering: Windows, Budgets, Memory, and Retrieval](../../../course/ai_engineering/phases/11-llm-engineering/05-context-engineering "Prompt engineering is a subset. Context engineering is the whole game. A prompt is a string you type. Context is everything that goes into t") | 1 file + TypeScript | numpy | discovery | [prompt-context-optimizer.md](../../../llm_instructions/prompts/phases/11-llm-engineering/05-context-engineering/outputs/prompt-context-optimizer.md), [skill-context-engineering.md](../../../llm_instructions/skills/phases/11-llm-engineering/05-context-engineering/outputs/skill-context-engineering.md) |
+| Folder | What the script does | Run |
+|---|---|---|
+| [01-prompt-engineering/](01-prompt-engineering/README.md) |  | `python prompt_engineering.py` |
+| [02-few-shot-cot/](02-few-shot-cot/README.md) |  | `python advanced_prompting.py` |
+| [03-structured-outputs/](03-structured-outputs/README.md) |  | `python main.py` |
+| [05-context-engineering/](05-context-engineering/README.md) |  | `python main.py` |

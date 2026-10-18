@@ -1,0 +1,17 @@
+# Links: Capstone 01 — Terminal-Native Coding Agent
+
+- Quiz: [phases/19-capstone-projects/01-terminal-native-coding-agent/quiz.json](../../../../course/ai_engineering/phases/19-capstone-projects/01-terminal-native-coding-agent/quiz.json)
+- Diagram: [phases/19-capstone-projects/01-terminal-native-coding-agent/assets/harness-loop.svg](../../../../course/ai_engineering/phases/19-capstone-projects/01-terminal-native-coding-agent/assets/harness-loop.svg)
+- TypeScript version: [phases/19-capstone-projects/01-terminal-native-coding-agent/code/ts/src/eval.ts](../../../../course/ai_engineering/phases/19-capstone-projects/01-terminal-native-coding-agent/code/ts/src/eval.ts)
+- TypeScript version: [phases/19-capstone-projects/01-terminal-native-coding-agent/code/ts/src/harness.ts](../../../../course/ai_engineering/phases/19-capstone-projects/01-terminal-native-coding-agent/code/ts/src/harness.ts)
+- TypeScript version: [phases/19-capstone-projects/01-terminal-native-coding-agent/code/ts/src/hooks.ts](../../../../course/ai_engineering/phases/19-capstone-projects/01-terminal-native-coding-agent/code/ts/src/hooks.ts)
+- TypeScript version: [phases/19-capstone-projects/01-terminal-native-coding-agent/code/ts/src/index.ts](../../../../course/ai_engineering/phases/19-capstone-projects/01-terminal-native-coding-agent/code/ts/src/index.ts)
+- TypeScript version: [phases/19-capstone-projects/01-terminal-native-coding-agent/code/ts/src/model.ts](../../../../course/ai_engineering/phases/19-capstone-projects/01-terminal-native-coding-agent/code/ts/src/model.ts)
+- TypeScript version: [phases/19-capstone-projects/01-terminal-native-coding-agent/code/ts/src/plan.ts](../../../../course/ai_engineering/phases/19-capstone-projects/01-terminal-native-coding-agent/code/ts/src/plan.ts)
+- TypeScript version: [phases/19-capstone-projects/01-terminal-native-coding-agent/code/ts/src/repl.ts](../../../../course/ai_engineering/phases/19-capstone-projects/01-terminal-native-coding-agent/code/ts/src/repl.ts)
+- TypeScript version: [phases/19-capstone-projects/01-terminal-native-coding-agent/code/ts/src/tools.ts](../../../../course/ai_engineering/phases/19-capstone-projects/01-terminal-native-coding-agent/code/ts/src/tools.ts)
+- TypeScript version: [phases/19-capstone-projects/01-terminal-native-coding-agent/code/ts/src/types.ts](../../../../course/ai_engineering/phases/19-capstone-projects/01-terminal-native-coding-agent/code/ts/src/types.ts)
+- TypeScript version: [phases/19-capstone-projects/01-terminal-native-coding-agent/code/ts/tests/harness.test.ts](../../../../course/ai_engineering/phases/19-capstone-projects/01-terminal-native-coding-agent/code/ts/tests/harness.test.ts)
+- TypeScript version: [phases/19-capstone-projects/01-terminal-native-coding-agent/code/ts/tests/tools.test.ts](../../../../course/ai_engineering/phases/19-capstone-projects/01-terminal-native-coding-agent/code/ts/tests/tools.test.ts)
+- LLM skill: [skill-terminal-coding-agent.md](../../../../llm_instructions/skills/phases/19-capstone-projects/01-terminal-native-coding-agent/outputs/skill-terminal-coding-agent.md)
+- Original lesson folder: [phases/19-capstone-projects/01-terminal-native-coding-agent](../../../../course/ai_engineering/phases/19-capstone-projects/01-terminal-native-coding-agent)

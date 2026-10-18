@@ -1,22 +1,20 @@
 # Reinforcement learning
 
-Learning from rewards.
+[Corpus](../README.md) / [reinforcement_learning](README.md)  ·  Course: [ai_engineering/phases/09-reinforcement-learning](../../course/ai_engineering/phases/09-reinforcement-learning)
 
-[Corpus](../README.md)  ·  12 entries  ·  discovery 12
+Each folder holds the Python of one lesson or project. Open it, read the script, run it.
 
-**Course:** [ai_engineering/phases/09-reinforcement-learning](../../course/ai_engineering/phases/09-reinforcement-learning)
-
-| ID | Entry | Python | Needs | Status | Instructions |
-|---|---|---|---|---|---|
-| L09-01 | [MDPs, States, Actions & Rewards](../../course/ai_engineering/phases/09-reinforcement-learning/01-mdps-states-actions-rewards "A Markov Decision Process is five things: states, actions, transitions, rewards, a discount. Everything in RL — Q-learning, PPO, DPO, GRPO —") | 1 file | standard library only | discovery | [skill-mdp-modeler.md](../../llm_instructions/skills/phases/09-reinforcement-learning/01-mdps-states-actions-rewards/outputs/skill-mdp-modeler.md) |
-| L09-02 | [Dynamic Programming — Policy Iteration & Value Iteration](../../course/ai_engineering/phases/09-reinforcement-learning/02-dynamic-programming "Dynamic programming is RL with cheating. You already know the transition and reward functions; you just iterate the Bellman equation until `") | 1 file | standard library only | discovery | [skill-dp-solver.md](../../llm_instructions/skills/phases/09-reinforcement-learning/02-dynamic-programming/outputs/skill-dp-solver.md) |
-| L09-03 | [Monte Carlo Methods — Learning from Complete Episodes](../../course/ai_engineering/phases/09-reinforcement-learning/03-monte-carlo-methods "Dynamic programming needs a model. Monte Carlo needs nothing but episodes. Run the policy, watch the returns, average them. The simplest ide") | 1 file | standard library only | discovery | [skill-mc-evaluator.md](../../llm_instructions/skills/phases/09-reinforcement-learning/03-monte-carlo-methods/outputs/skill-mc-evaluator.md) |
-| L09-04 | [Temporal Difference — Q-Learning & SARSA](../../course/ai_engineering/phases/09-reinforcement-learning/04-q-learning-sarsa "Monte Carlo waits until the episode ends. TD updates after every step by bootstrapping the next value estimate. Q-learning is off-policy and") | 1 file | standard library only | discovery | [skill-td-agent.md](../../llm_instructions/skills/phases/09-reinforcement-learning/04-q-learning-sarsa/outputs/skill-td-agent.md) |
-| L09-05 | [Deep Q-Networks (DQN)](../../course/ai_engineering/phases/09-reinforcement-learning/05-dqn "2013: Mnih trained one Q-learning network on raw pixels, beat every classical RL agent on seven Atari games. 2015: extended to 49 games, pub") | 1 file | standard library only | discovery | [skill-dqn-trainer.md](../../llm_instructions/skills/phases/09-reinforcement-learning/05-dqn/outputs/skill-dqn-trainer.md) |
-| L09-06 | [Policy Gradient — REINFORCE from Scratch](../../course/ai_engineering/phases/09-reinforcement-learning/06-policy-gradients-reinforce "Stop estimating value. Parameterize the policy directly, compute the gradient of expected return, step uphill. Williams (1992) wrote it in o") | 1 file | standard library only | discovery | [skill-policy-gradient-trainer.md](../../llm_instructions/skills/phases/09-reinforcement-learning/06-policy-gradients-reinforce/outputs/skill-policy-gradient-trainer.md) |
-| L09-07 | [Actor-Critic — A2C and A3C](../../course/ai_engineering/phases/09-reinforcement-learning/07-actor-critic-a2c-a3c "REINFORCE is noisy. Add a critic that learns `V̂(s)`, subtract it from the return, and you get an advantage that has the same expectation bu") | 1 file | standard library only | discovery | [skill-actor-critic-trainer.md](../../llm_instructions/skills/phases/09-reinforcement-learning/07-actor-critic-a2c-a3c/outputs/skill-actor-critic-trainer.md) |
-| L09-08 | [Proximal Policy Optimization (PPO)](../../course/ai_engineering/phases/09-reinforcement-learning/08-ppo "A2C throws away each rollout after one update. PPO wraps the policy gradient in a clipped importance ratio so you can do 10+ epochs on the s") | 1 file | standard library only | discovery | [skill-ppo-trainer.md](../../llm_instructions/skills/phases/09-reinforcement-learning/08-ppo/outputs/skill-ppo-trainer.md) |
-| L09-09 | [Reward Modeling & RLHF](../../course/ai_engineering/phases/09-reinforcement-learning/09-reward-modeling-rlhf "Humans cannot write a reward function for 'good assistant response,' but they can compare two responses and pick the better one. Fit a rewar") | 1 file | standard library only | discovery | [skill-rlhf-architect.md](../../llm_instructions/skills/phases/09-reinforcement-learning/09-reward-modeling-rlhf/outputs/skill-rlhf-architect.md) |
-| L09-10 | [Multi-Agent RL](../../course/ai_engineering/phases/09-reinforcement-learning/10-multi-agent-rl "Single-agent RL assumes the environment is stationary. Put two learning agents in the same world and that assumption breaks: each agent is p") | 1 file | standard library only | discovery | [skill-marl-architect.md](../../llm_instructions/skills/phases/09-reinforcement-learning/10-multi-agent-rl/outputs/skill-marl-architect.md) |
-| L09-11 | [Sim-to-Real Transfer](../../course/ai_engineering/phases/09-reinforcement-learning/11-sim-to-real-transfer "A policy trained in a simulator that fails on hardware is a policy that memorized the simulator. Domain randomization, domain adaptation, an") | 1 file | standard library only | discovery | [skill-sim2real-planner.md](../../llm_instructions/skills/phases/09-reinforcement-learning/11-sim-to-real-transfer/outputs/skill-sim2real-planner.md) |
-| L09-12 | [RL for Games — AlphaZero, MuZero, and the LLM-Reasoning Era](../../course/ai_engineering/phases/09-reinforcement-learning/12-rl-for-games "1992: TD-Gammon beat human champions at backgammon with pure TD. 2016: AlphaGo beat Lee Sedol. 2017: AlphaZero dominated chess, shogi, and G") | 1 file | standard library only | discovery | [skill-game-rl-designer.md](../../llm_instructions/skills/phases/09-reinforcement-learning/12-rl-for-games/outputs/skill-game-rl-designer.md) |
+| Folder | What the script does | Run |
+|---|---|---|
+| [01-mdps-states-actions-rewards/](01-mdps-states-actions-rewards/README.md) |  | `python main.py` |
+| [02-dynamic-programming/](02-dynamic-programming/README.md) |  | `python main.py` |
+| [03-monte-carlo-methods/](03-monte-carlo-methods/README.md) |  | `python main.py` |
+| [04-q-learning-sarsa/](04-q-learning-sarsa/README.md) |  | `python main.py` |
+| [05-dqn/](05-dqn/README.md) |  | `python main.py` |
+| [06-policy-gradients-reinforce/](06-policy-gradients-reinforce/README.md) |  | `python main.py` |
+| [07-actor-critic-a2c-a3c/](07-actor-critic-a2c-a3c/README.md) |  | `python main.py` |
+| [08-ppo/](08-ppo/README.md) |  | `python main.py` |
+| [09-reward-modeling-rlhf/](09-reward-modeling-rlhf/README.md) |  | `python main.py` |
+| [10-multi-agent-rl/](10-multi-agent-rl/README.md) |  | `python main.py` |
+| [11-sim-to-real-transfer/](11-sim-to-real-transfer/README.md) |  | `python main.py` |
+| [12-rl-for-games/](12-rl-for-games/README.md) |  | `python main.py` |

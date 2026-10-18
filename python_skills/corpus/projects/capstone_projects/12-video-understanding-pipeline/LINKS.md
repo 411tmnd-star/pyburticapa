@@ -1,0 +1,12 @@
+# Links: Capstone 12 — Video Understanding Pipeline (Scene, QA, Search)
+
+- Quiz: [phases/19-capstone-projects/12-video-understanding-pipeline/quiz.json](../../../../course/ai_engineering/phases/19-capstone-projects/12-video-understanding-pipeline/quiz.json)
+- Diagram: [phases/19-capstone-projects/12-video-understanding-pipeline/assets/video-pipeline.svg](../../../../course/ai_engineering/phases/19-capstone-projects/12-video-understanding-pipeline/assets/video-pipeline.svg)
+- TypeScript version: [phases/19-capstone-projects/12-video-understanding-pipeline/code/ts/src/index.ts](../../../../course/ai_engineering/phases/19-capstone-projects/12-video-understanding-pipeline/code/ts/src/index.ts)
+- TypeScript version: [phases/19-capstone-projects/12-video-understanding-pipeline/code/ts/src/jobs.ts](../../../../course/ai_engineering/phases/19-capstone-projects/12-video-understanding-pipeline/code/ts/src/jobs.ts)
+- TypeScript version: [phases/19-capstone-projects/12-video-understanding-pipeline/code/ts/src/server.ts](../../../../course/ai_engineering/phases/19-capstone-projects/12-video-understanding-pipeline/code/ts/src/server.ts)
+- TypeScript version: [phases/19-capstone-projects/12-video-understanding-pipeline/code/ts/src/stages.ts](../../../../course/ai_engineering/phases/19-capstone-projects/12-video-understanding-pipeline/code/ts/src/stages.ts)
+- TypeScript version: [phases/19-capstone-projects/12-video-understanding-pipeline/code/ts/src/types.ts](../../../../course/ai_engineering/phases/19-capstone-projects/12-video-understanding-pipeline/code/ts/src/types.ts)
+- TypeScript version: [phases/19-capstone-projects/12-video-understanding-pipeline/code/ts/tests/stages.test.ts](../../../../course/ai_engineering/phases/19-capstone-projects/12-video-understanding-pipeline/code/ts/tests/stages.test.ts)
+- LLM skill: [skill-video-qa.md](../../../../llm_instructions/skills/phases/19-capstone-projects/12-video-understanding-pipeline/outputs/skill-video-qa.md)
+- Original lesson folder: [phases/19-capstone-projects/12-video-understanding-pipeline](../../../../course/ai_engineering/phases/19-capstone-projects/12-video-understanding-pipeline)

@@ -1,16 +1,16 @@
-# Capstone track: research agent
+# research agent
 
-[Corpus](../../../README.md) / [projects](../../README.md)  ·  8 entries  ·  discovery 8
+[Corpus](../../../README.md) / [projects](../../README.md)  ·  Course: [ai_engineering/phases/19-capstone-projects](../../../../course/ai_engineering/phases/19-capstone-projects)
 
-**Course:** [ai_engineering/phases/19-capstone-projects](../../../../course/ai_engineering/phases/19-capstone-projects)
+Each folder holds the Python of one lesson or project. Open it, read the script, run it.
 
-| ID | Entry | Python | Needs | Status |
-|---|---|---|---|---|
-| L19-50 | [Hypothesis Generator](../../../../course/ai_engineering/phases/19-capstone-projects/50-hypothesis-generator "A research agent that asks the same question twice is wasting tokens. The trick is forcing each draft to land somewhere new.") | 2 files | standard library only | discovery |
-| L19-51 | [Literature Retrieval](../../../../course/ai_engineering/phases/19-capstone-projects/51-literature-retrieval "A hypothesis is cheap. Knowing whether someone already proved it is the expensive part. Build the retrieval layer that answers that question") | 2 files | standard library only | discovery |
-| L19-52 | [Experiment Runner](../../../../course/ai_engineering/phases/19-capstone-projects/52-experiment-runner "The loop is only as honest as its measurements. Build the runner that takes a spec, executes it in a sandboxed subprocess, and emits a json ") | 4 files | numpy | discovery |
-| L19-53 | [Result Evaluator](../../../../course/ai_engineering/phases/19-capstone-projects/53-result-evaluator "The runner produced numbers. The evaluator decides whether those numbers are an improvement, a regression, or noise. Build the verdict path ") | 2 files | numpy | discovery |
-| L19-54 | [Paper Writer](../../../../course/ai_engineering/phases/19-capstone-projects/54-paper-writer "A LaTeX skeleton is a contract between the researcher and the typesetter. If the contract is broken the document does not compile, and the f") | 2 files | standard library only | discovery |
-| L19-55 | [Critic Loop](../../../../course/ai_engineering/phases/19-capstone-projects/55-critic-loop "A critic that returns 'looks good' the first time is broken. A critic that always returns 'needs work' is broken. The interesting critic is ") | 2 files | standard library only | discovery |
-| L19-56 | [Iteration Scheduler](../../../../course/ai_engineering/phases/19-capstone-projects/56-iteration-scheduler "A research loop without a scheduler is a queue with delusions. The scheduler is where the loop decides what to stop exploring, and that deci") | 2 files | numpy | discovery |
-| L19-57 | [End-to-End Research Demo](../../../../course/ai_engineering/phases/19-capstone-projects/57-end-to-end-research-demo "A demo is the place where every contract you wrote earlier has to compose. If any one of them leaks, the demo is the lesson that catches it.") | 2 files | standard library only | discovery |
+| Folder | What the script does | Run |
+|---|---|---|
+| [50-hypothesis-generator/](50-hypothesis-generator/README.md) | Hypothesis generator: temperature ramped sampling, novelty filter, ranked queue | `python code/main.py` |
+| [51-literature-retrieval/](51-literature-retrieval/README.md) | Literature retrieval: BM25 over abstracts plus citation graph traversal, merged | `python code/main.py` |
+| [52-experiment-runner/](52-experiment-runner/README.md) | Experiment runner: subprocess sandbox with timeout, memory poller, ablation table | `python code/main.py` |
+| [53-result-evaluator/](53-result-evaluator/README.md) | Result evaluator: improvement check, paired t test, log normalisation, verdict | `python code/main.py` |
+| [54-paper-writer/](54-paper-writer/README.md) | LaTeX paper skeleton generator with figure injection and a mocked prose generator | `python code/main.py` |
+| [55-critic-loop/](55-critic-loop/README.md) | Multi-turn critic loop for a paper draft with five fixed scoring dimensions | `python code/main.py` |
+| [56-iteration-scheduler/](56-iteration-scheduler/README.md) | Auto-research orchestrator: hypothesis queue, parallel slots, UCB scoring, fan-out | `python code/main.py` |
+| [57-end-to-end-research-demo/](57-end-to-end-research-demo/README.md) | End-to-end auto-research demo: seed -> scheduler -> critic loop -> paper writer | `python code/main.py` |

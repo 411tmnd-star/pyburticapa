@@ -1,16 +1,16 @@
-# Capstone track: pretraining at scale
+# pretraining at scale
 
-[Corpus](../../../README.md) / [projects](../../README.md)  ·  8 entries  ·  discovery 8
+[Corpus](../../../README.md) / [projects](../../README.md)  ·  Course: [ai_engineering/phases/19-capstone-projects](../../../../course/ai_engineering/phases/19-capstone-projects)
 
-**Course:** [ai_engineering/phases/19-capstone-projects](../../../../course/ai_engineering/phases/19-capstone-projects)
+Each folder holds the Python of one lesson or project. Open it, read the script, run it.
 
-| ID | Entry | Python | Needs | Status | Instructions |
-|---|---|---|---|---|---|
-| L19-42 | [Large Corpus Downloader](../../../../course/ai_engineering/phases/19-capstone-projects/42-large-corpus-downloader "Training a language model begins long before the first forward pass. The corpus has to land on disk, decompressed, deduplicated, and address") | 3 files | zstandard | discovery |  |
-| L19-43 | [HDF5 Tokenized Corpus](../../../../course/ai_engineering/phases/19-capstone-projects/43-hdf5-tokenized-corpus "The downloaded corpus has to land in a layout the trainer can stream from at line speed. JSONL on disk does not survive 16 dataloader worker") | 3 files | h5py, numpy | discovery |  |
-| L19-44 | [Cosine LR with Linear Warmup](../../../../course/ai_engineering/phases/19-capstone-projects/44-cosine-lr-warmup "The learning-rate schedule is the second most important decision after the loss function. AdamW with a cosine decay and a linear warmup is t") | 3 files | torch | discovery |  |
-| L19-45 | [Gradient Clipping and Mixed Precision](../../../../course/ai_engineering/phases/19-capstone-projects/45-gradient-clipping-amp "The optimizer and schedule from the previous lesson assume gradients are sane. They usually are not. A single bad batch can spike the gradie") | 3 files | torch | discovery |  |
-| L19-46 | [Gradient Accumulation](../../../../course/ai_engineering/phases/19-capstone-projects/46-gradient-accumulation "Train at an effective batch you cannot afford, one micro-batch at a time. Scale the loss, hold the optimizer step, and let the gradients pil") | 2 files | torch | discovery | [skill-gradient-accumulation.md](../../../../llm_instructions/skills/phases/19-capstone-projects/46-gradient-accumulation/outputs/skill-gradient-accumulation.md) |
-| L19-47 | [Checkpoint Save and Resume](../../../../course/ai_engineering/phases/19-capstone-projects/47-checkpoint-save-resume "Train interrupts kill runs; checkpoints let them continue. Save model, optimizer, scheduler, loss history, step counter, and RNG state, atom") | 2 files | numpy, torch | discovery | [skill-checkpoint-save-resume.md](../../../../llm_instructions/skills/phases/19-capstone-projects/47-checkpoint-save-resume/outputs/skill-checkpoint-save-resume.md) |
-| L19-48 | [Distributed Data Parallel and FSDP from Scratch](../../../../course/ai_engineering/phases/19-capstone-projects/48-distributed-fsdp-ddp "Multi-rank training is two collectives and one rule. Broadcast the parameters at startup, average the gradients after backward, never let th") | 2 files | torch | discovery | [skill-distributed-fsdp-ddp.md](../../../../llm_instructions/skills/phases/19-capstone-projects/48-distributed-fsdp-ddp/outputs/skill-distributed-fsdp-ddp.md) |
-| L19-49 | [Language Model Evaluation Harness](../../../../course/ai_engineering/phases/19-capstone-projects/49-lm-eval-harness "A model that does well on a task you cannot define is a model that does well by accident. The harness is the task definition, the metric, th") | 2 files | standard library only | discovery | [skill-lm-eval-harness.md](../../../../llm_instructions/skills/phases/19-capstone-projects/49-lm-eval-harness/outputs/skill-lm-eval-harness.md) |
+| Folder | What the script does | Run |
+|---|---|---|
+| [42-large-corpus-downloader/](42-large-corpus-downloader/README.md) | Streaming corpus downloader with resume, MinHash plus LSH dedup, and a shard manifest | `python main.py` |
+| [43-hdf5-tokenized-corpus/](43-hdf5-tokenized-corpus/README.md) | Streaming tokenization into resizable, sharded HDF5 datasets with mmap reads | `python main.py` |
+| [44-cosine-lr-warmup/](44-cosine-lr-warmup/README.md) | AdamW with cosine learning-rate schedule and linear warmup | `python main.py` |
+| [45-gradient-clipping-amp/](45-gradient-clipping-amp/README.md) | Gradient clipping and mixed-precision training step | `python main.py` |
+| [46-gradient-accumulation/](46-gradient-accumulation/README.md) | Gradient accumulation from scratch | `python main.py` |
+| [47-checkpoint-save-resume/](47-checkpoint-save-resume/README.md) | Checkpoint save and resume from scratch | `python code/main.py` |
+| [48-distributed-fsdp-ddp/](48-distributed-fsdp-ddp/README.md) | Distributed data parallel from scratch on the gloo backend | `python main.py` |
+| [49-lm-eval-harness/](49-lm-eval-harness/README.md) | Language model evaluation harness from scratch | `python main.py` |

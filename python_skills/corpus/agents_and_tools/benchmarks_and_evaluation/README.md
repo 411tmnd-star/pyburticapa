@@ -1,11 +1,11 @@
 # Benchmarks and evaluation
 
-[Corpus](../../README.md) / [agents and tools](../README.md)  ·  3 entries  ·  discovery 3
+[Corpus](../../README.md) / [agents_and_tools](../README.md)  ·  Course: [ai_engineering/phases/14-agent-engineering](../../../course/ai_engineering/phases/14-agent-engineering)
 
-**Course:** [ai_engineering/phases/14-agent-engineering](../../../course/ai_engineering/phases/14-agent-engineering)
+Each folder holds the Python of one lesson or project. Open it, read the script, run it.
 
-| ID | Entry | Python | Needs | Status | Instructions |
-|---|---|---|---|---|---|
-| L14-19 | [Benchmarks: SWE-bench, GAIA, AgentBench](../../../course/ai_engineering/phases/14-agent-engineering/19-benchmarks-swebench-gaia "Three benchmarks anchor agent evaluation in 2026. SWE-bench tests code patching. GAIA tests generalist tool use. AgentBench tests multi-envi") | 1 file | standard library only | discovery | [skill-benchmark-harness.md](../../../llm_instructions/skills/phases/14-agent-engineering/19-benchmarks-swebench-gaia/outputs/skill-benchmark-harness.md) |
-| L14-20 | [Benchmarks: WebArena and OSWorld](../../../course/ai_engineering/phases/14-agent-engineering/20-benchmarks-webarena-osworld "WebArena tests web-agent capability across four self-hosted apps. OSWorld tests desktop-agent capability across Ubuntu, Windows, macOS. At r") | 1 file | standard library only | discovery | [skill-web-desktop-harness.md](../../../llm_instructions/skills/phases/14-agent-engineering/20-benchmarks-webarena-osworld/outputs/skill-web-desktop-harness.md) |
-| L14-30 | [Eval-Driven Agent Development](../../../course/ai_engineering/phases/14-agent-engineering/30-eval-driven-agent-development "Anthropic's guidance: 'start with simple prompts, optimize them with comprehensive evaluation, and add multi-step agentic systems only when ") | 1 file | standard library only | discovery | [skill-eval-suite.md](../../../llm_instructions/skills/phases/14-agent-engineering/30-eval-driven-agent-development/outputs/skill-eval-suite.md) |
+| Folder | What the script does | Run |
+|---|---|---|
+| [19-benchmarks-swebench-gaia/](19-benchmarks-swebench-gaia/README.md) | Toy SWE-bench-style harness plus a GAIA-style difficulty classifier | `python main.py` |
+| [20-benchmarks-webarena-osworld/](20-benchmarks-webarena-osworld/README.md) | Toy web-agent harness with execution-based eval and trajectory efficiency | `python main.py` |
+| [30-eval-driven-agent-development/](30-eval-driven-agent-development/README.md) | Three-layer eval harness with evaluator-optimizer loop and CI gate | `python main.py` |

@@ -1,10 +1,10 @@
 # Reliability and operations
 
-[Corpus](../../README.md) / [production](../README.md)  ·  2 entries  ·  discovery 2
+[Corpus](../../README.md) / [production](../README.md)  ·  Course: [ai_engineering/phases/17-infrastructure-and-production](../../../course/ai_engineering/phases/17-infrastructure-and-production)
 
-**Course:** [ai_engineering/phases/17-infrastructure-and-production](../../../course/ai_engineering/phases/17-infrastructure-and-production)
+Each folder holds the Python of one lesson or project. Open it, read the script, run it.
 
-| ID | Entry | Python | Needs | Status | Instructions |
-|---|---|---|---|---|---|
-| L17-23 | [SRE for AI — Multi-Agent Incident Response, Runbooks, Predictive Detection](../../../course/ai_engineering/phases/17-infrastructure-and-production/23-sre-for-ai "AI SRE uses LLMs grounded in infrastructure data (logs, runbooks, service topology) via RAG to automate investigation, documentation, and co") | 1 file | standard library only | discovery | [skill-ai-sre-plan.md](../../../llm_instructions/skills/phases/17-infrastructure-and-production/23-sre-for-ai/outputs/skill-ai-sre-plan.md) |
-| L17-24 | [Chaos Engineering for LLM Production](../../../course/ai_engineering/phases/17-infrastructure-and-production/24-chaos-engineering-llm "Chaos engineering for LLMs is its own discipline in 2026. Prerequisites before running experiments in production: defined SLI/SLO, trace+met") | 1 file | standard library only | discovery | [skill-chaos-plan.md](../../../llm_instructions/skills/phases/17-infrastructure-and-production/24-chaos-engineering-llm/outputs/skill-chaos-plan.md) |
+| Folder | What the script does | Run |
+|---|---|---|
+| [23-sre-for-ai/](23-sre-for-ai/README.md) | Multi-agent AI SRE triage simulator — stdlib Python | `python main.py` |
+| [24-chaos-engineering-llm/](24-chaos-engineering-llm/README.md) | Chaos engineering runner with safety plane gates — stdlib Python | `python main.py` |

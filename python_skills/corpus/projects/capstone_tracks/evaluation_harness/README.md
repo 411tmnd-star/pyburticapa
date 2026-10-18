@@ -1,14 +1,14 @@
-# Capstone track: evaluation harness
+# evaluation harness
 
-[Corpus](../../../README.md) / [projects](../../README.md)  ·  6 entries  ·  discovery 6
+[Corpus](../../../README.md) / [projects](../../README.md)  ·  Course: [ai_engineering/phases/19-capstone-projects](../../../../course/ai_engineering/phases/19-capstone-projects)
 
-**Course:** [ai_engineering/phases/19-capstone-projects](../../../../course/ai_engineering/phases/19-capstone-projects)
+Each folder holds the Python of one lesson or project. Open it, read the script, run it.
 
-| ID | Entry | Python | Needs | Status |
-|---|---|---|---|---|
-| L19-70 | [Task Spec Format](../../../../course/ai_engineering/phases/19-capstone-projects/70-task-spec-format "An eval harness is only as good as the contract its tasks honour. Freeze the JSONL shape and the metric vocabulary before you write a single") | 2 files | standard library only | discovery |
-| L19-71 | [Classical Metrics](../../../../course/ai_engineering/phases/19-capstone-projects/71-classical-metrics "BLEU, ROUGE-L, F1, exact-match, accuracy. Five metrics that still account for most published LLM eval numbers. Implement each from first pri") | 2 files | numpy | discovery |
-| L19-72 | [Code Exec Metric](../../../../course/ai_engineering/phases/19-capstone-projects/72-code-exec-metric "Generated code is right when it passes the tests. The eval harness has to extract code, run it without crashing the host, and tally pass-rat") | 2 files | numpy | discovery |
-| L19-73 | [Perplexity and Calibration](../../../../course/ai_engineering/phases/19-capstone-projects/73-perplexity-calibration "If your model says 90 percent confident on a thousand answers and gets six hundred right, it is not well calibrated. Calibration is half of ") | 2 files | numpy | discovery |
-| L19-74 | [Leaderboard Aggregation](../../../../course/ai_engineering/phases/19-capstone-projects/74-leaderboard-aggregation "Per-task scores are easy. Per-model rankings across heterogeneous tasks are harder. Statistical significance on a thousand-prediction leader") | 2 files | numpy | discovery |
-| L19-75 | [End-to-End Eval Runner](../../../../course/ai_engineering/phases/19-capstone-projects/75-end-to-end-eval-runner "Five lessons of plumbing, one lesson to glue them. The runner reads the task spec from lesson 70, calls a model through an adapter, scores w") | 2 files | standard library only | discovery |
+| Folder | What the script does | Run |
+|---|---|---|
+| [70-task-spec-format/](70-task-spec-format/README.md) | Task spec format: JSONL schema, validator, post-process, fixture loader | `python code/main.py` |
+| [71-classical-metrics/](71-classical-metrics/README.md) | Classical metrics: exact_match, F1, BLEU-4, ROUGE-L, accuracy | `python code/main.py` |
+| [72-code-exec-metric/](72-code-exec-metric/README.md) | Code execution metric: extract, sandbox subprocess, pass-at-k | `python code/main.py` |
+| [73-perplexity-calibration/](73-perplexity-calibration/README.md) | Perplexity and calibration: ECE, Brier, reliability diagram | `python code/main.py` |
+| [74-leaderboard-aggregation/](74-leaderboard-aggregation/README.md) | Leaderboard aggregation: pivot, mean, win-rate, bootstrap CI, markdown | `python code/main.py` |
+| [75-end-to-end-eval-runner/](75-end-to-end-eval-runner/README.md) | End-to-end eval runner: tasks -> adapter -> metric -> calibration -> leaderboard | `python code/main.py` |

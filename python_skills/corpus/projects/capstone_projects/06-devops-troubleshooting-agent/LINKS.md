@@ -1,0 +1,15 @@
+# Links: Capstone 06 — DevOps Troubleshooting Agent for Kubernetes
+
+- Quiz: [phases/19-capstone-projects/06-devops-troubleshooting-agent/quiz.json](../../../../course/ai_engineering/phases/19-capstone-projects/06-devops-troubleshooting-agent/quiz.json)
+- Diagram: [phases/19-capstone-projects/06-devops-troubleshooting-agent/assets/rca-graph.svg](../../../../course/ai_engineering/phases/19-capstone-projects/06-devops-troubleshooting-agent/assets/rca-graph.svg)
+- TypeScript version: [phases/19-capstone-projects/06-devops-troubleshooting-agent/code/ts/src/agent.ts](../../../../course/ai_engineering/phases/19-capstone-projects/06-devops-troubleshooting-agent/code/ts/src/agent.ts)
+- TypeScript version: [phases/19-capstone-projects/06-devops-troubleshooting-agent/code/ts/src/blocks.ts](../../../../course/ai_engineering/phases/19-capstone-projects/06-devops-troubleshooting-agent/code/ts/src/blocks.ts)
+- TypeScript version: [phases/19-capstone-projects/06-devops-troubleshooting-agent/code/ts/src/index.ts](../../../../course/ai_engineering/phases/19-capstone-projects/06-devops-troubleshooting-agent/code/ts/src/index.ts)
+- TypeScript version: [phases/19-capstone-projects/06-devops-troubleshooting-agent/code/ts/src/server.ts](../../../../course/ai_engineering/phases/19-capstone-projects/06-devops-troubleshooting-agent/code/ts/src/server.ts)
+- TypeScript version: [phases/19-capstone-projects/06-devops-troubleshooting-agent/code/ts/src/slack_verify.ts](../../../../course/ai_engineering/phases/19-capstone-projects/06-devops-troubleshooting-agent/code/ts/src/slack_verify.ts)
+- TypeScript version: [phases/19-capstone-projects/06-devops-troubleshooting-agent/code/ts/src/types.ts](../../../../course/ai_engineering/phases/19-capstone-projects/06-devops-troubleshooting-agent/code/ts/src/types.ts)
+- TypeScript version: [phases/19-capstone-projects/06-devops-troubleshooting-agent/code/ts/tests/agent.test.ts](../../../../course/ai_engineering/phases/19-capstone-projects/06-devops-troubleshooting-agent/code/ts/tests/agent.test.ts)
+- TypeScript version: [phases/19-capstone-projects/06-devops-troubleshooting-agent/code/ts/tests/server.test.ts](../../../../course/ai_engineering/phases/19-capstone-projects/06-devops-troubleshooting-agent/code/ts/tests/server.test.ts)
+- TypeScript version: [phases/19-capstone-projects/06-devops-troubleshooting-agent/code/ts/tests/slack_verify.test.ts](../../../../course/ai_engineering/phases/19-capstone-projects/06-devops-troubleshooting-agent/code/ts/tests/slack_verify.test.ts)
+- LLM skill: [skill-devops-agent.md](../../../../llm_instructions/skills/phases/19-capstone-projects/06-devops-troubleshooting-agent/outputs/skill-devops-agent.md)
+- Original lesson folder: [phases/19-capstone-projects/06-devops-troubleshooting-agent](../../../../course/ai_engineering/phases/19-capstone-projects/06-devops-troubleshooting-agent)

@@ -10,7 +10,7 @@ Python tools for turning years of AI chat history into knowledge you can search 
 |---|---|
 | `python_skills/confirmed/` | Your confirmed workflows: the Python skills, one folder each (code, tests, README). The list with commands is [below](#python-skills) |
 | `python_skills/pc_workflows/` | General workflows from your whole PC: `PC_SCAN_ROWS.csv` (the 2,313 laptop-scan rows from `INVENTORY.csv`; those files are still on the laptop, not in this repo) and the AudioLab files that were imported |
-| `python_skills/course/` | The course material: the whole `ai_engineering` copy (Python, other languages, and the LLM instructions), import manifests and provenance |
+| `python_skills/course/` | The course material: the `ai_engineering` copy (Python and other languages), import manifests and provenance. `course/llm_instructions/` holds the LLM instruction files pulled out of it: `skills/` (391 `skill-*.md`) and `prompts/` (101 `prompt-*` files), each keeping its original path under the course |
 | `python_skills/INVENTORY.csv` | The master list, 9,763 rows, with tier 1, 2 and 3 for every file |
 | `docs/REFERENCE.md` | All the notes in one file: capabilities, workflows, next actions, dependencies, scope review (5 parts, with contents list) |
 | `records/` | The other CSV records: `MIGRATION_LOG.csv` (every copy, with hashes), `VERIFICATION.csv` (checks and evidence), `SCOPE_REVIEW.csv`, `GEMINI_SCRIPT_CLASSIFICATION.csv` |

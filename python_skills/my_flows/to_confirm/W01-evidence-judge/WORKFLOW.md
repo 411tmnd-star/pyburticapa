@@ -1,6 +1,6 @@
 # W01 · Evidence judge
 
-**Type** A: course + our workflow · **Goals** research and 411 · **Status** to confirm
+**Type** A: course + our workflow · **Goals** research and 411 · **Status** confirmed 2026-10-18 (see ../REGISTRY.csv)
 
 Upgrade verify.py from 'is the quote in the snapshot' to 'does each sentence of a write-up rest on an accepted claim'. verify.py stays the quote gate; the course's Report Judge adds sentence-level citation checks on the write-up built from accepted.md.
 
@@ -14,7 +14,7 @@ Upgrade verify.py from 'is the quote in the snapshot' to 'does each sentence of 
 ## Run (target)
 
 ```bash
-python3 -I judge.py example/write-up.md example/accepted.md
+python -I -X utf8 python_skills/confirmed/evidence_judge/judge.py WRITEUP.md ACCEPTED.md
 ```
 
 ## Pass

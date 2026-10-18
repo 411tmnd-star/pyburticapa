@@ -16,3 +16,11 @@ Newest entry last. One entry per workflow: what was built, the pass command and 
 - **Pass:** on a fresh clone of 8e7ed0a9, `python -I -X utf8 python_skills/confirmed/handoff_kit/init.py` printed the environment, `PASS 50 test(s)`, named W01 as first open, exit 0. Failing suite gives exit 1 (unit-tested on a throwaway repo).
 - **Decisions:** kept it a reporter (writes nothing, no lock files or TTL from the course lesson). "First open" is registry order, skipping rows whose `notes` start with `blocked` or `parked`, so it names W01 now, not W16; the HANDOFF order is advice for the human. Key values are never printed. The unit test uses a fake repo so it does not re-run the whole suite from inside itself.
 - **Surprises:** the full suite is slower than before on a cold clone (about 5.5 minutes versus 1.5 to 3 on a warm tree); `test_corpus.py` dominates. `git -version` is not a valid flag (git wants `--version`), caught by running it.
+
+## 2026-10-18 · W01 evidence judge
+
+- **Built:** `python_skills/confirmed/evidence_judge/judge.py` with README and a worked example (`write-up.md`, `accepted.md`); `tests/test_evidence_judge.py` (14 tests). `verify.py`'s README step 8 now points to it.
+- **Pass:** the example gives `6 sentence(s): 4 supported, 2 flagged`, exit 1; the two flags are the uncited sentence (S2) and the one citing the rejected c5 (S5). Full suite 64 OK.
+- **Decisions:** evidence for a sentence is the cited claims' text plus their quotes (a paraphrase of the claim is allowed); several citations pool their evidence; overlap threshold 0.5, picked from a 17-sentence calibration set rather than guessed; exposed `judge.judge()` and `judge.parse_accepted()` so W16 can import it.
+- **Surprises:** the first run flagged exactly the two planted faults, but one good sentence scored exactly at the 0.6 threshold, so the example was passing by luck; hence the calibration set. Adding "nobody" as a negation word caught "Roommates always know who paid" but also flags the honest paraphrase "lose track of who paid"; kept the strict direction and listed it as a known false flag. `verify.py`'s shipped example has no `status:` lines, so `--accepted` writes zero claims from it; the judge example carries its own `accepted.md`, and a test proves it matches what `verify.py` writes once statuses are set.
+

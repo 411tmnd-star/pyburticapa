@@ -11,6 +11,7 @@
 5. **Fix failures at the source.** Recapture the page or drop the claim. Never edit a quote to make it pass.
 6. **Record your decision** with `- status: accepted` or `- status: rejected` under each claim.
 7. **Write up from accepted claims only** (`--accepted accepted.md` writes exactly those).
+8. **Check the write-up** with [`judge.py`](../../../confirmed/evidence_judge/README.md): every sentence cites an accepted claim, and the words, numbers and negations fit it. Exit 1 on any flag.
 
 ## The two input files
 

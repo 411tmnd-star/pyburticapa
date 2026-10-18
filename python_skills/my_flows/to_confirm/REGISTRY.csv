@@ -18,4 +18,4 @@ W16,Demand report with judge,A,research and 411,my_flows/research/demand_researc
 W17,Follow up desk,C,sales,,P-inbox-triage-desk; P-meeting-notes-to-actions,,to confirm,,,W17-follow-up-desk,
 W18,Ad captions,C,marketing,,P-voice-note-transcriber-pipeline; P-subtitle-localization-desk,,to confirm,,,W18-ad-captions,
 W19,411 eval runner,C,research and 411,,P-local-model-eval-harness; CC-14; P-prompt-regression-tester,Claude API,to confirm,,,W19-411-eval-runner,parked: needs Claude API spend and the owner's labelled data and answer keys; no API call is run
-W20,Handoff kit,C,all,my_flows/HANDOFF.md,CC-07; L14-34; L14-35,,to confirm,,,W20-handoff-kit,
+W20,Handoff kit,C,all,my_flows/HANDOFF.md,CC-07; L14-34; L14-35,,confirmed,python_skills/confirmed/handoff_kit,"2026-10-18: fresh clone of 8e7ed0a9, `python -I -X utf8 python_skills/confirmed/handoff_kit/init.py` -> PASS 50 tests OK (wall 328s), names W01 as first open, READY, exit 0; failing-suite exit 1 covered by tests/test_handoff_kit.py (7 tests OK)",W20-handoff-kit,

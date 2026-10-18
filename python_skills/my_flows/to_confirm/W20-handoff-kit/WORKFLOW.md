@@ -1,6 +1,6 @@
 # W20 · Handoff kit
 
-**Type** C: course + course · **Goals** all · **Status** to confirm
+**Type** C: course + course · **Goals** all · **Status** confirmed 2026-10-18 (see ../REGISTRY.csv)
 
 Make every chat-to-laptop handoff the same: a HANDOFF.md, task briefs, and an init script Claude Code runs first so it never starts cold.
 

@@ -90,6 +90,32 @@ class ToConfirm(unittest.TestCase):
             self.assertTrue(all(x["course_id"] for x in rows))
 
 
+class Legibility(unittest.TestCase):
+    """legibility.py reproduces the robot audit's pixel sizes."""
+    SCRIPT = MF / "research" / "3d_marketing_engine" / "legibility.py"
+
+    def test_hero_camera_numbers(self):
+        r = py(self.SCRIPT)
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertIn("5.11 - 6.51", r.stdout)
+        self.assertIn("0.46 - 0.59 px", r.stdout)
+        self.assertIn("15.3 - 19.5 mm", r.stdout)
+        self.assertIn("10.96 - 11.12", r.stdout)
+
+    def test_one_camera_and_bad_input(self):
+        r = py(self.SCRIPT, "--focal", "85", "--distance", "11.59", "14.76", "--feature-mm", "5")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertIn("0.77 - 0.98 px", r.stdout)
+        self.assertEqual(py(self.SCRIPT, "--focal", "0", "--distance", "1", "2").returncode, 2)
+
+
+class NewDocs(unittest.TestCase):
+    def test_eval_task_set_has_ten_tasks(self):
+        text = (TC / "W19-411-eval-runner" / "EVAL_TASKS.md").read_text(encoding="utf-8")
+        rows = re.findall(r"(?m)^\| (\d+) \|", text)
+        self.assertEqual(rows, [str(i) for i in range(1, 11)])
+
+
 class Hygiene(unittest.TestCase):
     TEXT = (".md", ".py", ".html", ".js", ".css", ".csv", ".json", ".jsonl", ".txt")
 

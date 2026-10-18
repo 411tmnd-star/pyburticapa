@@ -307,6 +307,17 @@ Video: [ntSbFUQZHJ0](https://www.youtube.com/watch?v=ntSbFUQZHJ0)
 
 Three tiers (Claude, cheaper model, plain code) and a six-step loop with .md brief files. Doc: Stretching Claude Pro (chat doc)
 
+Habits that save allowance without any proxy:
+
+- **Short sessions.** Start a new session about every 50,000 tokens (the video's rule; quality drops past that).
+- **One task per session.** A sprawling session carries more history on every request.
+- **Brief files instead of chat history.** A 10-line brief costs less than re-explaining the project.
+- **Show only what is needed.** Give Claude the file or the diff, not the whole folder.
+- **Move mechanical work to code.** If a script can do it, no model should.
+- **Expect a fixed overhead.** In the video's log a one-word "Hello" used about 30,000 input tokens (Claude Code's system prompt). Fewer, larger requests waste less than many tiny ones.
+
+Open and unchecked: whether a proxy fits Anthropic's terms for your account, and whether you can switch between your Pro login and the proxy inside one session. The three tiers, the brief files and the review loop are our practice, not from the video. Our rule is Claude for the model step, so tier B means a cheaper Claude model or a short focused session.
+
 
 Video: [U6gg_bi1I70](https://www.youtube.com/watch?v=U6gg_bi1I70)
 

@@ -6,7 +6,7 @@ Run the 411 10-task eval set reproducibly against Claude: recorded responses, ex
 
 ## How the parts connect
 
-1. the 10 tasks as fixtures with explicit pass checks
+1. the 10 tasks as fixtures with explicit pass checks: [EVAL_TASKS.md](EVAL_TASKS.md)
 2. Local Model Evaluation Harness's recording and comparison format, pointed at the Claude API instead of a local model
 3. CC-14: trace, eval, regression gate
 4. Prompt Regression Tester compares two prompt or model versions on the same recordings

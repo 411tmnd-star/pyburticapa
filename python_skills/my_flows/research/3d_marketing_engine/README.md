@@ -40,6 +40,17 @@ Verified here on 2026-10-17: `bpy` 5.2.2 needs Python 3.13 exactly and brings nu
 
 Stages talk through files, so the split costs nothing.
 
+## Check a detail is visible before modelling it
+
+`legibility.py` turns camera, lens and render size into millimetres per pixel: `distance * sensor_width / (focal_length * width_px)`. A feature needs about 3 px to read as a shape, so at the robot audit's hero camera (85 mm, 11.6 to 14.8 m, 960 px wide, 36 mm sensor) one pixel is 5.11 to 6.51 mm and nothing under 15 to 19 mm reads as geometry. That detail is delivered by the material (a shading seam, a texture), not by modelling. Lines are the exception: the eye picks up a 1 to 1.5 px dark seam far below the size at which it resolves a shape.
+
+```bash
+python3 -I legibility.py                                              # the audit's three cameras
+python3 -I legibility.py --focal 85 --distance 11.59 14.76 --feature-mm 5
+```
+
+Verified here on 2026-10-18: the three cameras give the audit's numbers (5.11 to 6.51, 10.96 to 11.12 and 2.40 to 4.36 mm per pixel, to rounding). Use it on the engine's own cameras before a garment gets seams, stitching or prints that must read.
+
 ## Database (Supabase)
 
 | Table | Holds |

@@ -33,7 +33,7 @@ Account setup (Business Manager, ad account, billing, developer app) is done by 
 - Snap's minimum daily budget, from Snap itself
 - Whether Ads API access needs approval for a new account
 - Whether a Nigerian card works for ad billing
-- Meta's equivalent steps (your Meta API notes live in the chat artifact "Meta API")
+- Meta's side is in [META_API.md](META_API.md) (also unrun)
 
 Sources: [Snap Ads API quick start](https://developers.snap.com/api/marketing-api/Ads-API/quick-start), [Snap Ads API authentication](https://developers.snap.com/api/marketing-api/Ads-API/authentication), [Snapchat ad specs](https://megadigital.ai/en/blog/snapchat-ad-specs/).
 

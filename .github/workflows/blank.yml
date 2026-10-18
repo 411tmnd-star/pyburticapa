@@ -24,6 +24,7 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Prompt/reply pipeline
         run: |
+          python -m pip install beautifulsoup4 markdownify
           python -B -X utf8 tools/prompt_reply_pipeline/tests/test_pipeline.py
           python -B -X utf8 tools/prompt_reply_pipeline/tests/test_speaker_cases.py
           python -B -X utf8 tools/prompt_reply_pipeline/tests/test_discovery_link.py

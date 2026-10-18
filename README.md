@@ -50,7 +50,7 @@ python -m unittest discover -s tests -v
 
 | Tool | What it does |
 |---|---|
-| `tools/prompt_reply_pipeline` | Separates prompts from replies in chat exports, sends replies to a local Ollama model and checks its output in code (tested) |
+| `tools/prompt_reply_pipeline` | Separates prompts from replies in chat exports, sends replies to a local Ollama model and checks its output in code (tested; `.mht` input needs `beautifulsoup4` and `markdownify`) |
 | `tools/schema_validate` | Tool registry with a JSON Schema 2020-12 subset validator (tested; adapted from a course lesson) |
 | `tools/mht_to_md_tool`, `tools/pdf_to_md`, `tools/knowledge_extraction` | Saved web pages, PDFs and JSONL → Markdown |
 | `tools/x_pipeline` | Turns a list of X post links into Markdown notes with article text, images, videos and transcripts |

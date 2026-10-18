@@ -1,0 +1,4 @@
+{
+  "comment": "Subfolders (below python_skills/corpus/) that use the unit layout: one folder per lesson or project holding its exact Python files and a how-to README. Use [\"*\"] for every subfolder.",
+  "unit_layout": ["agents_and_tools/agent_loop_and_reasoning"]
+}

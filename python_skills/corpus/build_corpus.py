@@ -528,7 +528,143 @@ def readme(entries):
     return "\n".join(L)
 
 
+UNITS_CONFIG = os.path.join(HERE, "units.json")
+UNIT_KINDS = {"lesson", "project", "certification lesson"}
+
+
+def unit_scope():
+    with open(UNITS_CONFIG, encoding="utf-8") as fh:
+        return json.load(fh).get("unit_layout", [])
+
+
+def in_unit_scope(folder, scope):
+    r = os.path.relpath(folder, HERE).replace(os.sep, "/")
+    return "*" in scope or any(r == s or r.startswith(s + "/") for s in scope)
+
+
+def unit_name(e):
+    return slug(os.path.basename(e["source"]))
+
+
+def unit_sources(e):
+    """{path inside the unit: course file} for the Python of one entry, copied exactly."""
+    src = os.path.join(COURSE, e["source"])
+    base = os.path.join(src, "solution" if e["kind"] == "project" else "code")
+    out = {}
+    if os.path.isdir(base):  # the code folder (lesson) or the finished solution (project), minus other-language sources
+        for f in walk_files(base):
+            if os.path.splitext(f)[1] not in OTHER_EXT:
+                out[os.path.relpath(f, base).replace(os.sep, "/")] = f
+    if e["kind"] != "project":  # lesson Python that lives outside code/ keeps its path
+        for f in walk_files(src):
+            r = os.path.relpath(f, src).replace(os.sep, "/")
+            if f.endswith(".py") and not r.startswith("code/"):
+                out[r] = f
+    return out
+
+
+def first_paragraph(py):
+    try:
+        doc = ast.get_docstring(ast.parse(read(py))) or ""
+    except SyntaxError:
+        return ""
+    return doc.strip().split("\n\n")[0].replace("\n", " ").strip()
+
+
+def runnable(py):
+    return re.search(r"^if __name__ == ['\"]__main__['\"]", read(py), re.M) is not None
+
+
+def main_file(names):
+    top = [n for n in names if n.endswith(".py") and "/" not in n]
+    for pref in ("main.py", "cli.py", "app.py"):
+        if pref in top:
+            return pref
+    return sorted(top)[0] if top else None
+
+
+def unit_readme(e, unit, copied):
+    src = os.path.join(COURSE, e["source"])
+    names = sorted(copied)
+    mf = main_file(names)
+    doc = ""
+    if mf:
+        try:
+            doc = (ast.get_docstring(ast.parse(read(copied[mf]))) or "").strip()
+        except SyntaxError:
+            doc = ""
+    L = [f"# {e['title']}", ""]
+    if e["summary"]:
+        L += [f"> {e['summary']}", ""]
+    L += [f"## What `{mf}` does" if mf else "## What it does", ""]
+    L += (["```text"] + doc.splitlines()[:25] + ["```"]) if doc else ["See the files below."]
+    L += ["", "(from the script's own docstring)" if doc else "", ""]
+    runs = [n for n in names if n.endswith(".py") and "/" not in n and runnable(copied[n])]
+    runs = ([mf] if mf in runs else []) + [n for n in runs if n != mf]
+    tests = sorted({n.split("/")[0] for n in names if n.endswith(".py") and re.search(r"(^|/)tests?/", n)})
+    L += ["## Run it", "", "From this folder:", "", "```"]
+    L += [f"python {n}" for n in runs] or ["(no script with a main block; import it from Python)"]
+    for tdir in tests:
+        uses_pytest = any("pytest" in imports_of(copied[n]) for n in names if n.startswith(tdir + "/") and n.endswith(".py"))
+        L.append(f"python -m pytest {tdir}" if uses_pytest else f"python -m unittest discover -s {tdir}")
+    L += ["```", "", f"Needs: {e['needs'] or 'nothing'}", "",
+          "## Files", ""]
+    L += [f"- [`{n}`]({n})" for n in names]
+    L += ["", "These are exact copies from the course; `build_corpus.py` checks they stay identical. "
+          "Adapt the code in your own skill under `python_skills/confirmed/`, not here.", "", "## Learn more", ""]
+    links = []
+    def add(label, path):
+        if os.path.exists(path):
+            links.append(f"- {label}: [{os.path.relpath(path, COURSE).replace(os.sep, '/')}]({os.path.relpath(path, unit).replace(os.sep, '/')})")
+    add("Theory", os.path.join(src, "docs", "en.md"))
+    add("Project guide", os.path.join(src, "README.md"))
+    add("API", os.path.join(src, "API.md"))
+    add("Quiz", os.path.join(src, "quiz.json"))
+    for f in sorted(walk_files(os.path.join(src, "assets"))) if os.path.isdir(os.path.join(src, "assets")) else []:
+        add("Diagram", f)
+    if e["kind"] == "project" and os.path.isdir(os.path.join(src, "stages")):
+        for s in sorted(os.listdir(os.path.join(src, "stages"))):
+            add(f"Stage {s}", os.path.join(src, "stages", s))
+    for f in sorted(walk_files(os.path.join(src, "code"))) if os.path.isdir(os.path.join(src, "code")) else []:
+        if os.path.splitext(f)[1] in OTHER_EXT:
+            add(f"{OTHER_EXT[os.path.splitext(f)[1]]} version", f)
+    for x in [x for x in e["llm_instructions"].split("; ") if x]:
+        links.append(f"- LLM instructions: [{os.path.basename(x)}]({os.path.relpath(os.path.join(LLM, x), unit).replace(os.sep, '/')})")
+    add("Original lesson folder" if e["kind"] != "project" else "Original project folder", src)
+    L += links + ["", "## Use it in a workflow", "",
+                  (e["notes"] or "Not adapted yet. When you adapt it, write the skill name in the `notes` column of `CATALOG.csv`."), ""]
+    return "\n".join(L)
+
+
+def unit_map(folder, own, units):
+    """README of a subfolder in the unit layout: one line per unit, in learning order."""
+    rel_dir = os.path.relpath(folder, HERE).replace(os.sep, "/")
+    depth = rel_dir.count("/") + 1
+    first = rel_dir.split("/")[0]
+    cat = next(c for c, (f, _) in CATEGORIES.items() if f == first)
+    L = [f"# {own[0]['subcategory'].split(': ')[-1]}", "",
+         f"[Corpus]({'../' * depth}README.md) / [{first}]({'../' * (depth - 1)}README.md)  ·  "
+         f"Course: [ai_engineering/{course_target(own)}]({course_link(folder, course_target(own))})", "",
+         "Each folder holds the Python of one lesson or project. Open it, read the script, run it.", "",
+         "| Folder | What the script does | Run |", "|---|---|---|"]
+    others = []
+    for e in own:
+        if e["source"] in units:
+            name, copied = units[e["source"]]
+            mf = main_file(sorted(copied))
+            what = first_paragraph(copied[mf]) if mf else e["summary"]
+            what = esc(what.split(". ")[0].rstrip(".")[:120])
+            L.append(f"| [{name}/]({name}/README.md) | {what} | `python {mf}` |" if mf else f"| [{name}/]({name}/README.md) | {what} | |")
+        else:
+            others.append(e)
+    if others:
+        L += ["", "## Not Python (links only)", ""]
+        L += [f"- [{esc(e['title'])}]({course_link(folder, e['source'])}) ({e['other_languages'] or 'no code'})" for e in others]
+    return "\n".join(L) + "\n"
+
+
 def outputs(entries):
+    scope = unit_scope()
     by_dir, tree = {}, {}
     for i, e in enumerate(entries):
         d = entry_dir(e)
@@ -546,20 +682,51 @@ def outputs(entries):
         ORDER[os.path.join(HERE, f)] = i
     files = {CATALOG: catalog_text(entries), os.path.join(HERE, "README.md"): readme(entries)}
     for f in sorted(folders):
-        if os.path.normpath(f) != os.path.normpath(HERE):
+        if os.path.normpath(f) == os.path.normpath(HERE):
+            continue
+        own = by_dir.get(f, [])
+        if own and in_unit_scope(f, scope):
+            units = {}
+            for e in own:
+                if e["kind"] in UNIT_KINDS and e["python_files"]:
+                    copied = unit_sources(e)
+                    if copied:
+                        name = unit_name(e)
+                        units[e["source"]] = (name, copied)
+                        udir = os.path.join(f, name)
+                        for r, srcf in copied.items():
+                            with open(srcf, "rb") as fh:
+                                files[os.path.join(udir, *r.split("/"))] = fh.read()
+                        files[os.path.join(udir, "README.md")] = unit_readme(e, udir, copied)
+            files[os.path.join(f, "README.md")] = unit_map(f, own, units)
+        else:
             files[os.path.join(f, "README.md")] = page_for(f, tree, by_dir)
     return files
 
 
+KEEP = {"build_corpus.py", "CATALOG.csv", "README.md", "units.json"}
+
+
 def stale_files(files):
-    """Generated Markdown from an earlier layout (for example the flat category pages) that is no longer produced."""
+    """Files in the generated folders that are no longer produced (earlier layouts, removed copies)."""
     out = []
-    for d, _, fs in os.walk(HERE):
+    for d, dirs, fs in os.walk(HERE):
+        dirs[:] = [x for x in dirs if x != "__pycache__"]
         for f in fs:
             p = os.path.join(d, f)
-            if f.endswith(".md") and p not in files:
+            if p in files or (d == HERE and f in KEEP):
+                continue
+            if d != HERE or f.endswith(".md"):
                 out.append(p)
     return sorted(out)
+
+
+def same(p, content):
+    if not os.path.isfile(p):
+        return False
+    with open(p, "rb") as fh:
+        data = fh.read()
+    return data == (content if isinstance(content, bytes) else content.encode("utf-8"))
 
 
 def main(argv=None):
@@ -572,21 +739,23 @@ def main(argv=None):
     entries = merge(build_entries(), load_hand_columns())
     files = outputs(entries)
     if a.check:
-        stale = [p for p, t in files.items() if not os.path.isfile(p) or open(p, encoding="utf-8", newline="").read() != t]
-        stale += stale_files(files)
+        stale = [p for p, c in files.items() if not same(p, c)] + stale_files(files)
         for p in stale:
             print("out of date:", os.path.relpath(p, HERE))
         return 1 if stale else 0
     for p in stale_files(files):
         os.remove(p)
-    for p, t in files.items():
+    for p, c in files.items():
+        if same(p, c):
+            continue
         os.makedirs(os.path.dirname(p), exist_ok=True)
-        with open(p, "w", encoding="utf-8", newline="") as fh:
-            fh.write(t)
-    for d, dirs, fs in os.walk(HERE, topdown=False):  # drop folders left empty by the move
+        with open(p, "wb") as fh:
+            fh.write(c if isinstance(c, bytes) else c.encode("utf-8"))
+    for d, dirs, fs in os.walk(HERE, topdown=False):  # drop folders left empty
         if d != HERE and not os.listdir(d):
             os.rmdir(d)
-    print(f"{len(entries)} entries -> CATALOG.csv, README.md and {len(files) - 2} folder pages")
+    copies = sum(1 for c in files.values() if isinstance(c, bytes))
+    print(f"{len(entries)} entries -> CATALOG.csv, README.md, {len(files) - 2 - copies} folder pages, {copies} copied course files")
     return 0
 
 

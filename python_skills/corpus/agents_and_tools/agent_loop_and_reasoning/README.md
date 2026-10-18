@@ -1,14 +1,14 @@
 # Agent loop and reasoning
 
-[Corpus](../../README.md) / [agents and tools](../README.md)  ·  6 entries  ·  discovery 6
+[Corpus](../../README.md) / [agents_and_tools](../README.md)  ·  Course: [ai_engineering/phases/14-agent-engineering](../../../course/ai_engineering/phases/14-agent-engineering)
 
-**Course:** [ai_engineering/phases/14-agent-engineering](../../../course/ai_engineering/phases/14-agent-engineering)
+Each folder holds the Python of one lesson or project. Open it, read the script, run it.
 
-| ID | Entry | Python | Needs | Status | Instructions |
-|---|---|---|---|---|---|
-| L14-01 | [The Agent Loop: Observe, Think, Act](../../../course/ai_engineering/phases/14-agent-engineering/01-the-agent-loop "Every agent in 2026 is a variant of the ReAct loop from 2022 — Claude Code, Cursor, Devin, Operator included. Reasoning tokens interleave wi") | 1 file + TypeScript | standard library only | discovery | [skill-agent-loop.md](../../../llm_instructions/skills/phases/14-agent-engineering/01-the-agent-loop/outputs/skill-agent-loop.md) |
-| L14-02 | [ReWOO and Plan-and-Execute: Decoupled Planning](../../../course/ai_engineering/phases/14-agent-engineering/02-rewoo-plan-and-execute "ReAct interleaves thought and action in one stream. ReWOO separates them: one big plan up front, then execute. 5x fewer tokens, +4% accuracy") | 1 file | standard library only | discovery | [skill-rewoo-planner.md](../../../llm_instructions/skills/phases/14-agent-engineering/02-rewoo-plan-and-execute/outputs/skill-rewoo-planner.md) |
-| L14-03 | [Reflexion: Verbal Reinforcement Learning](../../../course/ai_engineering/phases/14-agent-engineering/03-reflexion-verbal-rl "Gradient-based RL needs thousands of trials and a GPU cluster to fix a failure mode. Reflexion (Shinn et al., NeurIPS 2023) does it in natur") | 1 file | standard library only | discovery | [skill-reflexion-buffer.md](../../../llm_instructions/skills/phases/14-agent-engineering/03-reflexion-verbal-rl/outputs/skill-reflexion-buffer.md) |
-| L14-04 | [Tree of Thoughts and LATS: Deliberate Search](../../../course/ai_engineering/phases/14-agent-engineering/04-tree-of-thoughts-lats "A single chain-of-thought trajectory has no room to backtrack. ToT (Yao et al., 2023) turns reasoning into a tree with self-evaluation on ea") | 1 file | standard library only | discovery | [skill-search-policy.md](../../../llm_instructions/skills/phases/14-agent-engineering/04-tree-of-thoughts-lats/outputs/skill-search-policy.md) |
-| L14-05 | [Self-Refine and CRITIC: Iterative Output Improvement](../../../course/ai_engineering/phases/14-agent-engineering/05-self-refine-and-critic "Self-Refine (Madaan et al., 2023) uses one LLM in three roles — generate, feedback, refine — in a loop. Average gain: +20 absolute on 7 task") | 1 file | standard library only | discovery | [skill-refine-loop.md](../../../llm_instructions/skills/phases/14-agent-engineering/05-self-refine-and-critic/outputs/skill-refine-loop.md) |
-| L14-11 | [Planning with HTN and Evolutionary Search](../../../course/ai_engineering/phases/14-agent-engineering/11-planning-htn-and-evolutionary "Symbolic planning handles the cases where the plan is provably correct. Evolutionary code search handles the cases where the fitness functio") | 1 file | standard library only | discovery | [skill-hybrid-planner.md](../../../llm_instructions/skills/phases/14-agent-engineering/11-planning-htn-and-evolutionary/outputs/skill-hybrid-planner.md) |
+| Folder | What the script does | Run |
+|---|---|---|
+| [01_the_agent_loop/](01_the_agent_loop/README.md) | Toy ReAct agent loop — stdlib only | `python main.py` |
+| [02_rewoo_plan_and_execute/](02_rewoo_plan_and_execute/README.md) | Toy ReWOO — Planner, Workers, Solver | `python main.py` |
+| [03_reflexion_verbal_rl/](03_reflexion_verbal_rl/README.md) | Toy Reflexion loop — Actor, Evaluator, Self-Reflector, Episodic memory | `python main.py` |
+| [04_tree_of_thoughts_lats/](04_tree_of_thoughts_lats/README.md) | Toy Tree-of-Thoughts BFS and LATS MCTS on a stylized arithmetic search | `python main.py` |
+| [05_self_refine_and_critic/](05_self_refine_and_critic/README.md) | Toy Self-Refine and CRITIC loop | `python main.py` |
+| [11_planning_htn_and_evolutionary/](11_planning_htn_and_evolutionary/README.md) | HTN planner (with scripted LLM fallback) plus a toy evolutionary search | `python main.py` |

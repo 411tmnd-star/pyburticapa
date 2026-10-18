@@ -1,8 +1,22 @@
 # Pyburticapa
 
-> **Two words are used here: *Python skill* and *discovery*.** A Python skill is a workflow you can install and run, with one command, a defined input and a defined output; it is pure Python or hybrid (Claude does one step). A discovery is a collected item that has not been built into a skill. The full list, with commands and evidence, is in [`SKILLS.md`](SKILLS.md). Only Python is kept in this repo.
+> **Two words are used here: *Python skill* and *discovery*.** A Python skill is a workflow you can install and run, with one command, a defined input and a defined output; it is pure Python or hybrid (Claude does one step). A discovery is a collected item that has not been built into a skill. The full list, with commands and evidence, is under [Python skills](#python-skills) below. Only Python is kept in this repo.
 
 Python tools for turning years of AI chat history into knowledge you can search and trust. Standard library only, tested on Linux with Python 3.11–3.13; CI also runs on Windows.
+
+## Where things are
+
+| Folder or file | What is in it |
+|---|---|
+| `python_skills/` | The Python skills, one folder each (code, tests, README). The list with commands is [below](#python-skills) |
+| `docs/REFERENCE.md` | All the notes in one file: capabilities, workflows, next actions, dependencies, scope review (5 parts, with contents list) |
+| `records/` | The CSV records: `INVENTORY.csv` (every collected Python file, 9,763 rows), `MIGRATION_LOG.csv` (every copy, with hashes), `VERIFICATION.csv` (checks and evidence), `SCOPE_REVIEW.csv`, `GEMINI_SCRIPT_CLASSIFICATION.csv` |
+| `imports/` | Discoveries: course and project material collected but not built into skills (has its own `PROVENANCE.md` and `IMPORT_REPORT.md`) |
+| `tests/` | End-to-end tests for the knowledge-recovery skill; each skill's own tests are in its folder |
+| `outputs/` | Where workflow runs write by default (`python demo.py` writes `outputs/demo/`) |
+| `.claude/skills/` | Claude Code skills that run the Python on the laptop |
+| `_meta/` | Scripts that built the inventory and migration records; historical, they still use the old paths and are not run by CI |
+| `demo.py` | One-command demo on invented data |
 
 ## Headline tool: ChatGPT export → source-traceable knowledge base
 
@@ -30,14 +44,14 @@ This builds a small invented export (4 conversations with a fork, a regenerated 
 
 ### Use it on your own export
 
-One command: `python -I -X utf8 tools/knowledge_recovery/run.py <export folder> <output folder> --subject "<your subject>"`. The same thing step by step:
+One command: `python -I -X utf8 python_skills/knowledge_recovery/run.py <export folder> <output folder> --subject "<your subject>"`. The same thing step by step:
 
 ```
-python -I -X utf8 tools/chatgpt_takeout_split/takeout_to_clean_md.py run  <export folder> <clean folder>
-python -I -X utf8 tools/chatgpt_takeout_split/takeout_to_clean_md.py verify <export folder> <clean folder>
-python -I -X utf8 tools/knowledge_recovery/recover.py ingest --archive <clean folder>
-python -I -X utf8 tools/knowledge_recovery/recover.py check
-python -I -X utf8 tools/knowledge_recovery/recover.py dossier "<your subject>"
+python -I -X utf8 python_skills/chatgpt_takeout_split/takeout_to_clean_md.py run  <export folder> <clean folder>
+python -I -X utf8 python_skills/chatgpt_takeout_split/takeout_to_clean_md.py verify <export folder> <clean folder>
+python -I -X utf8 python_skills/knowledge_recovery/recover.py ingest --archive <clean folder>
+python -I -X utf8 python_skills/knowledge_recovery/recover.py check
+python -I -X utf8 python_skills/knowledge_recovery/recover.py dossier "<your subject>"
 ```
 
 The export folder is the unzipped ChatGPT data export (`conversations.json`, or sharded `conversations-000.json` …). Subject spellings, topics and domain terms go in `aliases.json` (`--aliases` to use another file). Private conversations can be left out with `exclude.json` (`--exclude`). The database and dossiers hold private text and are git-ignored.
@@ -50,51 +64,55 @@ python -m unittest discover -s tests -v
 
 13 end-to-end tests run the real command-line scripts on the fabricated export. They cover verify catching an edited output file, a hash mismatch stopping the run, branch de-duplication, misspelling search, decision labels, the related-terms section and exclusions. CI (`.github/workflows/blank.yml`) runs them, together with the prompt/reply pipeline and schema-validator tests and the demo, on Ubuntu and Windows.
 
-## Other tools
-
-| Tool | What it does |
-|---|---|
-| `tools/prompt_reply_pipeline` | Separates prompts from replies in chat exports, sends replies to a local Ollama model and checks its output in code (tested; `.mht` input needs `beautifulsoup4` and `markdownify`) |
-| `tools/schema_validate` | Tool registry with a JSON Schema 2020-12 subset validator (tested; adapted from a course lesson) |
-| `tools/mht_to_md_tool`, `tools/pdf_to_md`, `tools/knowledge_extraction` | Saved web pages, PDFs and JSONL → Markdown |
-| `tools/x_pipeline` | Turns X post links (passed in, no built-in list) into Markdown notes with article text, images, videos and transcripts |
-| `tools/repo_inspect`, `tools/env_preflight` | Read-only report on a GitHub repo (nothing installed or run); read-only environment check (adapted, MIT) |
-| `discover/` | Searches the owner's capability registry (needs the private Harness data; its tests fail without it) |
-
 ---
 
-# Toolkit internals (original notes)
+## Python skills
 
-A reusable, discoverable copy of the Harness's independent Python tools. **Originals in `tool harness\` are untouched; nothing was moved or deleted.** Created 2026-10-14.
+Two words are used in this repo, and only two.
 
-## Layout
+- **Python skill**: a workflow you can install and run. It has one command, a defined input and a defined output.
+- **Discovery**: a Python item that was collected (the 2,300+ rows in `records/INVENTORY.csv`, the course material in `imports/`) but has not been built into something installed and run as part of your work. A discovery becomes a Python skill when it is built into a runnable workflow.
 
-| Path | Contents |
-|---|---|
-| `tools\` | Copied tools (code, requirements, docs only; no data) |
-| `discover\` | Copy of `discover.py` + tests + config, adapted (see `discover\CHANGES_FROM_ORIGINAL.md`) |
-| `outputs\` | Designated output location for workflow runs (empty; nothing historical is stored here) |
-| `tools\prompt_reply_pipeline\tests\` | Unit tests + synthetic fixtures (fabricated content) so the pipeline is testable without any historical files |
-| `GEMINI_SCRIPT_CLASSIFICATION.csv` | Evidence-based classification of the Gemini debug/backup scripts |
-| `SCOPE_REVIEW.md/.csv` | Scope rules, file classification and the cleanup record |
+The old "implemented / not implemented" split in `docs/REFERENCE.md` is replaced by this one.
 
-Historical generated material that used to sit here was **moved (not deleted)** to `C:\Users\USER\Desktop\Python_Toolkit_QUARANTINE\` (outside the toolkit; `MANIFEST.csv` lists original paths and SHA-256).
-| `INVENTORY.csv` | Consolidated inventory: all 2,313 original `PY_INVENTORY.csv` rows kept, +104 added. Columns record group, capability, disposition, toolkit path, verification |
-| `MIGRATION_LOG.csv` | Every copy: source, destination, SHA-256 of both, hash check |
-| `VERIFICATION.csv` | Checks run and their evidence |
-| `SKILLS.md` | The Python skills (one command, input, output, evidence) and what counts as a discovery |
-| `CAPABILITIES.md`, `WORKFLOWS.md` | Category -> tool -> script -> workflow notes (older wording; see the note at the top of each) |
-| `REMAINING_DEPENDENCIES.md` | What stays in the Harness and why; what still depends on it |
-| `_meta\` | Scripts that built and checked this folder (scan, migrate, verify, inventory) |
+### Two kinds of Python skill
 
-## How to use
+- **Pure**: Python does every step. Nothing is interpreted by an LLM.
+- **Hybrid**: Python does steps 1, 2 and 4; Claude does step 3. Step 3 must write its result in a fixed format that step 4 can read, otherwise step 4 cannot be a script. No local models (Ollama): the LLM step is Claude.
 
-- Search: `cd discover` then `python -I -X utf8 discover.py <query>` (reads the Harness registry; set the path in `discover_config.json`).
-- Search extra folders as well: write a JSON list `[["<absolute folder>", "*.md"]]` and pass `--extra-sources <file>` (opt-in; default behaviour unchanged).
-- Separate prompts/replies: `python -I -X utf8 tools\prompt_reply_pipeline\pipeline.py all <SRC> <OUT>` (use a folder under `outputs\` for `<OUT>`).
-- Test the pipeline on its own fixtures: `python -B -X utf8 tools\prompt_reply_pipeline\tests\test_pipeline.py`.
-- Re-check the toolkit: `python -I -X utf8 _meta\verify.py` (local; appends a run to `VERIFICATION.csv`). `--full` also re-runs the checks that read Harness data.
+Only Python goes in this repo. Instructions written for an LLM live in Claude chat, not here. (`.claude/skills/` holds Claude Code skills, which run the Python on the laptop; they are not Claude chat skills.)
 
-## Status vocabulary (kept separate in `INVENTORY.csv`)
+### Two run modes
 
-confirmed present - verified execution - not verified - proposed - unresolved. "Verified execution" means a check in `VERIFICATION.csv` passed; `--help` only is labelled as such.
+- **Check mode**: while a skill is still being established. Claude may read the script, run it and diagnose problems.
+- **Strict run mode**: only after a skill is established ("this is the script, run it, don't read anything else"). Claude reads the script only if the run reports a problem, then it goes back to check mode.
+
+A skill is **established** when it gives accurate output for many inputs, including the awkward ones, and you have confirmed it. Establish one skill before expanding it into a multi-skill.
+
+### The Python skills
+
+"Owner-run" is your own statement (2026-10-18) that you ran the tool; it was not re-run here. "Tested here" means the checks in this repo, on invented inputs.
+
+| Python skill | Kind | One command | Input -> output | Evidence |
+| --- | --- | --- | --- | --- |
+| ChatGPT knowledge recovery | pure | `python -I -X utf8 python_skills/knowledge_recovery/run.py EXPORT OUT --subject NAME` | ChatGPT export folder -> `OUT/clean`, `OUT/knowledge.db`, `OUT/dossiers/` | Owner-run on the real export; 16 end-to-end tests here, CI on Linux and Windows |
+| X extractor | pure | `python python_skills/x_pipeline/x_link.py LINK... --out DIR` (or `run_all.py LINKS --workdir DIR`) | X links -> notes, article text, images, videos, transcripts, `SUMMARY.md` | Owner-run (original steps); `x_link.py` and the `--workdir` options tested here offline only. Claude Code skill: `.claude/skills/x-extractor` |
+| yt-outliers | pure | `python python_skills/yt_outliers/yt_outliers.py --channels ID... --out DIR` | YouTube channel ids -> ranked outlier list (`digest.md`), CSV | `python_skills/yt_outliers/` (copy of repo `411tmnd-star/yt-outliers`, MIT): 22 tests and the sample run in CI; needs a YouTube Data API key (`YOUTUBE_API_KEY`) for real channels; a live run was not seen |
+| Chat reply extractor | pure | `python -I -X utf8 python_skills/chat_reply_extractor/chat_reply_extractor.py SRC --out OUT [--handlers handlers.json]` | chat-export `.md` folder -> replies only, `audit/` | Owner-run; tested here on invented files; file names live in `handlers.json` |
+| PDF to Markdown | pure | `python python_skills/pdf_to_md/pdf_to_md.py PDF_OR_FOLDER [OUT]` | PDF or folder -> `.md` | Owner-run; tested here |
+| MHT to Markdown | pure | `python python_skills/mht_to_md_tool/mht_to_md.py --source DIR --output DIR` | MHT/MHTML folder -> `.md`, manifest, log | Owner-run; tested here |
+| Google AI Mode MHT, JSONL, ChatGPT JSON to Markdown | pure | `python python_skills/knowledge_extraction/v2/{mht_to_md,jsonl_to_md,convert}.py INPUT --out DIR` | file/folder -> `.md` | Owner-run; tested here |
+| Gemini share links to Markdown | pure | `python python_skills/gemini_md2/gemini_batch.py LINK... --out DIR` | Gemini links (or `--src DIR` of `.txt` files) -> `.md`, manifest | Owner-run; offline checks only here (Gemini unreachable from the test environment) |
+| Prompt/reply pipeline | hybrid (step 3 not built) | `python -I -X utf8 python_skills/prompt_reply_pipeline/convert_for_pipeline.py SRC OUT --prepare` | mixed exports -> prompts, replies, prepared sections | Steps 1, 2 and 4 tested (29 tests). Step 3 is written for Ollama and was never run; it should become a Claude step with a fixed output format |
+| Repo inspection | pure | `python python_skills/repo_inspect/repo_inspect.py URL --out DIR` | GitHub URL -> read-only report | Owner-run; offline check here |
+| Environment preflight, schema validator | pure | `python_skills/env_preflight/env_preflight.py`, `python_skills/schema_validate/schema_validate.py` | - | Tested here (adapted, MIT) |
+
+Also here, but not a skill: `python_skills/gemini_md2/test*_validate.py`, `survey_candidates.py`, `gemini_to_md.py` and `debug/` are records of the experiments that produced the Gemini parser, with the four test chats written into them.
+
+### Discoveries
+
+Everything under `imports/` (course and project material, never run as a workflow) and the Tier 1 and Tier 2 rows of `records/INVENTORY.csv` (reference material and candidate code). `records/INVENTORY.csv` keeps its original `tier` column for now; Tier 3 means "core and active tool", which is the list of Python skills above plus AudioLab.
+
+## Status words in the records
+
+confirmed present, verified execution, not verified, proposed, unresolved (columns in `records/INVENTORY.csv`). "Verified execution" means a check in `records/VERIFICATION.csv` passed; `--help` only is labelled as such.

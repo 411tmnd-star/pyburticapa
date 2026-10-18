@@ -19,8 +19,8 @@ OUT = os.path.join(ROOT, "outputs", "demo")
 sys.path.insert(0, os.path.join(ROOT, "tests", "fixtures"))
 import make_takeout  # noqa: E402
 
-SPLIT = os.path.join(ROOT, "tools", "chatgpt_takeout_split", "takeout_to_clean_md.py")
-RECOVER = os.path.join(ROOT, "tools", "knowledge_recovery", "recover.py")
+SPLIT = os.path.join(ROOT, "python_skills", "chatgpt_takeout_split", "takeout_to_clean_md.py")
+RECOVER = os.path.join(ROOT, "python_skills", "knowledge_recovery", "recover.py")
 
 
 def step(title, *args):

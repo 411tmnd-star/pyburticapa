@@ -48,12 +48,6 @@ Outputs: `OUT\replies`, `OUT\prompts`, `OUT\documents`, `OUT\unsure`, and `OUT\l
 
 Tests: `python -B -X utf8 tests\test_pipeline.py` (21 tests, synthetic fixtures). The converter tests run the existing converters locally and are skipped if bs4 or markdownify is missing.
 
-## Connecting the output to discover.py (added 2026-10-14)
+## discover_extra_sources.json
 
-`convert_for_pipeline.py` now also writes `OUT\discover_extra_sources.json`, listing only the `replies` and `documents` folders (absolute paths, `*.md`). Prompts are excluded on purpose: a prompt is a question, not evidence.
-
-Use it with the toolkit copy of discover:
-
-    python -B -I -X utf8 ..\..\discover\discover.py --class note --extra-sources OUT\discover_extra_sources.json "your query"
-
-Discovery reports each hit with its source file and line range, and a status of "research note passage". Without the flag, the synthetic material is not searched.
+`convert_for_pipeline.py` still writes `OUT\discover_extra_sources.json`, listing the `replies` and `documents` folders (absolute paths, `*.md`). `discover.py` was removed from the repo on 2026-10-18; the file is kept for the search that will replace it.

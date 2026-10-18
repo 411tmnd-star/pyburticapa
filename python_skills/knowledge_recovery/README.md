@@ -1,6 +1,6 @@
 # knowledge_recovery
 
-Searches the cleaned ChatGPT archive (`PROMPTS` and `REPLIES` folders, made by `tools\chatgpt_takeout_split`) at message level and writes a grouped, source-traceable dossier for any subject. Standard library only (needs a Python whose SQLite has FTS5; the scripts check this and say so).
+Searches the cleaned ChatGPT archive (`PROMPTS` and `REPLIES` folders, made by `python_skills\chatgpt_takeout_split`) at message level and writes a grouped, source-traceable dossier for any subject. Standard library only (needs a Python whose SQLite has FTS5; the scripts check this and say so).
 
 **One command, export folder to dossier:** `python -I -X utf8 run.py EXPORT_DIR OUT_DIR --subject "NAME"` (runs the split, verify, ingest, check and dossier steps below in order; `--subject` can repeat; `--aliases`/`--exclude` optional).
 

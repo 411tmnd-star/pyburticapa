@@ -1,5 +1,5 @@
 """Tests for x_link.py. No network: tweet fetching and slow steps are replaced by fakes.
-Run: python -B tools/x_pipeline/tests/test_x_link.py   (or python -m unittest in this folder)"""
+Run: python -B python_skills/x_pipeline/tests/test_x_link.py   (or python -m unittest in this folder)"""
 import io
 import sys
 import tempfile

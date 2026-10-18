@@ -6,7 +6,7 @@ import sqlite3
 from pathlib import Path
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-ROOT = os.path.dirname(os.path.dirname(HERE))  # the toolkit root (tools/knowledge_recovery -> tools -> root)
+ROOT = os.path.dirname(os.path.dirname(HERE))  # the toolkit root (python_skills/knowledge_recovery -> python_skills -> root)
 DEFAULT_DB = os.path.join(ROOT, "output", "knowledge_recovery", "knowledge.db")
 DEFAULT_OUT = os.path.join(ROOT, "output", "knowledge_recovery", "dossiers")
 ALIASES_FILE = os.path.join(HERE, "aliases.json")

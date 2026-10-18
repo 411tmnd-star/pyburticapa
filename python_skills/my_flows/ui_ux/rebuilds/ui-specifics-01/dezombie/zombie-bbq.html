@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Seoulful (zombie version)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* The "most probable answer": what a one-line prompt ("website for my Korean BBQ restaurant")
+   tends to return. Same formula as the nine grid pages: pill, 2-line hero with a tinted
+   second line, two pills, a dashboard card. Can you tell what it sells? */
+:root{--bg:#0d0b1f;--panel:#15122c;--line:rgba(255,255,255,.09);--text:#f3f1ff;--mute:#9c97bd;--a:#8b6cff;--b:#e86bd6;--sans:"Inter",system-ui,sans-serif}
+*{box-sizing:border-box} html,body{margin:0}
+body{background:radial-gradient(80% 60% at 50% 0%,#221a4d,var(--bg) 70%);color:var(--text);font-family:var(--sans);min-height:100vh;overflow-x:hidden}
+nav{max-width:1100px;margin:0 auto;display:flex;gap:30px;align-items:center;padding:22px 24px;font-size:13px;color:#c9c5e6}
+nav b{margin-right:auto;color:#fff;font-size:17px}
+nav .cta{background:var(--a);color:#fff;border-radius:8px;padding:9px 16px;font-weight:600}
+.hero{text-align:center;padding:30px 24px 0}
+.pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:12px;color:var(--mute)}
+h1{font:700 clamp(36px,5vw,60px)/1.08 var(--sans);letter-spacing:-.03em;margin:18px 0 0}
+h1 span{display:block;background:linear-gradient(90deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--mute);max-width:36ch;margin:16px auto 0;line-height:1.55}
+.ctas{display:flex;gap:12px;justify-content:center;margin-top:24px}
+.btn{border-radius:999px;padding:12px 24px;font:600 13px var(--sans);border:1px solid var(--line);background:transparent;color:var(--text)}
+.btn.p{background:var(--a);border-color:var(--a)}
+.card{max-width:860px;margin:40px auto 0;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;text-align:left}
+.k{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.k div{border:1px solid var(--line);border-radius:12px;padding:12px;font-size:11px;color:var(--mute)}
+.k b{display:block;font-size:22px;color:#fff;margin-top:6px}
+@media (max-width:760px){nav a{display:none}.k{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<nav><b>◆ Seoulful</b><a>Features</a><a>Menu</a><a>About</a><a>Contact</a><span class="cta">Book now</span></nav>
+<section class="hero">
+  <span class="pill">✦ New: online reservations are live</span>
+  <h1>Experience authentic flavor. <span>Elevated.</span></h1>
+  <p class="sub">The all-in-one dining experience that brings people together, faster than ever.</p>
+  <div class="ctas"><button class="btn p">Get started</button><button class="btn">Learn more</button></div>
+  <div class="card">
+    <div class="k"><div>Guests served<b>12.4K</b></div><div>Avg. rating<b>4.8</b></div><div>Dishes<b>36</b></div><div>Happy hours<b>5–7</b></div></div>
+    <svg id="c" style="width:100%;height:150px;margin-top:14px"></svg>
+  </div>
+</section>
+<script src="../zombie/kit.js"></script>
+<script>Kit.areaChart(document.getElementById('c'),[2,3,2.6,3.8,3.2,4.4,4,5.2,4.6,6],{stroke:'#b99bff',fill1:'#8b6cff',grid:'rgba(255,255,255,.05)',width:820,height:150});</script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Campfire Film Breakdown</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
+<link rel="stylesheet" href="ui.css">
+<style>
+.pipe{overflow-x:auto;margin:20px 0;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+.pipe svg{display:block;min-width:900px;width:100%;height:auto}
+.pipe text{font-family:var(--body)}
+.player{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:18px;align-items:start}
+.player video{width:100%;border-radius:var(--r);background:#000;display:block}
+.beats{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.beats li{display:grid;grid-template-columns:62px 1fr;gap:10px;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--surface);font-size:13px;cursor:pointer}
+.beats li.on{border-color:var(--ember);background:var(--ember-soft)}
+.beats b{font:500 12px var(--mono);color:var(--ember)}
+.track{position:relative;height:30px;margin-top:10px;border-radius:6px;overflow:hidden;background:var(--sunk);display:flex}
+.track span{border-right:1px solid var(--bg);font:10px var(--mono);color:var(--mute);display:grid;place-items:center;white-space:nowrap;overflow:hidden}
+.track i{position:absolute;top:0;bottom:0;width:2px;background:var(--ember);left:0}
+.compare{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:16px}
+.lane{display:flex;height:34px;border-radius:6px;overflow:hidden;margin:8px 0 14px}
+.lane span{font:10px var(--mono);display:grid;place-items:center;color:#fff;border-right:1px solid rgba(255,255,255,.35);overflow:hidden;white-space:nowrap}
+.k1{background:#7b5cd6}.k2{background:#4a3fd6}.k3{background:#2f7d4f}.k4{background:#a46a00}.k5{background:#d9452b}.k6{background:#5f6270}
+@media (max-width:760px){.player{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="index.html">UI Specifics</a><span>/</span><span>Campfire film</span></nav>
+  <h1>Campfire film breakdown</h1>
+  <p class="lede">The opening animation for the 2026 Lenny &amp; Friends Summit, shown at <span class="tc">15:00</span>–<span class="tc">16:08</span> of the talk. Below: the pipeline as shown on her slides, a shot-by-shot timing of version 1 against the final (version 56), what changed between them, and a working Blender version of the same camera grammar on an original scene.</p>
+
+  <div class="quote">The team started with a 3D model of the scene and then they brought it into AI to help with the different animations.<cite>The talk, at ~15:06. Transcript from the video; timing from your screen recording.</cite></div>
+
+  <p class="note">Labels used on this page: <span class="tag v">seen in frame</span> I read it off your recording; <span class="tag s">her words</span> said in the talk; <span class="tag i">my inference</span> my reading, not stated; <span class="tag u">unchecked</span> not verified anywhere. Stripe's film is not reproduced here. The scene in the Blender section is original and only borrows the camera grammar.</p>
+
+  <h2>The pipeline</h2>
+  <p>Six stages, in the order the slides showed them. Stages 1, 2 and 5 are visible on screen; 3, 4 and 6 are how the visible stages have to connect.</p>
+  <div class="pipe" role="img" aria-label="Pipeline: 3D blockout, node canvas style exploration, chosen style frames, image-to-video per shot, review wall of 56 versions, edit and title.">
+    <svg viewBox="0 0 1100 250">
+      <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--faint)"/></marker></defs>
+      <g font-size="13" fill="var(--ink)">
+        <g><rect x="10" y="40" width="160" height="150" rx="10" fill="var(--surface)" stroke="var(--line)"/><text x="24" y="66" font-weight="600">1 · 3D blockout</text><text x="24" y="90" fill="var(--mute)" font-size="12">Cinema 4D scene file</text><text x="24" y="108" fill="var(--mute)" font-size="12">v025, grey clay</text><text x="24" y="126" fill="var(--mute)" font-size="12">CAM · LIGHTS · GEO</text><text x="24" y="144" fill="var(--mute)" font-size="12">46-frame timeline</text><text x="24" y="174" fill="var(--ok)" font-size="11" font-family="var(--mono)">seen in frame</text></g>
+        <g><rect x="196" y="40" width="170" height="150" rx="10" fill="var(--surface)" stroke="var(--line)"/><text x="210" y="66" font-weight="600">2 · Node canvas</text><text x="210" y="90" fill="var(--mute)" font-size="12">"Design Frames</text><text x="210" y="108" fill="var(--mute)" font-size="12">Explorations"</text><text x="210" y="126" fill="var(--mute)" font-size="12">6 groups × ~10 outputs</text><text x="210" y="144" fill="var(--mute)" font-size="12">per element</text><text x="210" y="174" fill="var(--ok)" font-size="11" font-family="var(--mono)">seen in frame</text></g>
+        <g><rect x="392" y="40" width="160" height="150" rx="10" fill="var(--surface)" stroke="var(--line)"/><text x="406" y="66" font-weight="600">3 · Style frames</text><text x="406" y="90" fill="var(--mute)" font-size="12">pick the felt/knit look</text><text x="406" y="108" fill="var(--mute)" font-size="12">per element, then</text><text x="406" y="126" fill="var(--mute)" font-size="12">a whole-scene key</text><text x="406" y="174" fill="var(--warn)" font-size="11" font-family="var(--mono)">my inference</text></g>
+        <g><rect x="578" y="40" width="160" height="150" rx="10" fill="var(--surface)" stroke="var(--line)"/><text x="592" y="66" font-weight="600">4 · Image → video</text><text x="592" y="90" fill="var(--mute)" font-size="12">animate each shot</text><text x="592" y="108" fill="var(--mute)" font-size="12">from its key frame</text><text x="592" y="126" fill="var(--mute)" font-size="12">model not named</text><text x="592" y="174" fill="var(--violet)" font-size="11" font-family="var(--mono)">her words: "into AI"</text></g>
+        <g><rect x="764" y="40" width="160" height="150" rx="10" fill="var(--ember-soft)" stroke="var(--ember)"/><text x="778" y="66" font-weight="600">5 · Review wall</text><text x="778" y="90" fill="var(--mute)" font-size="12">2-up, 4-up, then</text><text x="778" y="108" fill="var(--mute)" font-size="12">all 56 versions</text><text x="778" y="126" fill="var(--mute)" font-size="12">side by side</text><text x="778" y="174" fill="var(--ok)" font-size="11" font-family="var(--mono)">seen in frame</text></g>
+        <g><rect x="950" y="40" width="140" height="150" rx="10" fill="var(--surface)" stroke="var(--line)"/><text x="964" y="66" font-weight="600">6 · Edit + title</text><text x="964" y="90" fill="var(--mute)" font-size="12">one 20 s move,</text><text x="964" y="108" fill="var(--mute)" font-size="12">title in the sky,</text><text x="964" y="126" fill="var(--mute)" font-size="12">flame loop hold</text><text x="964" y="174" fill="var(--ok)" font-size="11" font-family="var(--mono)">seen in frame</text></g>
+        <g stroke="var(--faint)" stroke-width="1.5" fill="none" marker-end="url(#ar)"><path d="M170 115H192"/><path d="M366 115H388"/><path d="M552 115H574"/><path d="M738 115H760"/><path d="M924 115H946"/></g>
+        <path d="M844 190 C844 232 658 232 658 194" stroke="var(--ember)" stroke-width="1.5" fill="none" stroke-dasharray="4 4" marker-end="url(#ar)"/>
+        <text x="690" y="244" fill="var(--ember)" font-size="12">not good enough → re-run the shot (56 times)</text>
+      </g>
+    </svg>
+  </div>
+
+  <h3>What each screen actually shows</h3>
+  <div class="tablewrap"><table>
+    <tr><th>Talk time</th><th>On screen</th><th>Detail</th><th>Label</th></tr>
+    <tr><td><span class="tc">15:09</span></td><td>3D viewport</td><td>Cinema 4D with a Redshift menu; file tab reads "LennyFriends…e_v025.c4d"; object manager: CAM, LIGHTS, GEO (Tent, Van, CampFire), SCENE; timeline 0–46 frames, playhead at frame 25; everything untextured grey. The C4D use matches the AI in Design Report case study, which lists Cinema 4D among the team's tools.</td><td><span class="tag v">seen in frame</span></td></tr>
+    <tr><td><span class="tc">15:13</span></td><td>Node canvas</td><td>Board titled "Design Frames Explorations" with six labelled groups: Van, Environment, Plants, Campfire, Campfire, View. Each group: one source frame → text/prompt nodes → a model node → a fan-out to about ten outputs. Header shows "2.8M credits", Share, Tasks; zoom 11%.</td><td><span class="tag v">seen in frame</span></td></tr>
+    <tr><td><span class="tc">15:13</span></td><td>Which tool</td><td>The "W" logo, credit counter and node layout match Weavy, which now appears as Figma Weave on Figma's own blog. She does not name the tool.</td><td><span class="tag i">my inference</span></td></tr>
+    <tr><td><span class="tc">15:17</span></td><td>Version 1</td><td>About 19 s. Shot list below.</td><td><span class="tag v">seen in frame</span></td></tr>
+    <tr><td><span class="tc">15:36</span></td><td>Review wall</td><td>White slide: v1 and the final side by side, then four versions, then an 8 × 7 grid of 56 thumbnails.</td><td><span class="tag v">seen in frame</span></td></tr>
+    <tr><td><span class="tc">15:48</span></td><td>Final (v56)</td><td>About 20 s, ends on the title wide. Shot list below.</td><td><span class="tag v">seen in frame</span></td></tr>
+  </table></div>
+
+  <h2>Shot timing: version 1 against version 56</h2>
+  <p>Timed from your recording at two frames per second, so each boundary is ±0.5 s. Times are seconds into each film.</p>
+  <div class="compare">
+    <div class="card">
+      <h3>Version 1 (≈19 s) <span class="tc">15:17</span></h3>
+      <div class="lane" aria-hidden="true"><span class="k5" style="flex:2.5">fast dolly</span><span class="k6" style="flex:.5">clip</span><span class="k4" style="flex:1">crane</span><span class="k2" style="flex:3.5">pull back</span><span class="k1" style="flex:2.5">rise</span><span class="k3" style="flex:8.5">static wide</span></div>
+      <div class="tablewrap"><table>
+        <tr><th>s</th><th>Camera</th><th>Frame</th></tr>
+        <tr><td>0–2.5</td><td>Fast low dolly forward</td><td>Through mushrooms and ferns, heavy motion blur</td></tr>
+        <tr><td>2.5–3</td><td>Pushes through foliage</td><td>Camera clips through foreground leaves and rug</td></tr>
+        <tr><td>3–4</td><td>Crane up over the knitted rug</td><td>Fire pops in at the top edge</td></tr>
+        <tr><td>4–7.5</td><td>Pull back from a fire close-up</td><td>Tent left, van right appear</td></tr>
+        <tr><td>7.5–10</td><td>Keeps pulling back and rising</td><td>Wide reached</td></tr>
+        <tr><td>10–18.5</td><td>Near static, slight drift</td><td>Flames loop; blurred mushrooms enter bottom right</td></tr>
+      </table></div>
+    </div>
+    <div class="card">
+      <h3>Version 56, final (≈20 s) <span class="tc">15:48</span></h3>
+      <div class="lane" aria-hidden="true"><span class="k2" style="flex:2">track</span><span class="k6" style="flex:1">trunk</span><span class="k5" style="flex:2">dolly in</span><span class="k6" style="flex:2">leaf</span><span class="k1" style="flex:2.5">arc</span><span class="k6" style="flex:2">trunk</span><span class="k4" style="flex:1.5">title</span><span class="k3" style="flex:7">hero hold</span></div>
+      <div class="tablewrap"><table>
+        <tr><th>s</th><th>Camera</th><th>Frame</th></tr>
+        <tr><td>0–2</td><td>Slow lateral track, left to right</td><td>Through foreground mushrooms; shallow focus</td></tr>
+        <tr><td>2–3</td><td>Wipe 1</td><td>A knitted trunk crosses the lens, fire revealed behind it</td></tr>
+        <tr><td>3–5</td><td>Low dolly in</td><td>Fire grows; plants frame the left edge</td></tr>
+        <tr><td>5–7</td><td>Wipe 2, camera arcs</td><td>A big felt leaf sweeps across the lens</td></tr>
+        <tr><td>7–9.5</td><td>Slow arc</td><td>Fire close-up, tent slides in on the right</td></tr>
+        <tr><td>9.5–11.5</td><td>Pull back, wipe 3</td><td>Second trunk crosses the lens</td></tr>
+        <tr><td>11.5–13</td><td>Camera clears the trunk</td><td>Title revealed in the sky; van enters right</td></tr>
+        <tr><td>13–20</td><td>Hold, very slow push</td><td>Title, tent, fire, van, moon; flame loop</td></tr>
+      </table></div>
+    </div>
+  </div>
+
+  <h3>What changed, and why it reads as "care"</h3>
+  <div class="quote">It's a little jilted. You kind of want to get more of the scene, right?<cite>the speaker on version 1, ~15:30</cite></div>
+  <ol class="steps">
+    <li><b>Speed.</b> In version 1 the frame changes hard and continuously for about 4.3 s at the start. I measured frame-to-frame difference across your recording: it stays high from 17.7 s to 22.0 s. In the final, big changes come in short bursts of 1–1.5 s, and those bursts sit exactly on the wipes. <span class="tag v">measured from your recording</span></li>
+    <li><b>Hidden transitions.</b> The final never cuts. Every change of framing happens behind something in the foreground (trunk, leaf, trunk), so the eye never sees the camera "jump". <span class="tag i">my inference</span></li>
+    <li><b>Consistent scale.</b> Version 1 goes from an extreme close-up of the rug to a tiny fire in a wide shot. The final keeps the fire at a similar size until the hero hold. <span class="tag v">seen in frame</span></li>
+    <li><b>Reveal order.</b> Version 1 shows everything at once and then holds for 8 s. The final reveals one thing at a time (fire, tent, title, van), which is the "more of the scene" she asked for. <span class="tag i">my inference</span></li>
+    <li><b>Depth.</b> The final almost always has three planes: blurred foreground plants, the fire in the middle, trees behind. Parallax between them is what makes a miniature feel alive. <span class="tag i">my inference</span></li>
+    <li><b>Motivated title.</b> The title doesn't fade in. It's uncovered when the camera clears a trunk, so the move causes the reveal. <span class="tag v">seen in frame</span></li>
+  </ol>
+
+  <h2>Rebuild it in Blender</h2>
+  <p>The same grammar, on an original night scene (a noodle cart under lanterns), built entirely from primitives by a script. Workbench "clay" renders, the equivalent of their grey C4D viewport. Play it and watch the beat list follow.</p>
+  <div class="player">
+    <div>
+      <p class="note">The clay render is not stored in the repo. Make it locally: <code>python ../../motion/diorama_blockout.py --out ./clay --every 4</code>, then <code>python ../../motion/contact_sheet.py ./clay wall.png</code>.</p>
+      <div class="track" id="track" aria-hidden="true"><i id="head"></i></div>
+    </div>
+    <ul class="beats" id="beats"></ul>
+  </div>
+  <p class="note">Rendered in this workspace with Blender 5.2.2 as a Python module: 240 frames at 640 × 360, every 2nd frame of a 24 fps, 20 s timeline, played back at 12 fps. The two trunks and the leaf leave the set after they have wiped the lens, the way a film crew moves a flat between setups.</p>
+
+  <h3>Steps</h3>
+  <ol class="steps">
+    <li><b>Block out the scene.</b> Primitives only, real-world scale in metres, named groups (CAM, LIGHTS, GEO, SCENE). Put the wipe objects (trunks, a big leaf) on the camera path on purpose.</li>
+    <li><b>Lock the camera before any styling.</b> Key the whole 20 s move in clay. Use Bézier keys with auto-clamped handles so speed never spikes. Judge it on a contact sheet, not just in playback.</li>
+    <li><b>Export guides for the AI.</b> For each shot, render the first and last frame in clay, plus a depth or normal pass (Workbench, or EEVEE's Mist/Z pass).</li>
+    <li><b>Explore style per element.</b> In a node canvas (Figma Weave) or ComfyUI, feed a clay frame plus a style prompt into an image model, with ControlNet depth so the layout holds. Run one group per element (cart, lanterns, plants, ground, sky) and fan out about ten options each, the same structure as their board.</li>
+    <li><b>Make one key frame per shot.</b> Combine the winning element styles into one styled frame per shot, using the same seed and reference image across shots so materials match.</li>
+    <li><b>Animate each shot.</b> Image-to-video with a start frame and an end frame. Prompt the camera move in words that match the clay move. Open option: Wan 2.2 through ComfyUI-WanVideoWrapper; hosted options exist too.</li>
+    <li><b>Review on a wall.</b> Number every render v001, v002 … and tile them with <code>contact_sheet.py</code>. Change one thing per version, and log what you changed and why.</li>
+    <li><b>Edit and title.</b> Join the shots on the wipes so cuts are invisible, place the title where the camera uncovers it, and end on a loopable hold.</li>
+  </ol>
+
+  <h3>Drive Blender with Claude</h3>
+  <p>The <a href="https://github.com/ahujasid/mcp-for-blender">mcp-for-blender</a> add-on (MIT, about 31k stars; formerly named blender-mcp) lets Claude run bpy code inside your open Blender. Work in phases and check a render after each one rather than trusting the text reply:</p>
+  <div class="tablewrap"><table>
+    <tr><th>Phase</th><th>Prompt to Claude</th><th>Check</th></tr>
+    <tr><td>1 Blockout</td><td>"Create a 1:1 metre miniature: a cart 2 m wide at the origin, three lanterns over it, two stools in front, a ring of 30 cone pines 8 m out. Name objects by role. Grey materials only."</td><td>Viewport screenshot from the front</td></tr>
+    <tr><td>2 Wipes</td><td>"Place two trunks and one large leaf so they pass between the camera path and the cart at 2–3 s, 5–6.5 s and 10–11 s."</td><td>Frames 49, 140, 252</td></tr>
+    <tr><td>3 Camera</td><td>"Key this camera path at 24 fps (paste the beats table). Bézier, auto-clamped handles. Track a target empty."</td><td>Contact sheet every 12 frames</td></tr>
+    <tr><td>4 Exports</td><td>"For each beat, render first/last frames in Workbench plus a Mist pass to /exports/shot_##."</td><td>File list + one image</td></tr>
+  </table></div>
+
+  <h3>The script</h3>
+  <div class="code" data-src="../../motion/diorama_blockout.py"><div class="bar"><span>motion/diorama_blockout.py · <span class="lines"></span></span><button class="copy" type="button">Copy</button></div><pre>Loading…</pre></div>
+  <div class="code" data-src="../../motion/contact_sheet.py"><div class="bar"><span>motion/contact_sheet.py · <span class="lines"></span></span><button class="copy" type="button">Copy</button></div><pre>Loading…</pre></div>
+  <p class="note">Run: <code>pip install bpy==5.2.2</code> (needs Python 3.13), then <code>python diorama_blockout.py --out ./clay --every 2</code>. Or inside the Blender app: <code>blender -b -P diorama_blockout.py -- --out ./clay</code>.</p>
+
+  <h3>Prompt pack for the style and video steps</h3>
+  <p>My wording, written for the original noodle-cart scene. Keep the material vocabulary identical across every prompt; that is what keeps 56 versions looking like one film.</p>
+  <div class="tablewrap"><table>
+    <tr><th>Step</th><th>Prompt</th></tr>
+    <tr><td>Style, whole scene</td><td>Handmade miniature diorama photographed at night, every surface made of felt, wool knit and needle-felted fibres, visible stitches, soft fuzz on edges, warm practical light from paper lanterns, shallow depth of field, macro lens, 1:12 scale set, rich plum sky, teal felt pines</td></tr>
+    <tr><td>Style, one element</td><td>Same as above + "focus on the noodle cart: red felt body, cream canvas awning with blanket-stitch hem, wooden wheels wrapped in brown yarn"</td></tr>
+    <tr><td>Negative</td><td>plastic, CGI gloss, photoreal metal, text artifacts, extra wheels, melted shapes, flicker</td></tr>
+    <tr><td>Video, shot S1</td><td>Slow lateral camera track left to right at ground level through out-of-focus felt mushrooms, constant speed, no zoom, no cuts, lanterns glowing in the background</td></tr>
+    <tr><td>Video, shot S5</td><td>Slow arc to the right around the cart at the same height, lantern light flickers gently, a parked bicycle slides into frame on the right, nothing else moves</td></tr>
+    <tr><td>Video, shot S8</td><td>Locked-off wide shot with a barely perceptible push in, lanterns sway slightly, steam rises from the pot, seamless loop</td></tr>
+  </table></div>
+
+  <h3>Iteration log template</h3>
+  <div class="tablewrap"><table>
+    <tr><th>Version</th><th>Shot</th><th>One change</th><th>Verdict</th></tr>
+    <tr><td>v001</td><td>all</td><td>First full pass</td><td>Speed jumps at 2.5 s; camera clips the leaf</td></tr>
+    <tr><td>v002</td><td>S1</td><td>Halve the dolly speed, ease in over 1 s</td><td>Smoother; fire scale still jumps at S3</td></tr>
+    <tr><td>v003</td><td>S2–S3</td><td>Move trunk 1 onto the path, cut on it</td><td>Transition hidden</td></tr>
+    <tr><td>…</td><td></td><td></td><td></td></tr>
+  </table></div>
+
+  <h2>Sources</h2>
+  <ul>
+    <li><a href="https://www.youtube.com/watch?v=GLvFTMtw4Jk">How to scale intent, quality, and artistry with AI, the speaker (Lenny's Podcast, 2026-09-25)</a>, and your three screen recordings of it.</li>
+    <li><a href="https://stateofaidesign.com/cases/stripe">AI in Design Report 2026, Stripe case study</a> (lists Cinema 4D and Photoshop among the team's tools).</li>
+    <li><a href="https://github.com/ahujasid/mcp-for-blender">ahujasid/mcp-for-blender</a>, <a href="https://github.com/Comfy-Org/ComfyUI">Comfy-Org/ComfyUI</a>, <a href="https://github.com/kijai/ComfyUI-WanVideoWrapper">kijai/ComfyUI-WanVideoWrapper</a>, <a href="https://github.com/Wan-Video/Wan2.2">Wan-Video/Wan2.2</a>, <a href="https://github.com/lllyasviel/ControlNet">lllyasviel/ControlNet</a>.</li>
+  </ul>
+</div>
+<script src="ui.js"></script>
+<script>
+(() => {
+  const beats = [
+    [0, 2, "S1", "Low lateral track through foreground plants"],
+    [2, 3, "S2", "Trunk wipe 1 hides the move"],
+    [3, 5, "S3", "Low dolly in toward the cart"],
+    [5, 6.5, "S4", "Leaf sweeps across the lens"],
+    [6.5, 9.5, "S5", "Slow arc right; bicycle enters"],
+    [9.5, 11.5, "S6", "Pull back; trunk wipe 2"],
+    [11.5, 13, "S7", "Camera clears; title revealed"],
+    [13, 20, "S8", "Hero hold, very slow push"],
+  ];
+  const list = document.getElementById("beats"), track = document.getElementById("track"), head = document.getElementById("head"), v = document.getElementById("clay") || { currentTime: 0, duration: 20, play() { return Promise.resolve(); } }; // no video in the repo: clicks still move the playhead
+  beats.forEach(([a, b, id, t]) => {
+    const li = document.createElement("li");
+    li.innerHTML = `<b>${a.toFixed(1)}–${b.toFixed(1)}s</b><span><b style="color:var(--ink)">${id}</b> ${t}</span>`;
+    li.addEventListener("click", () => { v.currentTime = a; v.play().catch(() => {}); });
+    list.append(li);
+    const s = document.createElement("span"); s.style.flex = b - a; s.textContent = id; track.append(s);
+  });
+  const items = [...list.children];
+  function tick() {
+    const t = v.currentTime || 0, d = v.duration || 20;
+    head.style.left = (t / d * 100) + "%";
+    items.forEach((li, i) => li.classList.toggle("on", t >= beats[i][0] && t < beats[i][1]));
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
+</script>
+</body>
+</html>

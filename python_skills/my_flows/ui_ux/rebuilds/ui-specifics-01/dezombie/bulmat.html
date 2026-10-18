@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bulmat (intentional version)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Big+Shoulders+Display:wght@700;900&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+/* The same restaurant, built from a point of view instead of a template.
+   POV: "Charcoal or nothing. You cook, we coach. The table is the product."
+   Every visual choice traces back to that: the grill grate is the hero, the menu is an
+   order ticket with weights, the type is street-signage condensed + Hangul, and the
+   only animation is heat (embers and smoke). */
+:root{
+  --coal:#121010; --coal-2:#1c1817; --ash:#2b2523;
+  --ember:#ff5a1f; --ember-2:#ffb34a; --gochu:#b5241b;
+  --rice:#efe6d6; --rice-dim:#c9bfae; --scallion:#7a9a3e;
+  --kr:"Black Han Sans","Noto Sans KR",sans-serif; --sign:"Big Shoulders Display",Impact,sans-serif; --body:"Noto Sans KR",system-ui,sans-serif;
+}
+*{box-sizing:border-box} html,body{margin:0}
+body{background:var(--coal);color:var(--rice);font-family:var(--body);overflow-x:hidden}
+a{color:inherit}
+/* top strip: the facts a hungry person needs first */
+.strip{display:flex;gap:22px;flex-wrap:wrap;justify-content:space-between;align-items:center;padding:10px clamp(16px,4vw,48px);font-size:12px;background:var(--gochu);color:#fff;letter-spacing:.04em}
+.strip b{font-weight:700}
+header{display:flex;align-items:center;justify-content:space-between;padding:20px clamp(16px,4vw,48px)}
+.logo{display:flex;align-items:baseline;gap:10px}
+.logo .ko{font:400 34px var(--kr);color:var(--ember)}
+.logo .en{font:900 22px var(--sign);letter-spacing:.08em}
+header nav{display:flex;gap:26px;font:700 16px var(--sign);letter-spacing:.1em;text-transform:uppercase}
+header nav a{text-decoration:none;opacity:.85}
+.book{background:var(--rice);color:var(--coal);font:900 16px var(--sign);letter-spacing:.1em;text-transform:uppercase;padding:12px 20px;border-radius:4px;text-decoration:none}
+/* hero: copy left, grill right */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:30px;align-items:center;padding:20px clamp(16px,4vw,48px) 50px}
+.big-ko{font:400 clamp(110px,16vw,220px)/.85 var(--kr);color:var(--ember);margin:0;text-shadow:0 0 40px rgba(255,90,31,.35)}
+h1{font:900 clamp(40px,5.5vw,76px)/.92 var(--sign);text-transform:uppercase;letter-spacing:.01em;margin:10px 0 0}
+.define{font-size:15px;line-height:1.6;color:var(--rice-dim);max-width:38ch;margin:18px 0 0}
+.define i{color:var(--rice);font-style:normal;border-bottom:1px dashed var(--ember)}
+.cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:26px;align-items:center}
+.cta-row .book{font-size:18px;padding:15px 26px;background:var(--ember);color:var(--coal)}
+.wait{font-size:13px;color:var(--rice-dim)}
+.wait b{color:var(--ember-2)}
+/* the grill: a round grate over coals, meat strips, smoke */
+.grill{position:relative;aspect-ratio:1;max-width:560px;width:100%;justify-self:center;border-radius:50%;
+  background:radial-gradient(circle at 50% 50%,#ff8a3a 0%,#ff5a1f 18%,#9b1c0e 42%,#2a0d07 64%,#120806 70%,#2b2523 71%,#3b3330 74%,#151212 76%);
+  box-shadow:0 0 0 10px #0b0a0a,0 0 90px rgba(255,90,31,.25)}
+.grill::before{content:"";position:absolute;inset:6%;border-radius:50%;
+  background:repeating-linear-gradient(90deg,transparent 0 22px,#2a2422 22px 28px),repeating-linear-gradient(0deg,transparent 0 22px,rgba(42,36,34,.55) 22px 25px);
+  -webkit-mask:radial-gradient(circle,#000 69%,transparent 70%);mask:radial-gradient(circle,#000 69%,transparent 70%)}
+.meat{position:absolute;height:9%;border-radius:40% 30% 45% 35%;background:linear-gradient(180deg,#f1d3c0 0 18%,#c96e57 18% 40%,#f3dccb 40% 52%,#a8513d 52% 100%);box-shadow:inset 0 -6px 0 rgba(60,20,10,.45),0 3px 8px rgba(0,0,0,.4)}
+.m1{left:22%;top:36%;width:34%;transform:rotate(-8deg)}
+.m2{left:44%;top:50%;width:36%;transform:rotate(6deg)}
+.m3{left:26%;top:60%;width:28%;transform:rotate(-3deg);filter:brightness(.85)}
+.smoke{position:absolute;width:40%;height:40%;border-radius:50%;background:radial-gradient(closest-side,rgba(239,230,214,.18),transparent);filter:blur(10px);animation:rise 6s linear infinite}
+.s1{left:20%;top:20%}.s2{left:45%;top:30%;animation-delay:-2s}.s3{left:30%;top:40%;animation-delay:-4s}
+@keyframes rise{from{transform:translateY(0) scale(.8);opacity:0}30%{opacity:1}to{transform:translateY(-70%) scale(1.4);opacity:0}}
+/* menu as an order ticket */
+.ticketwrap{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:30px;padding:30px clamp(16px,4vw,48px) 60px;background:var(--coal-2);border-top:1px solid var(--ash)}
+.ticket{background:var(--rice);color:#1c1714;padding:26px 26px 30px;font-family:"Noto Sans KR",monospace;position:relative;max-width:520px;
+  -webkit-mask:radial-gradient(circle 8px at 50% 100%,transparent 98%,#000) 50% 100%/22px 100% repeat-x;mask:radial-gradient(circle 8px at 50% 0,transparent 98%,#000) 0 -8px/22px 100% repeat-x}
+.ticket h2{font:900 30px var(--sign);text-transform:uppercase;letter-spacing:.06em;margin:0 0 4px}
+.ticket .meta{font-size:11px;color:#6b5f55;letter-spacing:.08em;margin-bottom:16px}
+.row{display:grid;grid-template-columns:auto 1fr auto auto;gap:12px;align-items:baseline;padding:9px 0;border-bottom:1px dashed #b8ab98;font-size:14px}
+.row .ko{font:400 18px var(--kr);color:var(--gochu)}
+.row .g{font-size:12px;color:#6b5f55;font-variant-numeric:tabular-nums}
+.row .p{font-weight:700;font-variant-numeric:tabular-nums}
+.side h3{font:900 28px var(--sign);text-transform:uppercase;letter-spacing:.05em;margin:0}
+.side p{color:var(--rice-dim);line-height:1.6;font-size:14px;max-width:40ch}
+.banchan{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.banchan span{width:56px;height:56px;border-radius:50%;border:3px solid #e7ddcb;display:grid;place-items:center;font-size:10px;text-align:center;line-height:1.1;color:#1c1714}
+.how{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:22px}
+.how div{border-top:3px solid var(--ember);padding-top:10px;font-size:13px;color:var(--rice-dim)}
+.how b{display:block;font:900 22px var(--sign);color:var(--rice);text-transform:uppercase}
+footer{padding:18px clamp(16px,4vw,48px);font-size:12px;color:#8a7f73;border-top:1px solid var(--ash)}
+@media (max-width:860px){.hero,.ticketwrap{grid-template-columns:1fr}header nav{display:none}.how{grid-template-columns:1fr}}
+@media (prefers-reduced-motion: reduce){.smoke{animation:none;opacity:.6}}
+</style>
+</head>
+<body>
+<div class="strip"><span><b>OPEN TONIGHT</b> 17:00 – 00:30</span><span>Charcoal at every table · groups of 2–8</span><span>Walk-ins welcome</span></div>
+<header>
+  <div class="logo"><span class="ko">불맛</span><span class="en">BULMAT</span></div>
+  <nav><a href="#menu">Menu</a><a href="#how">How it works</a><a href="#find">Find us</a></nav>
+  <a class="book" href="#book">Book a grill</a>
+</header>
+<section class="hero">
+  <div>
+    <p class="big-ko" aria-hidden="true">불맛</p>
+    <h1>Fire you can taste.</h1>
+    <p class="define"><i>Bulmat</i> (불맛) is the Korean word for the smoky taste that only a live fire gives. We only cook over real charcoal, at your table, and we'll show you how.</p>
+    <div class="cta-row"><a class="book" href="#book">Book a grill</a><span class="wait">Wait for walk-ins right now: <b>about 25 min</b> (example)</span></div>
+  </div>
+  <div class="grill" role="img" aria-label="A round charcoal grill seen from above with three strips of pork belly and rising smoke">
+    <span class="meat m1"></span><span class="meat m2"></span><span class="meat m3"></span>
+    <span class="smoke s1"></span><span class="smoke s2"></span><span class="smoke s3"></span>
+  </div>
+</section>
+<section class="ticketwrap" id="menu">
+  <div class="ticket">
+    <h2>Tonight's grill</h2>
+    <div class="meta">TABLE ___ · GUESTS ___ · PER PORTION, RAW WEIGHT</div>
+    <div class="row"><span class="ko">삼겹살</span><span>Samgyeopsal · pork belly, thick cut</span><span class="g">180 g</span><span class="p">18</span></div>
+    <div class="row"><span class="ko">목살</span><span>Moksal · pork collar</span><span class="g">180 g</span><span class="p">19</span></div>
+    <div class="row"><span class="ko">양념갈비</span><span>Yangnyeom galbi · marinated short rib</span><span class="g">250 g</span><span class="p">29</span></div>
+    <div class="row"><span class="ko">차돌박이</span><span>Chadolbagi · thin brisket, 30 seconds a side</span><span class="g">150 g</span><span class="p">21</span></div>
+    <div class="row"><span class="ko">된장찌개</span><span>Doenjang jjigae · soybean stew to finish</span><span class="g">1 pot</span><span class="p">9</span></div>
+  </div>
+  <div class="side">
+    <h3>Banchan come free and keep coming</h3>
+    <p>Seven small dishes land before the coals do. Ask for a refill as often as you like.</p>
+    <div class="banchan"><span style="background:#b5241b;color:#fff">kimchi</span><span style="background:#e9d9a6">pickled radish</span><span style="background:#7a9a3e;color:#fff">scallion salad</span><span style="background:#f3e6c9">egg roll</span><span style="background:#c98b4a">potato</span><span style="background:#556b2f;color:#fff">spinach</span><span style="background:#d8c3a5">bean sprouts</span></div>
+    <div class="how" id="how">
+      <div><b>1 · Light</b>We bring lit charcoal to your table.</div>
+      <div><b>2 · Grill</b>Your server shows the first piece; then it's yours.</div>
+      <div><b>3 · Wrap</b>Lettuce, ssamjang, garlic, rice. One bite.</div>
+    </div>
+  </div>
+</section>
+<footer id="find">Bulmat is a fictional restaurant built as a design exercise. Prices are illustrative.</footer>
+</body>
+</html>

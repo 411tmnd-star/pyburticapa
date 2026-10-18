@@ -1,0 +1,6 @@
+url: https://example.com/forum/rent-tracking
+retrieved_at: 2026-10-18
+
+I have tried three budgeting apps and none of them handle rent split between flatmates.
+I would honestly pay a small monthly fee for something that splits rent and reminds everyone.
+Right now we use a shared spreadsheet and it’s   always out of date by the second week.

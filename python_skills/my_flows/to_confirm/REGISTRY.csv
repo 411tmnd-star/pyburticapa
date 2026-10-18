@@ -1,0 +1,21 @@
+id,name,type,goals,ours,course,outside,status,confirmed_in,evidence,folder
+W01,Evidence judge,A,research and 411,my_flows/research/evidence_verification/verify.py; my_flows/research/evidence_verification/example,P-report-judge; CC-05; L14-38,,to confirm,,,W01-evidence-judge
+W02,Leads guarded output,A,"job leads, sales",my_flows/research/job_leads/leads.py; my_flows/research/job_leads/fixtures,P-json-schema-output-guard; CC-09; P-prompt-regression-tester; P-token-counter-and-cost-meter,,to confirm,,,W02-leads-guarded-output
+W03,X design mode,A,"design, marketing",confirmed/x_pipeline; my_flows/ui_ux/intake/frames.py; my_flows/ui_ux/motion/contact_sheet.py; my_flows/ui_ux/intake/BRIEF_TEMPLATE.md,P-voice-note-transcriber-pipeline; L04-12; L04-27,,to confirm,,,W03-x-design-mode
+W04,Design wall,A,"design, marketing",my_flows/ui_ux/motion/contact_sheet.py; my_flows/ui_ux/breakdown/crit.html,P-visual-evidence-library; P-chart-storyboard-builder,,to confirm,,,W04-design-wall
+W05,Outlier demand digest,A,"marketing, research and 411",confirmed/yt_outliers; my_flows/research/demand_research; my_flows/research/evidence_verification/verify.py,P-feedback-theme-board; P-chart-storyboard-builder,,to confirm,,,W05-outlier-demand-digest
+W06,Safe repo import,A,design,confirmed/repo_inspect; my_flows/ui_ux/references/DESIGN_REPOS.md,P-skill-scanner; P-sandbox-ladder,,to confirm,,,W06-safe-repo-import
+W07,Skill checker,A,all,llm_instructions; llm_instructions/chat_skills,P-skill-validator; P-skill-router; P-skill-scanner; P-self-improving-skill-loop; L13-27,,to confirm,,,W07-skill-checker
+W08,Personal knowledge search,A,research and 411,confirmed/knowledge_recovery; confirmed/chatgpt_takeout_split,P-semantic-notes-search; P-rag-freshness-pipeline,,to confirm,,,W08-personal-knowledge-search
+W09,Blockout to ai film,A,"3d and geometry, marketing, design",my_flows/ui_ux/motion/diorama_blockout.py; my_flows/ui_ux/motion/contact_sheet.py; my_flows/ui_ux/motion/CAMPFIRE_PIPELINE.md,L04-26; L08-08; L08-10; L04-28; L08-14,https://github.com/ahujasid/mcp-for-blender; https://github.com/Comfy-Org/ComfyUI; https://github.com/kijai/ComfyUI-WanVideoWrapper; https://github.com/lllyasviel/ControlNet; https://github.com/Wan-Video/Wan2.2,to confirm,,,W09-blockout-to-ai-film
+W10,Body and garment,A,"3d and geometry, marketing, sales",my_flows/research/3d_marketing_engine/README.md,L04-21; L04-24; L04-13; L08-12; L04-22,Anny parametric body model; https://github.com/maria-korosteleva/GarmentCode; https://pypi.org/project/bpy/,to confirm,,,W10-body-and-garment
+W11,Geometry toolkit,B,3d and geometry,,L01-01; L01-12; L04-13,https://github.com/colmap/colmap,to confirm,,,W11-geometry-toolkit
+W12,Scroll product story,B,"design, sales, marketing",my_flows/ui_ux/motion/scroll_scrub/index.html; my_flows/ui_ux/intake/frames.py,L04-01,https://github.com/darkroomengineering/lenis; https://github.com/basementstudio/scrollytelling,to confirm,,,W12-scroll-product-story
+W13,3d product viewer,B,"3d and geometry, sales",my_flows/research/3d_marketing_engine/README.md,L04-01,https://github.com/google/model-viewer; https://github.com/supabase/supabase-py,to confirm,,,W13-3d-product-viewer
+W14,Orders inbox,B,sales,,P-signed-webhook-inbox,https://github.com/supabase/supabase-py; Paystack webhooks,to confirm,,,W14-orders-inbox
+W15,Ads catalogue feed,A,"marketing, sales",my_flows/research/ads_layer/README.md,P-catalog-record-linker; P-dataset-contract-gate,Snap Ads API,to confirm,,,W15-ads-catalogue-feed
+W16,Demand report with judge,A,research and 411,my_flows/research/demand_research; my_flows/research/evidence_verification/verify.py,P-research-report-agent; P-doc-qa-with-citations; P-report-judge,,to confirm,,,W16-demand-report-with-judge
+W17,Follow up desk,C,sales,,P-inbox-triage-desk; P-meeting-notes-to-actions,,to confirm,,,W17-follow-up-desk
+W18,Ad captions,C,marketing,,P-voice-note-transcriber-pipeline; P-subtitle-localization-desk,,to confirm,,,W18-ad-captions
+W19,411 eval runner,C,research and 411,,P-local-model-eval-harness; CC-14; P-prompt-regression-tester,Claude API,to confirm,,,W19-411-eval-runner
+W20,Handoff kit,C,all,my_flows/HANDOFF.md,CC-07; L14-34; L14-35,,to confirm,,,W20-handoff-kit

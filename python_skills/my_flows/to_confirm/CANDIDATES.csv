@@ -1,0 +1,363 @@
+goal,type,part,course_id,course_title,score,shared_goal_words
+3d and geometry,A,my_flows/research/3d_marketing_engine,L04-21,Keypoint Detection & Pose Estimation,9.49,pose
+3d and geometry,A,my_flows/research/3d_marketing_engine,L08-08,"ControlNet, LoRA & Conditioning",7.87,pose
+3d and geometry,A,my_flows/ui_ux/motion,L04-26,Monocular Depth & Geometry Estimation,17.79,camera depth
+3d and geometry,A,my_flows/ui_ux/motion,L08-08,"ControlNet, LoRA & Conditioning",8.4,depth
+3d and geometry,B,lllyasviel/ControlNet,L08-08,"ControlNet, LoRA & Conditioning",31.01,depth
+3d and geometry,B,lllyasviel/ControlNet,L04-26,Monocular Depth & Geometry Estimation,25.03,depth
+design,A,confirmed/x_pipeline,L04-12,Video Understanding — Temporal Modeling,14.3,imag video
+design,A,confirmed/x_pipeline,L12-04,Flamingo and Gated Cross-Attention for Few-Shot VLMs,12.1,imag video
+design,A,confirmed/x_pipeline,L12-08,"LLaVA-OneVision: Single-Image, Multi-Image, Video in One Model",11.38,imag video
+design,A,confirmed/x_pipeline,L12-11,Chameleon and Early-Fusion Token-Only Multimodal Models,10.28,imag
+design,A,confirmed/x_pipeline,L12-24,Multimodal RAG and Cross-Modal Retrieval,10.08,imag video
+design,A,confirmed/x_pipeline,L18-23,"Watermarking — SynthID, Stable Signature, C2PA",9.32,imag video
+design,A,confirmed/x_pipeline,L08-01,Generative Models — Taxonomy & History,9.18,video
+design,A,confirmed/x_pipeline,L08-07,Latent Diffusion & Stable Diffusion,8.71,imag
+design,A,confirmed/yt_outliers,L04-28,World Models & Video Diffusion,6.71,video
+design,A,confirmed/yt_outliers,L18-23,"Watermarking — SynthID, Stable Signature, C2PA",6.57,video
+design,A,confirmed/yt_outliers,L08-01,Generative Models — Taxonomy & History,5.22,video
+design,A,confirmed/yt_outliers,L19-12,"Capstone 12 — Video Understanding Pipeline (Scene, QA, Search)",4.97,video
+design,A,confirmed/yt_outliers,L04-27,Multi-Object Tracking & Video Memory,4.88,video
+design,A,confirmed/yt_outliers,L12-04,Flamingo and Gated Cross-Attention for Few-Shot VLMs,4.87,video
+design,A,confirmed/yt_outliers,L12-08,"LLaVA-OneVision: Single-Image, Multi-Image, Video in One Model",4.06,video
+design,A,confirmed/yt_outliers,L12-12,Emu3: Next-Token Prediction for Image and Video Generation,3.95,video
+design,A,my_flows/research/3d_marketing_engine,L12-23,ColPali and Vision-Native Document RAG,8.93,layout
+design,A,my_flows/research/3d_marketing_engine,L12-22,Document and Diagram Understanding,8.71,layout
+design,A,my_flows/research/3d_marketing_engine,L12-24,Multimodal RAG and Cross-Modal Retrieval,7.09,design video
+design,A,my_flows/research/3d_marketing_engine,L10-18,Multi-Token Prediction (MTP),6.9,layout
+design,A,my_flows/research/3d_marketing_engine,L12-17,Video-Language Models: Temporal Tokens and Grounding,6.2,video
+design,A,my_flows/research/3d_marketing_engine,L04-28,World Models & Video Diffusion,6.19,video
+design,A,my_flows/research/3d_marketing_engine,L04-27,Multi-Object Tracking & Video Memory,5.99,video
+design,A,my_flows/research/3d_marketing_engine,L12-12,Emu3: Next-Token Prediction for Image and Video Generation,4.69,video
+design,A,my_flows/research/ads_layer,L04-28,World Models & Video Diffusion,8.34,video
+design,A,my_flows/research/ads_layer,L12-17,Video-Language Models: Temporal Tokens and Grounding,8.19,image video
+design,A,my_flows/research/ads_layer,L12-03,From CLIP to BLIP-2 — Q-Former as Modality Bridge,7.57,image
+design,A,my_flows/research/ads_layer,L19-12,"Capstone 12 — Video Understanding Pipeline (Scene, QA, Search)",7.29,video
+design,A,my_flows/research/ads_layer,L12-04,Flamingo and Gated Cross-Attention for Few-Shot VLMs,7.22,image video
+design,A,my_flows/research/ads_layer,L08-01,Generative Models — Taxonomy & History,7.17,image video
+design,A,my_flows/research/ads_layer,L12-12,Emu3: Next-Token Prediction for Image and Video Generation,7.12,image video
+design,A,my_flows/research/ads_layer,L04-27,Multi-Object Tracking & Video Memory,7.07,video
+design,A,my_flows/research/sources,L08-01,Generative Models — Taxonomy & History,10.2,video
+design,A,my_flows/research/sources,L12-24,Multimodal RAG and Cross-Modal Retrieval,9.58,design video
+design,A,my_flows/research/sources,L04-28,World Models & Video Diffusion,9.18,video
+design,A,my_flows/research/sources,L04-27,Multi-Object Tracking & Video Memory,7.56,video
+design,A,my_flows/research/sources,L12-04,Flamingo and Gated Cross-Attention for Few-Shot VLMs,5.73,video
+design,A,my_flows/research/sources,L04-12,Video Understanding — Temporal Modeling,5.66,video
+design,A,my_flows/research/sources,L08-10,Video Generation,5.38,video
+design,A,my_flows/research/sources,L08-06,Diffusion Models — DDPM from Scratch,5.13,video
+design,A,my_flows/ui_ux/breakdown,L12-11,Chameleon and Early-Fusion Token-Only Multimodal Models,7.76,image
+design,A,my_flows/ui_ux/breakdown,L08-09,"Inpainting, Outpainting & Image Editing",7.1,image
+design,A,my_flows/ui_ux/breakdown,L19-63,Multimodal Evaluation,6.41,image
+design,A,my_flows/ui_ux/breakdown,L12-14,Show-o and Discrete-Diffusion Unified Models,6.33,design image
+design,A,my_flows/ui_ux/breakdown,L04-10,Image Generation — Diffusion Models,6.06,image
+design,A,my_flows/ui_ux/breakdown,L12-24,Multimodal RAG and Cross-Modal Retrieval,6.01,design
+design,A,my_flows/ui_ux/breakdown,L12-07,Open-Weight VLM Recipes: What Actually Matters,5.81,design image
+design,A,my_flows/ui_ux/breakdown,L12-13,Transfusion: Autoregressive Text + Diffusion Image in One Transformer,5.63,image
+design,A,my_flows/ui_ux/intake,L04-27,Multi-Object Tracking & Video Memory,16.69,frame video
+design,A,my_flows/ui_ux/intake,L12-17,Video-Language Models: Temporal Tokens and Grounding,11.78,frame video
+design,A,my_flows/ui_ux/intake,L12-24,Multimodal RAG and Cross-Modal Retrieval,11.39,design imag video
+design,A,my_flows/ui_ux/intake,L04-12,Video Understanding — Temporal Modeling,10.93,imag video
+design,A,my_flows/ui_ux/intake,L12-08,"LLaVA-OneVision: Single-Image, Multi-Image, Video in One Model",9.33,imag video
+design,A,my_flows/ui_ux/intake,L19-12,"Capstone 12 — Video Understanding Pipeline (Scene, QA, Search)",8.99,frame video
+design,A,my_flows/ui_ux/intake,L12-04,Flamingo and Gated Cross-Attention for Few-Shot VLMs,8.53,imag video
+design,A,my_flows/ui_ux/intake,L12-22,Document and Diagram Understanding,7.23,layout
+design,A,my_flows/ui_ux/motion,L04-27,Multi-Object Tracking & Video Memory,17.4,frame video
+design,A,my_flows/ui_ux/motion,L12-17,Video-Language Models: Temporal Tokens and Grounding,12.34,frame video
+design,A,my_flows/ui_ux/motion,L04-28,World Models & Video Diffusion,12.15,video
+design,A,my_flows/ui_ux/motion,L19-12,"Capstone 12 — Video Understanding Pipeline (Scene, QA, Search)",11.89,frame video
+design,A,my_flows/ui_ux/motion,L04-12,Video Understanding — Temporal Modeling,11.65,imag video
+design,A,my_flows/ui_ux/motion,L04-17,"Self-Supervised Vision — SimCLR, DINO, MAE",11.62,imag
+design,A,my_flows/ui_ux/motion,L04-26,Monocular Depth & Geometry Estimation,10.9,frame
+design,A,my_flows/ui_ux/motion,L12-08,"LLaVA-OneVision: Single-Image, Multi-Image, Video in One Model",9.76,imag video
+design,A,my_flows/ui_ux/principles,L12-04,Flamingo and Gated Cross-Attention for Few-Shot VLMs,12.09,image visual
+design,A,my_flows/ui_ux/principles,L12-11,Chameleon and Early-Fusion Token-Only Multimodal Models,9.33,image visual
+design,A,my_flows/ui_ux/principles,L19-63,Multimodal Evaluation,9.24,image visual
+design,A,my_flows/ui_ux/principles,L12-05,LLaVA and Visual Instruction Tuning,9.13,image visual
+design,A,my_flows/ui_ux/principles,L12-03,From CLIP to BLIP-2 — Q-Former as Modality Bridge,8.62,image visual
+design,A,my_flows/ui_ux/principles,L04-01,"Image Fundamentals — Pixels, Channels, Color Spaces",7.99,image
+design,A,my_flows/ui_ux/principles,L08-19,Visual Autoregressive Modeling (VAR): Next-Scale Prediction,7.34,image visual
+design,A,my_flows/ui_ux/principles,P-visual-evidence-library,Visual Evidence Library,6.74,visual
+design,A,my_flows/ui_ux/rebuilds,L12-07,Open-Weight VLM Recipes: What Actually Matters,6.59,design
+design,A,my_flows/ui_ux/rebuilds,L12-14,Show-o and Discrete-Diffusion Unified Models,6.45,design
+design,A,my_flows/ui_ux/rebuilds,L12-24,Multimodal RAG and Cross-Modal Retrieval,6.3,design
+design,A,my_flows/ui_ux/rebuilds,L18-22,Differential Privacy for LLMs,5.07,design
+design,B,Comfy-Org/ComfyUI,L08-01,Generative Models — Taxonomy & History,32.4,image video
+design,B,Comfy-Org/ComfyUI,L04-27,Multi-Object Tracking & Video Memory,24.52,video
+design,B,Comfy-Org/ComfyUI,L04-28,World Models & Video Diffusion,24.31,video
+design,B,Comfy-Org/ComfyUI,L08-10,Video Generation,23.44,image video
+design,B,Comfy-Org/ComfyUI,L08-06,Diffusion Models — DDPM from Scratch,23.32,image video
+design,B,Comfy-Org/ComfyUI,L08-09,"Inpainting, Outpainting & Image Editing",21.98,image
+design,B,Comfy-Org/ComfyUI,L12-16,MIO and Any-to-Any Streaming Multimodal Models,19.8,image video
+design,B,Comfy-Org/ComfyUI,L12-17,Video-Language Models: Temporal Tokens and Grounding,19.65,image video
+design,B,Dream-Pixels-Forge/artisan_labs_dev,L04-27,Multi-Object Tracking & Video Memory,19.01,video
+design,B,Dream-Pixels-Forge/artisan_labs_dev,L04-28,World Models & Video Diffusion,18.3,video
+design,B,Dream-Pixels-Forge/artisan_labs_dev,L08-01,Generative Models — Taxonomy & History,15.87,video
+design,B,Dream-Pixels-Forge/artisan_labs_dev,L04-12,Video Understanding — Temporal Modeling,14.22,video
+design,B,Dream-Pixels-Forge/artisan_labs_dev,L08-10,Video Generation,11.7,video
+design,B,Dream-Pixels-Forge/artisan_labs_dev,L08-06,Diffusion Models — DDPM from Scratch,11.42,video
+design,B,Dream-Pixels-Forge/artisan_labs_dev,L12-16,MIO and Any-to-Any Streaming Multimodal Models,9.69,video
+design,B,Dream-Pixels-Forge/artisan_labs_dev,L12-17,Video-Language Models: Temporal Tokens and Grounding,9.62,video
+design,B,aigc3d/LHM,L04-10,Image Generation — Diffusion Models,20.13,image
+design,B,aigc3d/LHM,L04-09,Image Generation — GANs,20.07,image
+design,B,aigc3d/LHM,L04-01,"Image Fundamentals — Pixels, Channels, Color Spaces",19.91,image
+design,B,aigc3d/LHM,L08-01,Generative Models — Taxonomy & History,19.51,image
+design,B,aigc3d/LHM,L19-63,Multimodal Evaluation,17.68,image
+design,B,aigc3d/LHM,L12-11,Chameleon and Early-Fusion Token-Only Multimodal Models,15.96,image
+design,B,aigc3d/LHM,L08-07,Latent Diffusion & Stable Diffusion,15.76,image
+design,B,aigc3d/LHM,L08-09,"Inpainting, Outpainting & Image Editing",15.23,image
+design,B,kijai/ComfyUI-WanVideoWrapper,L08-10,Video Generation,30.91,video
+design,B,kijai/ComfyUI-WanVideoWrapper,L04-27,Multi-Object Tracking & Video Memory,27.56,video
+design,B,kijai/ComfyUI-WanVideoWrapper,L04-28,World Models & Video Diffusion,27.32,video
+design,B,kijai/ComfyUI-WanVideoWrapper,L08-01,Generative Models — Taxonomy & History,23.69,video
+design,B,kijai/ComfyUI-WanVideoWrapper,L04-12,Video Understanding — Temporal Modeling,21.23,video
+design,B,kijai/ComfyUI-WanVideoWrapper,L08-06,Diffusion Models — DDPM from Scratch,17.05,video
+design,B,kijai/ComfyUI-WanVideoWrapper,L12-16,MIO and Any-to-Any Streaming Multimodal Models,14.47,video
+design,B,kijai/ComfyUI-WanVideoWrapper,L12-17,Video-Language Models: Temporal Tokens and Grounding,14.36,video
+design,B,lllyasviel/ControlNet,L10-18,Multi-Token Prediction (MTP),27.42,layout
+design,B,lllyasviel/ControlNet,L12-23,ColPali and Vision-Native Document RAG,22.42,layout
+design,B,lllyasviel/ControlNet,L12-22,Document and Diagram Understanding,21.2,layout
+job leads,A,confirmed/schema_validate,L19-21,Tool Registry with Schema Validation,44.56,schema validation
+job leads,A,confirmed/schema_validate,L11-03,"Structured Outputs: JSON, Schema Validation, Constrained Decoding",30.25,json schema validation
+job leads,A,confirmed/schema_validate,P-json-schema-output-guard,JSON Schema Output Guard,30.03,json schema
+job leads,A,confirmed/schema_validate,L13-04,"Structured Output — JSON Schema, Pydantic, Zod, Constrained Decoding",20.94,json schema
+job leads,A,confirmed/schema_validate,CC-05,"Validate the Claim, Not the Confidence",20.2,validation
+job leads,A,confirmed/schema_validate,P-mcp-at-scale,MCP Tool Discovery Workbench,15.66,schema
+job leads,A,confirmed/schema_validate,CC-09,Structured Output Is an Untrusted Contract,14.47,json
+job leads,A,confirmed/schema_validate,L05-20,Structured Outputs & Constrained Decoding,12.4,json
+job leads,A,confirmed/yt_outliers,L11-11,"Caching, Rate Limiting & Cost Optimization",11.26,cost
+job leads,A,confirmed/yt_outliers,L11-09,Function Calling & Tool Use,7.89,json
+job leads,A,confirmed/yt_outliers,L11-03,"Structured Outputs: JSON, Schema Validation, Constrained Decoding",7.61,json
+job leads,A,confirmed/yt_outliers,L19-27,Capstone Lesson 27: Eval Harness with Fixture Tasks,7.43,cost
+job leads,A,confirmed/yt_outliers,P-json-schema-output-guard,JSON Schema Output Guard,6.77,json
+job leads,A,confirmed/yt_outliers,L17-27,FinOps for LLMs — Unit Economics and Multi-Tenant Attribution,6.72,cost
+job leads,A,confirmed/yt_outliers,L17-08,"Inference Metrics — TTFT, TPOT, ITL, Goodput, P99",6.51,cost
+job leads,A,confirmed/yt_outliers,L18-14,ASCII Art and Visual Jailbreaks,6.42,filter json
+job leads,A,my_flows/research/3d_marketing_engine,L17-25,"Security — Secrets, API Key Rotation, Audit Logs, Guardrails",9.19,cost
+job leads,A,my_flows/research/3d_marketing_engine,L19-27,Capstone Lesson 27: Eval Harness with Fixture Tasks,8.74,cost
+job leads,A,my_flows/research/3d_marketing_engine,L15-13,"Action Budgets, Iteration Caps, and Cost Governors",8.27,budget cost
+job leads,A,my_flows/research/3d_marketing_engine,L17-17,Disaggregated Prefill/Decode — NVIDIA Dynamo and llm-d,8.1,cost
+job leads,A,my_flows/research/3d_marketing_engine,P-token-counter-and-cost-meter,Token Counter and Cost Meter,8.09,budget cost
+job leads,A,my_flows/research/3d_marketing_engine,L05-20,Structured Outputs & Constrained Decoding,7.69,json
+job leads,A,my_flows/research/3d_marketing_engine,P-json-schema-output-guard,JSON Schema Output Guard,7.45,json
+job leads,A,my_flows/research/3d_marketing_engine,L19-16,Capstone 16 — GitHub Issue-to-PR Autonomous Agent,6.99,budget cost
+job leads,A,my_flows/research/ads_layer,P-token-counter-and-cost-meter,Token Counter and Cost Meter,9.67,budget token
+job leads,A,my_flows/research/ads_layer,L19-25,Capstone Lesson 25: Verification Gates and the Observation Budget,8.69,budget token
+job leads,A,my_flows/research/ads_layer,L13-01,The Tool Interface — Why Agents Need Structured I/O,8.58,token
+job leads,A,my_flows/research/ads_layer,L15-13,"Action Budgets, Iteration Caps, and Cost Governors",7.92,budget token
+job leads,A,my_flows/research/ads_layer,L17-27,FinOps for LLMs — Unit Economics and Multi-Tenant Attribution,7.65,token
+job leads,A,my_flows/research/ads_layer,L15-14,"Kill Switches, Circuit Breakers, and Canary Tokens",7.29,budget token
+job leads,A,my_flows/research/ads_layer,L13-18,MCP Auth in Production: Issuer-Bound Enrollment and Tokens,7.03,token
+job leads,A,my_flows/research/ads_layer,L12-20,Omni Models: Qwen2.5-Omni and the Thinker-Talker Split,6.89,budget token
+job leads,A,my_flows/research/demand_research,L16-05,Supervisor / Orchestrator-Worker Pattern,7.84,lead
+job leads,A,my_flows/research/demand_research,L16-25,Case Studies and the 2026 State of the Art,5.93,lead
+job leads,A,my_flows/research/demand_research,L18-15,Indirect Prompt Injection — Production Attack Surface,5.78,filter
+job leads,A,my_flows/research/demand_research,L18-14,ASCII Art and Visual Jailbreaks,5.68,filter
+job leads,A,my_flows/research/demand_research,L18-25,EchoLeak and the Emergence of CVEs for AI,3.06,filter
+job leads,A,my_flows/research/job_leads,P-durable-agent-jobs,Durable Agent Jobs,18.26,job jobs
+job leads,A,my_flows/research/job_leads,L11-09,Function Calling & Tool Use,17.59,email json
+job leads,A,my_flows/research/job_leads,L16-05,Supervisor / Orchestrator-Worker Pattern,11.06,lead token
+job leads,A,my_flows/research/job_leads,L18-15,Indirect Prompt Injection — Production Attack Surface,11.06,email filter
+job leads,A,my_flows/research/job_leads,CC-05,"Validate the Claim, Not the Confidence",10.65,job
+job leads,A,my_flows/research/job_leads,CC-09,Structured Output Is an Untrusted Contract,10.24,json
+job leads,A,my_flows/research/job_leads,L11-11,"Caching, Rate Limiting & Cost Optimization",9.52,token
+job leads,A,my_flows/research/job_leads,L18-25,EchoLeak and the Emergence of CVEs for AI,9.35,email filter
+job leads,A,my_flows/ui_ux/principles,L16-05,Supervisor / Orchestrator-Worker Pattern,9.53,lead token
+job leads,A,my_flows/ui_ux/principles,L17-05,EAGLE-3 Speculative Decoding in Production,6.9,token
+job leads,A,my_flows/ui_ux/principles,L11-15,Prompt Caching and Context Caching,6.46,token
+job leads,A,my_flows/ui_ux/principles,L17-08,"Inference Metrics — TTFT, TPOT, ITL, Goodput, P99",6.15,token
+job leads,A,my_flows/ui_ux/principles,L12-20,Omni Models: Qwen2.5-Omni and the Thinker-Talker Split,6.03,token
+job leads,A,my_flows/ui_ux/principles,L17-17,Disaggregated Prefill/Decode — NVIDIA Dynamo and llm-d,5.84,token
+job leads,A,my_flows/ui_ux/principles,L11-13,Building a Production LLM Application,5.64,token
+job leads,A,my_flows/ui_ux/principles,L19-25,Capstone Lesson 25: Verification Gates and the Observation Budget,5.58,token
+job leads,C,P-json-schema-output-guard,P-mcp-at-scale,JSON Schema Output Guard + MCP Tool Discovery Workbench,22.73,schema
+job leads,C,P-mcp-at-scale,P-token-counter-and-cost-meter,MCP Tool Discovery Workbench + Token Counter and Cost Meter,15.59,budget
+marketing,A,confirmed/x_pipeline,L12-04,Flamingo and Gated Cross-Attention for Few-Shot VLMs,12.44,caption video
+marketing,A,confirmed/x_pipeline,L19-12,"Capstone 12 — Video Understanding Pipeline (Scene, QA, Search)",11.67,caption video
+marketing,A,confirmed/x_pipeline,L12-05,LLaVA and Visual Instruction Tuning,10.26,caption video
+marketing,A,confirmed/x_pipeline,P-subtitle-localization-desk,Subtitle Localization Desk,8.73,caption
+marketing,A,confirmed/x_pipeline,L18-30,"Dual-Use Risk — Cyber, Bio, Chem, Nuclear Uplift",4.12,video
+marketing,A,confirmed/yt_outliers,L12-04,Flamingo and Gated Cross-Attention for Few-Shot VLMs,5.07,video
+marketing,A,confirmed/yt_outliers,L19-12,"Capstone 12 — Video Understanding Pipeline (Scene, QA, Search)",5.06,video
+marketing,A,confirmed/yt_outliers,L18-30,"Dual-Use Risk — Cyber, Bio, Chem, Nuclear Uplift",4.08,video
+marketing,A,confirmed/yt_outliers,L12-05,LLaVA and Visual Instruction Tuning,3.65,video
+marketing,A,my_flows/research/3d_marketing_engine,L17-02,"Inference Platform Economics — Fireworks, Together, Baseten, Modal, Replicate, Anyscale",5.82,market
+marketing,A,my_flows/research/3d_marketing_engine,L12-04,Flamingo and Gated Cross-Attention for Few-Shot VLMs,4.96,video
+marketing,A,my_flows/research/3d_marketing_engine,L12-05,LLaVA and Visual Instruction Tuning,3.61,video
+marketing,A,my_flows/research/3d_marketing_engine,L18-30,"Dual-Use Risk — Cyber, Bio, Chem, Nuclear Uplift",2.58,video
+marketing,A,my_flows/research/3d_marketing_engine,L19-12,"Capstone 12 — Video Understanding Pipeline (Scene, QA, Search)",2.38,video
+marketing,A,my_flows/research/ads_layer,T-build_catalog,build_catalog.py,10.83,catalogue
+marketing,A,my_flows/research/ads_layer,L19-12,"Capstone 12 — Video Understanding Pipeline (Scene, QA, Search)",9.26,caption video
+marketing,A,my_flows/research/ads_layer,L17-02,"Inference Platform Economics — Fireworks, Together, Baseten, Modal, Replicate, Anyscale",9.05,market
+marketing,A,my_flows/research/ads_layer,L18-30,"Dual-Use Risk — Cyber, Bio, Chem, Nuclear Uplift",9.02,campaign video
+marketing,A,my_flows/research/ads_layer,L12-04,Flamingo and Gated Cross-Attention for Few-Shot VLMs,8.45,caption video
+marketing,A,my_flows/research/ads_layer,L12-05,LLaVA and Visual Instruction Tuning,8.01,caption video
+marketing,A,my_flows/research/ads_layer,P-subtitle-localization-desk,Subtitle Localization Desk,5.26,caption
+marketing,A,my_flows/research/demand_research,L19-12,"Capstone 12 — Video Understanding Pipeline (Scene, QA, Search)",7.12,video
+marketing,A,my_flows/research/demand_research,L17-02,"Inference Platform Economics — Fireworks, Together, Baseten, Modal, Replicate, Anyscale",6.91,market
+marketing,A,my_flows/research/demand_research,L12-04,Flamingo and Gated Cross-Attention for Few-Shot VLMs,6.6,video
+marketing,A,my_flows/research/demand_research,L18-30,"Dual-Use Risk — Cyber, Bio, Chem, Nuclear Uplift",4.49,video
+marketing,A,my_flows/research/demand_research,L12-05,LLaVA and Visual Instruction Tuning,3.3,video
+marketing,A,my_flows/research/sources,L17-02,"Inference Platform Economics — Fireworks, Together, Baseten, Modal, Replicate, Anyscale",7.89,market
+marketing,A,my_flows/research/sources,L12-04,Flamingo and Gated Cross-Attention for Few-Shot VLMs,6.0,video
+marketing,A,my_flows/research/sources,L19-12,"Capstone 12 — Video Understanding Pipeline (Scene, QA, Search)",4.41,video
+marketing,A,my_flows/research/sources,L12-05,LLaVA and Visual Instruction Tuning,4.36,video
+marketing,A,my_flows/research/sources,L18-30,"Dual-Use Risk — Cyber, Bio, Chem, Nuclear Uplift",3.96,video
+marketing,B,Comfy-Org/ComfyUI,L12-04,Flamingo and Gated Cross-Attention for Few-Shot VLMs,16.1,video
+marketing,B,Comfy-Org/ComfyUI,L12-05,LLaVA and Visual Instruction Tuning,15.38,video
+marketing,B,Comfy-Org/ComfyUI,L19-12,"Capstone 12 — Video Understanding Pipeline (Scene, QA, Search)",12.83,video
+marketing,B,Comfy-Org/ComfyUI,L18-30,"Dual-Use Risk — Cyber, Bio, Chem, Nuclear Uplift",9.65,video
+marketing,B,Dream-Pixels-Forge/artisan_labs_dev,L12-04,Flamingo and Gated Cross-Attention for Few-Shot VLMs,13.24,video
+marketing,B,Dream-Pixels-Forge/artisan_labs_dev,L12-05,LLaVA and Visual Instruction Tuning,12.98,video
+marketing,B,Dream-Pixels-Forge/artisan_labs_dev,L19-12,"Capstone 12 — Video Understanding Pipeline (Scene, QA, Search)",12.33,video
+marketing,B,Dream-Pixels-Forge/artisan_labs_dev,L18-30,"Dual-Use Risk — Cyber, Bio, Chem, Nuclear Uplift",9.0,video
+marketing,B,kijai/ComfyUI-WanVideoWrapper,L12-04,Flamingo and Gated Cross-Attention for Few-Shot VLMs,14.69,video
+marketing,B,kijai/ComfyUI-WanVideoWrapper,L12-05,LLaVA and Visual Instruction Tuning,13.98,video
+marketing,B,kijai/ComfyUI-WanVideoWrapper,L19-12,"Capstone 12 — Video Understanding Pipeline (Scene, QA, Search)",13.27,video
+marketing,B,kijai/ComfyUI-WanVideoWrapper,L18-30,"Dual-Use Risk — Cyber, Bio, Chem, Nuclear Uplift",9.98,video
+research and 411,A,confirmed/chat_reply_extractor,P-document-extraction-desk,Document Extraction Review Desk,16.28,source
+research and 411,A,confirmed/chat_reply_extractor,P-doc-qa-with-citations,Document QA With Citations and LangChain,13.12,research source
+research and 411,A,confirmed/chat_reply_extractor,P-skill-scanner,Skill Supply-Chain Scanner,10.65,source
+research and 411,A,confirmed/chat_reply_extractor,P-research-report-agent,Research Report Agent,8.94,research
+research and 411,A,confirmed/chat_reply_extractor,L19-27,Capstone Lesson 27: Eval Harness with Fixture Tasks,8.41,source
+research and 411,A,confirmed/chat_reply_extractor,P-source-grounded-study-coach,Source-Grounded Study Coach,8.09,source
+research and 411,A,confirmed/chat_reply_extractor,L16-05,Supervisor / Orchestrator-Worker Pattern,6.42,research
+research and 411,A,confirmed/chat_reply_extractor,P-semantic-notes-search,Semantic Notes Search,6.37,research
+research and 411,A,confirmed/chatgpt_takeout_split,P-document-extraction-desk,Document Extraction Review Desk,8.46,source
+research and 411,A,confirmed/chatgpt_takeout_split,L19-27,Capstone Lesson 27: Eval Harness with Fixture Tasks,8.27,source
+research and 411,A,confirmed/chatgpt_takeout_split,P-skill-scanner,Skill Supply-Chain Scanner,8.13,source
+research and 411,A,confirmed/chatgpt_takeout_split,L17-14,Prompt Caching and Semantic Caching Economics,7.51,verify
+research and 411,A,confirmed/chatgpt_takeout_split,L16-24,Evaluation and Coordination Benchmarks,6.92,source
+research and 411,A,confirmed/chatgpt_takeout_split,L19-10,Capstone 10 — Multi-Agent Software Engineering Team,5.82,verify
+research and 411,A,confirmed/chatgpt_takeout_split,P-source-grounded-study-coach,Source-Grounded Study Coach,5.78,source
+research and 411,A,confirmed/chatgpt_takeout_split,P-doc-qa-with-citations,Document QA With Citations and LangChain,5.67,source
+research and 411,A,confirmed/env_preflight,L19-14,Capstone 14 — Speculative-Decoding Inference Server,8.5,report verify
+research and 411,A,confirmed/env_preflight,L19-10,Capstone 10 — Multi-Agent Software Engineering Team,8.34,report verify
+research and 411,A,confirmed/env_preflight,L19-75,End-to-End Eval Runner,7.97,report
+research and 411,A,confirmed/env_preflight,L17-23,"SRE for AI — Multi-Agent Incident Response, Runbooks, Predictive Detection",7.32,report
+research and 411,A,confirmed/env_preflight,P-research-report-agent,Research Report Agent,7.31,report
+research and 411,A,confirmed/env_preflight,P-agent-trace-debugger,Agent Trace Debugger,7.24,report
+research and 411,A,confirmed/env_preflight,L19-41,Capstone Lesson 41: Full Evaluation Pipeline,7.17,report
+research and 411,A,confirmed/env_preflight,L16-05,Supervisor / Orchestrator-Worker Pattern,6.73,report
+research and 411,A,confirmed/gemini_md2,L19-27,Capstone Lesson 27: Eval Harness with Fixture Tasks,12.78,eval
+research and 411,A,confirmed/gemini_md2,L19-70,Task Spec Format,7.92,eval
+research and 411,A,confirmed/gemini_md2,L19-72,Code Exec Metric,7.2,eval
+research and 411,A,confirmed/gemini_md2,L16-05,Supervisor / Orchestrator-Worker Pattern,6.86,eval
+research and 411,A,confirmed/gemini_md2,CC-14,Evals Turn Agent Behavior Into Engineering Evidence,6.65,eval
+research and 411,A,confirmed/gemini_md2,L14-24,"Agent Observability: Langfuse, Phoenix, Opik",5.79,eval
+research and 411,A,confirmed/gemini_md2,L16-08,"Role Specialization — Planner, Critic, Executor, Verifier",5.63,verify
+research and 411,A,confirmed/gemini_md2,L19-69,End-to-End RAG System,5.58,eval
+research and 411,A,confirmed/knowledge_recovery,P-semantic-notes-search,Semantic Notes Search,10.08,search
+research and 411,A,confirmed/knowledge_recovery,CC-04,Put Each Fact in the Right Kind of Context,9.97,evidence knowledge
+research and 411,A,confirmed/knowledge_recovery,L05-14,Information Retrieval and Search,8.35,search
+research and 411,A,confirmed/knowledge_recovery,L17-14,Prompt Caching and Semantic Caching Economics,7.11,verify
+research and 411,A,confirmed/knowledge_recovery,CC-30,Ship a Claude Application You Can Defend,7.02,evidence
+research and 411,A,confirmed/knowledge_recovery,P-feedback-theme-board,Feedback Theme Board,6.54,evidence
+research and 411,A,confirmed/knowledge_recovery,L19-08,Capstone 08 — Production RAG Chatbot for a Regulated Vertical,6.34,search
+research and 411,A,confirmed/knowledge_recovery,L16-17,Generative Agents and Emergent Simulation,6.16,knowledge
+research and 411,A,confirmed/prompt_reply_pipeline,P-document-extraction-desk,Document Extraction Review Desk,18.73,note source
+research and 411,A,confirmed/prompt_reply_pipeline,P-feedback-theme-board,Feedback Theme Board,14.66,note sourc
+research and 411,A,confirmed/prompt_reply_pipeline,CC-29,"Ship a Week of Work, Not a Perfect Prompt",11.23,sourc
+research and 411,A,confirmed/prompt_reply_pipeline,P-semantic-notes-search,Semantic Notes Search,11.15,note search
+research and 411,A,confirmed/prompt_reply_pipeline,P-source-grounded-study-coach,Source-Grounded Study Coach,10.1,note source
+research and 411,A,confirmed/prompt_reply_pipeline,P-skill-scanner,Skill Supply-Chain Scanner,8.37,source
+research and 411,A,confirmed/prompt_reply_pipeline,L19-27,Capstone Lesson 27: Eval Harness with Fixture Tasks,8.11,source
+research and 411,A,confirmed/prompt_reply_pipeline,CC-04,Put Each Fact in the Right Kind of Context,7.97,knowledge
+research and 411,A,confirmed/repo_inspect,L16-24,Evaluation and Coordination Benchmarks,13.56,report source
+research and 411,A,confirmed/repo_inspect,P-document-extraction-desk,Document Extraction Review Desk,13.36,source
+research and 411,A,confirmed/repo_inspect,P-source-grounded-study-coach,Source-Grounded Study Coach,12.86,source
+research and 411,A,confirmed/repo_inspect,P-skill-scanner,Skill Supply-Chain Scanner,11.88,source
+research and 411,A,confirmed/repo_inspect,P-doc-qa-with-citations,Document QA With Citations and LangChain,9.91,source
+research and 411,A,confirmed/repo_inspect,L16-05,Supervisor / Orchestrator-Worker Pattern,9.09,report
+research and 411,A,confirmed/repo_inspect,L11-17,"Agent Framework Tradeoffs — Graph, Role, and Actor Orchestration",9.02,report
+research and 411,A,confirmed/repo_inspect,L19-27,Capstone Lesson 27: Eval Harness with Fixture Tasks,8.47,source
+research and 411,A,my_flows/research/3d_marketing_engine,CC-29,"Ship a Week of Work, Not a Perfect Prompt",10.51,claim
+research and 411,A,my_flows/research/3d_marketing_engine,L17-17,Disaggregated Prefill/Decode — NVIDIA Dynamo and llm-d,10.29,claim source
+research and 411,A,my_flows/research/3d_marketing_engine,L19-27,Capstone Lesson 27: Eval Harness with Fixture Tasks,10.02,source
+research and 411,A,my_flows/research/3d_marketing_engine,P-document-extraction-desk,Document Extraction Review Desk,9.86,source
+research and 411,A,my_flows/research/3d_marketing_engine,P-doc-qa-with-citations,Document QA With Citations and LangChain,9.85,research source
+research and 411,A,my_flows/research/3d_marketing_engine,P-skill-scanner,Skill Supply-Chain Scanner,9.38,source
+research and 411,A,my_flows/research/3d_marketing_engine,P-research-report-agent,Research Report Agent,8.63,research
+research and 411,A,my_flows/research/3d_marketing_engine,P-postmortem-writer,Incident Postmortem Writer,8.45,claim
+research and 411,A,my_flows/research/ads_layer,CC-29,"Ship a Week of Work, Not a Perfect Prompt",14.92,claim sourc
+research and 411,A,my_flows/research/ads_layer,P-feedback-theme-board,Feedback Theme Board,14.53,note sourc
+research and 411,A,my_flows/research/ads_layer,P-postmortem-writer,Incident Postmortem Writer,13.99,claim note
+research and 411,A,my_flows/research/ads_layer,P-document-extraction-desk,Document Extraction Review Desk,13.7,note source
+research and 411,A,my_flows/research/ads_layer,P-source-grounded-study-coach,Source-Grounded Study Coach,11.21,note source
+research and 411,A,my_flows/research/ads_layer,L16-24,Evaluation and Coordination Benchmarks,11.11,report source
+research and 411,A,my_flows/research/ads_layer,L14-38,Verification Gates,10.18,report
+research and 411,A,my_flows/research/ads_layer,P-web-change-brief,Web Change Brief,9.56,note report
+research and 411,A,my_flows/research/demand_research,L17-14,Prompt Caching and Semantic Caching Economics,15.84,claim verify
+research and 411,A,my_flows/research/demand_research,P-doc-qa-with-citations,Document QA With Citations and LangChain,13.73,research retrieval source
+research and 411,A,my_flows/research/demand_research,P-source-grounded-study-coach,Source-Grounded Study Coach,13.39,evidence note source
+research and 411,A,my_flows/research/demand_research,P-semantic-notes-search,Semantic Notes Search,13.15,note research retrieval search
+research and 411,A,my_flows/research/demand_research,P-document-extraction-desk,Document Extraction Review Desk,12.79,note source
+research and 411,A,my_flows/research/demand_research,P-skill-scanner,Skill Supply-Chain Scanner,12.39,evidence source
+research and 411,A,my_flows/research/demand_research,L14-38,Verification Gates,11.46,verification
+research and 411,A,my_flows/research/demand_research,L05-14,Information Retrieval and Search,11.06,retrieval search
+research and 411,A,my_flows/research/evidence_verification,L14-38,Verification Gates,15.79,report verification
+research and 411,A,my_flows/research/evidence_verification,L17-14,Prompt Caching and Semantic Caching Economics,13.39,claim verify
+research and 411,A,my_flows/research/evidence_verification,P-skill-scanner,Skill Supply-Chain Scanner,12.35,evidence source
+research and 411,A,my_flows/research/evidence_verification,P-source-grounded-study-coach,Source-Grounded Study Coach,12.16,evidence source
+research and 411,A,my_flows/research/evidence_verification,CC-05,"Validate the Claim, Not the Confidence",11.24,claim evidence
+research and 411,A,my_flows/research/evidence_verification,P-web-change-brief,Web Change Brief,10.32,report
+research and 411,A,my_flows/research/evidence_verification,P-document-extraction-desk,Document Extraction Review Desk,9.41,source
+research and 411,A,my_flows/research/evidence_verification,L19-27,Capstone Lesson 27: Eval Harness with Fixture Tasks,8.78,source
+research and 411,A,my_flows/research/job_leads,P-skill-scanner,Skill Supply-Chain Scanner,20.45,evidence source
+research and 411,A,my_flows/research/job_leads,L17-14,Prompt Caching and Semantic Caching Economics,13.29,verify
+research and 411,A,my_flows/research/job_leads,P-source-grounded-study-coach,Source-Grounded Study Coach,12.07,evidence source
+research and 411,A,my_flows/research/job_leads,L16-24,Evaluation and Coordination Benchmarks,10.54,evidence source
+research and 411,A,my_flows/research/job_leads,P-pr-review-reporter,PR Review Reporter,10.23,evidence
+research and 411,A,my_flows/research/job_leads,P-semantic-notes-search,Semantic Notes Search,9.72,search
+research and 411,A,my_flows/research/job_leads,P-document-extraction-desk,Document Extraction Review Desk,9.53,source
+research and 411,A,my_flows/research/job_leads,L19-27,Capstone Lesson 27: Eval Harness with Fixture Tasks,8.64,source
+research and 411,A,my_flows/research/sources,CC-29,"Ship a Week of Work, Not a Perfect Prompt",21.66,claim sourc
+research and 411,A,my_flows/research/sources,P-feedback-theme-board,Feedback Theme Board,19.08,evidence note sourc
+research and 411,A,my_flows/research/sources,L17-14,Prompt Caching and Semantic Caching Economics,18.36,claim verify
+research and 411,A,my_flows/research/sources,P-source-grounded-study-coach,Source-Grounded Study Coach,18.31,evidence note source
+research and 411,A,my_flows/research/sources,P-skill-scanner,Skill Supply-Chain Scanner,17.24,evidence source
+research and 411,A,my_flows/research/sources,CC-05,"Validate the Claim, Not the Confidence",16.15,claim evidence
+research and 411,A,my_flows/research/sources,P-postmortem-writer,Incident Postmortem Writer,16.07,claim note
+research and 411,A,my_flows/research/sources,L14-38,Verification Gates,14.1,verification
+research and 411,A,my_flows/ui_ux/breakdown,P-postmortem-writer,Incident Postmortem Writer,14.45,claim note
+research and 411,A,my_flows/ui_ux/breakdown,P-web-change-brief,Web Change Brief,14.24,note
+research and 411,A,my_flows/ui_ux/breakdown,P-document-extraction-desk,Document Extraction Review Desk,13.48,note source
+research and 411,A,my_flows/ui_ux/breakdown,CC-29,"Ship a Week of Work, Not a Perfect Prompt",12.75,claim
+research and 411,A,my_flows/ui_ux/breakdown,P-source-grounded-study-coach,Source-Grounded Study Coach,11.79,note source
+research and 411,A,my_flows/ui_ux/breakdown,P-skill-scanner,Skill Supply-Chain Scanner,10.45,source
+research and 411,A,my_flows/ui_ux/breakdown,L17-14,Prompt Caching and Semantic Caching Economics,9.22,claim
+research and 411,A,my_flows/ui_ux/breakdown,CC-05,"Validate the Claim, Not the Confidence",9.01,claim
+research and 411,C,P-doc-qa-with-citations,P-report-judge,Document QA With Citations and LangChain + Report Judge,38.9,citation research retrieval
+research and 411,C,P-doc-qa-with-citations,P-research-report-agent,Document QA With Citations and LangChain + Research Report Agent,30.62,research retrieval
+research and 411,C,P-document-extraction-desk,P-source-grounded-study-coach,Document Extraction Review Desk + Source-Grounded Study Coach,38.62,note source
+research and 411,C,P-feedback-theme-board,P-source-grounded-study-coach,Feedback Theme Board + Source-Grounded Study Coach,25.96,evidence note
+research and 411,C,P-postmortem-writer,P-web-change-brief,Incident Postmortem Writer + Web Change Brief,25.11,note
+research and 411,C,P-rag-freshness-pipeline,P-research-report-agent,RAG Freshness Pipeline + Research Report Agent,29.11,research retrieval
+research and 411,C,P-report-judge,P-research-report-agent,Report Judge + Research Report Agent,31.01,report research retrieval
+research and 411,C,P-skill-scanner,P-source-grounded-study-coach,Skill Supply-Chain Scanner + Source-Grounded Study Coach,33.52,evidence source
+sales,A,confirmed/chatgpt_takeout_split,P-inbox-triage-desk,Inbox Triage Desk,10.38,reply
+sales,A,confirmed/chatgpt_takeout_split,L16-23,"Failure Modes — MAST, Groupthink, Monoculture, Cascading Errors",6.67,order
+sales,A,confirmed/knowledge_recovery,P-inbox-triage-desk,Inbox Triage Desk,7.62,reply
+sales,A,confirmed/knowledge_recovery,L16-23,"Failure Modes — MAST, Groupthink, Monoculture, Cascading Errors",4.1,order
+sales,A,confirmed/prompt_reply_pipeline,P-inbox-triage-desk,Inbox Triage Desk,8.95,reply
+sales,A,confirmed/prompt_reply_pipeline,L16-23,"Failure Modes — MAST, Groupthink, Monoculture, Cascading Errors",6.64,order
+sales,A,confirmed/prompt_reply_pipeline,L12-24,Multimodal RAG and Cross-Modal Retrieval,3.49,pipeline
+sales,A,confirmed/prompt_reply_pipeline,L16-21,"Agent Economies, Token Incentives, Reputation",2.22,pipeline
+sales,A,confirmed/repo_inspect,L16-23,"Failure Modes — MAST, Groupthink, Monoculture, Cascading Errors",11.98,order payment
+sales,A,confirmed/repo_inspect,L16-21,"Agent Economies, Token Incentives, Reputation",10.99,payment
+sales,A,confirmed/x_pipeline,P-inbox-triage-desk,Inbox Triage Desk,14.68,inbox
+sales,A,confirmed/x_pipeline,P-signed-webhook-inbox,Signed Webhook Inbox,14.52,inbox
+sales,A,confirmed/x_pipeline,L12-24,Multimodal RAG and Cross-Modal Retrieval,5.65,pipeline
+sales,A,confirmed/x_pipeline,L16-21,"Agent Economies, Token Incentives, Reputation",2.97,pipeline
+sales,A,my_flows/research/ads_layer,L16-23,"Failure Modes — MAST, Groupthink, Monoculture, Cascading Errors",4.69,order
+sales,A,my_flows/research/evidence_verification,L16-23,"Failure Modes — MAST, Groupthink, Monoculture, Cascading Errors",9.52,order payment
+sales,A,my_flows/research/evidence_verification,L16-21,"Agent Economies, Token Incentives, Reputation",5.45,payment pipeline
+sales,A,my_flows/research/evidence_verification,L12-24,Multimodal RAG and Cross-Modal Retrieval,4.07,pipeline
+sales,A,my_flows/research/job_leads,P-inbox-triage-desk,Inbox Triage Desk,10.19,email
+sales,A,my_flows/ui_ux/intake,P-inbox-triage-desk,Inbox Triage Desk,12.04,inbox
+sales,A,my_flows/ui_ux/intake,P-signed-webhook-inbox,Signed Webhook Inbox,11.17,inbox
+sales,A,my_flows/ui_ux/intake,L12-24,Multimodal RAG and Cross-Modal Retrieval,6.74,pipeline
+sales,A,my_flows/ui_ux/intake,L16-21,"Agent Economies, Token Incentives, Reputation",2.76,pipeline
+sales,A,my_flows/ui_ux/motion,L12-24,Multimodal RAG and Cross-Modal Retrieval,6.56,pipeline
+sales,A,my_flows/ui_ux/motion,L16-23,"Failure Modes — MAST, Groupthink, Monoculture, Cascading Errors",4.8,order
+sales,A,my_flows/ui_ux/motion,L16-21,"Agent Economies, Token Incentives, Reputation",1.63,pipeline
+sales,C,P-inbox-triage-desk,P-signed-webhook-inbox,Inbox Triage Desk + Signed Webhook Inbox,19.48,inbox

@@ -27,3 +27,12 @@ x_inbox/
 outliers_out/
 outliers_out_sample/
 yt_dry_run/
+
+# my_flows: live outputs and other people's media stay on the laptop (code, process and briefs are committed)
+leads_out/
+clones/
+python_skills/my_flows/ui_ux/**/work/
+python_skills/my_flows/ui_ux/**/media/
+python_skills/my_flows/ui_ux/motion/scroll_scrub/frames/
+python_skills/my_flows/ui_ux/**/clay/
+python_skills/my_flows/research/**/live/

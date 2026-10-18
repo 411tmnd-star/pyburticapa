@@ -1,0 +1,1 @@
+A reply with no front matter: I just use my bank's recurring transfer and a notes file, honestly it works fine for me and I would never pay for another app. Lots of people overcomplicate this problem when a simple reminder does the job for them every single month without any fuss at all.

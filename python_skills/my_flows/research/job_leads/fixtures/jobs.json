@@ -1,0 +1,42 @@
+[
+ {
+  "title": "Python automation engineer",
+  "companyName": "Acme",
+  "companyWebsite": "https://www.acme.example/",
+  "link": "https://example.com/job/1",
+  "id": "401",
+  "descriptionText": "We are hiring a Python automation engineer. You will build automation with Python and APIs."
+ },
+ {
+  "title": "Pastry chef",
+  "companyName": "Bakery",
+  "companyWebsite": "https://bakery.example",
+  "link": "https://example.com/job/2",
+  "id": "402",
+  "descriptionText": "We are hiring a Pastry chef. You will bake bread every morning."
+ },
+ {
+  "title": "Python developer",
+  "companyName": "NoSite",
+  "companyWebsite": "",
+  "link": "https://example.com/job/3",
+  "id": "403",
+  "descriptionText": "We are hiring a Python developer. You will build automation with Python and APIs."
+ },
+ {
+  "title": "Python engineer",
+  "companyName": "Ghost",
+  "companyWebsite": "https://ghost.example",
+  "link": "https://example.com/job/4",
+  "id": "404",
+  "descriptionText": "We are hiring a Python engineer. You will build automation with Python and APIs."
+ },
+ {
+  "id": "405",
+  "title": "Python engineer",
+  "companyName": "Social",
+  "companyWebsite": "https://www.linkedin.com/company/social",
+  "link": "https://example.com/job/5",
+  "descriptionText": "We are hiring a Python engineer. You will build automation with Python and APIs."
+ }
+]

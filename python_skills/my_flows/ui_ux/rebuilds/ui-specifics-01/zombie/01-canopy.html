@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Canopy (rebuild 01)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Rebuild 01 of 9 — "Everything you need to reduce your footprint".
+   Formula: dark brand field + centered 2-line serif hero (line 2 tinted)
+   + pill pair + floating dashboard card + one decorative botanical. */
+:root{
+  --field:#30492c;        /* deep moss field */
+  --field-2:#29402a;
+  --cream:#eef0dc;        /* headline line 1 */
+  --sage:#cddfa3;         /* headline line 2 + primary button */
+  --muted:#b7c3a6;
+  --card:#fbfaf5;
+  --ink:#24301f;
+  --line:#e7e6dd;
+  --leaf-1:#7fa65a; --leaf-2:#4f86a8; --leaf-3:#2f5f2a; --leaf-4:#a9c98a;
+  --serif:"Fraunces",Georgia,serif;
+  --sans:"Inter",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;overflow-x:clip}
+body{background:radial-gradient(120% 90% at 50% 0%,var(--field) 0%,var(--field-2) 100%);font-family:var(--sans);color:var(--ink);min-height:100vh;overflow-x:hidden}
+.wrap{position:relative;max-width:1180px;margin:0 auto;padding:56px 24px 0}
+.hero{text-align:center;position:relative;z-index:2}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(34px,5.2vw,64px);line-height:1.08;letter-spacing:-.01em;margin:0;color:var(--cream);text-wrap:balance}
+h1 span{display:block;color:var(--sage)}
+.sub{margin:18px auto 0;max-width:30ch;color:var(--muted);font-size:clamp(14px,1.4vw,17px);line-height:1.5}
+.ctas{display:flex;gap:14px;justify-content:center;margin-top:26px;flex-wrap:wrap}
+.btn{border-radius:999px;padding:12px 26px;font:500 14px var(--sans);border:1px solid transparent;cursor:pointer}
+.btn.primary{background:var(--sage);color:var(--ink)}
+.btn.ghost{background:transparent;color:var(--cream);border-color:rgba(238,240,220,.35)}
+.sprig{position:absolute;right:-40px;top:20px;width:min(300px,28vw);z-index:1;transform:rotate(8deg)}
+/* the floating product card */
+.card{position:relative;z-index:2;margin:44px auto 0;background:var(--card);border-radius:14px;box-shadow:0 30px 60px rgba(0,0,0,.28);display:grid;grid-template-columns:200px 1fr;min-height:360px;overflow:hidden}
+.side{padding:22px 18px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:6px;font-size:13px;color:#59614f}
+.brand{display:flex;align-items:center;gap:8px;font-weight:600;color:var(--ink);margin-bottom:14px}
+.side a{padding:8px 10px;border-radius:8px;color:inherit;text-decoration:none;display:flex;gap:10px;align-items:center}
+.side a.on{background:#eef1e3;color:var(--ink)}
+.dot{width:12px;height:12px;border:1.5px solid currentColor;border-radius:4px;opacity:.6}
+.main{padding:22px 28px;display:flex;flex-direction:column;gap:18px;min-width:0}
+.top{display:flex;justify-content:space-between;align-items:center}
+.top h2{margin:0;font:600 17px var(--sans)}
+.top small{color:#8a917f;font-size:12px}
+.row{display:grid;grid-template-columns:1fr 1.4fr 1.2fr;gap:18px}
+.tile{border:1px solid var(--line);border-radius:12px;padding:14px 16px;min-width:0}
+.tile .k{font-size:11px;color:#8a917f}
+.big{font:600 30px var(--sans);letter-spacing:-.02em;margin-top:8px;font-variant-numeric:tabular-nums}
+.big small{font-size:12px;font-weight:500;color:#8a917f;margin-left:4px}
+.delta{font-size:11px;color:#4e8a3c;margin-top:10px}
+.legend{display:grid;gap:8px;font-size:11px;color:#59614f}
+.legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px}
+.legend span{display:flex;align-items:center;gap:0;min-width:120px}
+.legend b{margin-left:auto;padding-left:14px;font-weight:500}
+.donutrow{display:flex;gap:16px;align-items:center}
+.rec{border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:14px;font-size:12px}
+.rec .ic{width:30px;height:30px;border-radius:8px;background:#eef1e3;display:grid;place-items:center;color:#4e8a3c;font-weight:600}
+.rec .grow{flex:1;min-width:0}
+.rec .act{border:1px solid var(--line);border-radius:8px;padding:8px 12px;white-space:nowrap}
+@media (max-width:820px){.card{grid-template-columns:1fr}.side{display:none}.row{grid-template-columns:1fr}.sprig{opacity:.35}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <svg class="sprig" viewBox="0 0 200 320" aria-hidden="true">
+    <!-- an olive sprig: one stem, alternating lanceolate leaves -->
+    <path d="M40 310 C70 230 95 150 150 20" stroke="#8fb36a" stroke-width="3" fill="none"/>
+    <g fill="#a8c47c">
+      <path d="M58 260 q-40 -8 -52 -32 q34 2 52 32z"/><path d="M66 238 q38 -16 60 -2 q-30 18 -60 2z"/>
+      <path d="M78 200 q-44 -10 -58 -36 q38 4 58 36z"/><path d="M88 178 q36 -22 62 -12 q-26 22 -62 12z"/>
+      <path d="M102 140 q-40 -16 -48 -44 q34 10 48 44z"/><path d="M112 118 q30 -26 58 -22 q-20 26 -58 22z"/>
+      <path d="M126 82 q-30 -20 -32 -46 q26 14 32 46z"/><path d="M136 62 q24 -24 46 -24 q-14 24 -46 24z"/>
+    </g>
+  </svg>
+  <section class="hero">
+    <h1>Everything you need <span>to reduce your footprint</span></h1>
+    <p class="sub">Measure, report, and reduce your carbon emissions with confidence.</p>
+    <div class="ctas"><button class="btn primary">Get a demo</button><button class="btn ghost">See how it works</button></div>
+  </section>
+  <div class="card" role="img" aria-label="Product dashboard mockup">
+    <aside class="side">
+      <div class="brand"><svg width="18" height="18" viewBox="0 0 20 20"><path d="M10 2c4 3 6 7 3 12-2 3-6 3-8 0C2 9 6 5 10 2z" fill="#4e8a3c"/></svg>Canopy</div>
+      <a class="on"><span class="dot"></span>Overview</a><a><span class="dot"></span>Measure</a><a><span class="dot"></span>Reduce</a><a><span class="dot"></span>Reports</a><a><span class="dot"></span>Goals</a><a><span class="dot"></span>Settings</a>
+    </aside>
+    <div class="main">
+      <div class="top"><h2>Emissions overview</h2><small>This year ▾</small></div>
+      <div class="row">
+        <div class="tile"><div class="k">Total emissions</div><div class="big">12,534 <small>tCO₂e</small></div><div class="k">This year</div><div class="delta">▼ 12% vs last year</div></div>
+        <div class="tile"><div class="k">By month</div><svg id="c1" style="width:100%;height:120px"></svg></div>
+        <div class="tile"><div class="k">By category</div><div class="donutrow"><svg id="d1" style="width:96px;height:96px;flex:none"></svg>
+          <div class="legend"><span><i style="background:var(--leaf-3)"></i>Energy <b>42%</b></span><span><i style="background:var(--leaf-2)"></i>Travel <b>28%</b></span><span><i style="background:var(--leaf-1)"></i>Purchases <b>19%</b></span><span><i style="background:var(--leaf-4)"></i>Waste <b>11%</b></span></div></div></div>
+      </div>
+      <div class="k" style="font-size:12px;font-weight:600;color:var(--ink)">Recommendations</div>
+      <div class="rec"><div class="ic">↓</div><div class="grow"><b>Switch to renewable energy</b><br><span style="color:#8a917f">Potential reduction 1,240 tCO₂e per year</span></div><span style="color:#8a917f">Impact: High</span><span class="act">View all recommendations</span></div>
+    </div>
+  </div>
+</div>
+<script src="kit.js"></script>
+<script>
+Kit.areaChart(document.getElementById('c1'),[3,4,3.6,5,4.6,5.4,5,6.2,5.8,7,7.6,9],{stroke:'#4e8a3c',fill1:'#7fa65a',width:300,height:120,labels:['Jan','Mar','May','Jul','Sep','Nov']});
+Kit.donut(document.getElementById('d1'),[{v:42,c:'#2f5f2a'},{v:28,c:'#4f86a8'},{v:19,c:'#7fa65a'},{v:11,c:'#a9c98a'}],{r:34,w:12});
+</script>
+</body>
+</html>

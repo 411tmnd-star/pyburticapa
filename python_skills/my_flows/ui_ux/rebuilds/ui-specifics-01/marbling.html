@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Marbling Lab</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
+<link rel="stylesheet" href="ui.css">
+<style>
+.lab{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:18px;align-items:start}
+.lab canvas{width:100%;aspect-ratio:3/4;border-radius:var(--r);border:1px solid var(--line);touch-action:none;cursor:crosshair;display:block}
+.tools{display:grid;gap:8px}
+.tools .row{display:flex;gap:8px;flex-wrap:wrap}
+select{font:500 13px var(--body);padding:7px 10px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+@media (max-width:760px){.lab{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="index.html">UI Specifics</a><span>/</span><span>Marbling lab</span></nav>
+  <h1>Marbling lab</h1>
+  <p class="lede">At <span class="tc">18:00</span>–<span class="tc">18:20</span> she shows the Stripe Press cover for <i>Built to Grow</i>: a marbled pattern, three colour variants, then a wall of marbling trials. Her account: a human marbler made the iterations, then AI fine-tuned colours and lines. This lab teaches the marbling itself, with the maths that simulates it. Patterns here are generated, not copied from the cover.</p>
+  <div class="quote">Our most recent cover for Built to Grow, it was created by a human marbler who worked on these stunning iterations. And then we used AI to fine-tune the details ever further to ensure we had the colors and the lines in all the right places.<cite>The talk, ~18:08</cite></div>
+
+  <div class="lab">
+    <canvas id="m" width="900" height="1200" aria-label="Marbling canvas. Click to drop ink, drag to comb."></canvas>
+    <div class="tools card">
+      <div class="eyebrow">Recipe, in order</div>
+      <div class="row"><button data-step="field" type="button">1 Drop rows</button><button data-step="combDown" type="button">2 Comb down</button><button data-step="combUp" type="button">3 Comb up</button><button data-step="waves" type="button">4 Waves</button><button data-step="fine" type="button">5 Fine comb</button></div>
+      <div class="row"><button id="auto" class="primary" type="button">Run all five</button><button id="reset" type="button">Clear</button>
+        <label class="eyebrow" for="pal" style="align-self:center">Palette</label><select id="pal"><option value="moss">Moss and copper</option><option value="bosphorus">Indigo and ochre</option><option value="ink">Ink and bone</option></select></div>
+      <p class="note">Click the canvas to drop ink. Drag across it to pull a comb through the ink along your drag.</p>
+      <div class="eyebrow">What each step is, on a real marbling tray</div>
+      <ol class="steps" style="margin:0">
+        <li><b>Drop rows.</b> Paint is spattered or dropped onto thickened water (size); each new drop pushes the old ones aside.</li>
+        <li><b>Comb down.</b> A rake with evenly spaced pins is pulled through, dragging stripes.</li>
+        <li><b>Comb up.</b> The rake goes back, offset half a pin, so stripes interlock.</li>
+        <li><b>Waves.</b> A side-to-side wiggle while pulling gives the feather or "bouquet" curve.</li>
+        <li><b>Fine comb.</b> A dense comb at right angles makes the fine nonpareil texture. Then paper is laid on the surface to lift the print.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>The maths</h2>
+  <p>Ink is stored as polygons. Two operations do everything:</p>
+  <div class="tablewrap"><table>
+    <tr><th>Operation</th><th>Rule for each existing point p</th><th>Effect</th></tr>
+    <tr><td>Drop at c, radius r</td><td>p′ = c + (p − c) · √(1 + r² / |p − c|²)</td><td>Pushes every edge outward; area is conserved, like ink on water</td></tr>
+    <tr><td>Tine along line L, shift z</td><td>p′ = p + z · u<sup>d</sup> · M, where d = distance from p to L, M = line direction, u = 0.5<sup>1/c</sup></td><td>Drags points near the line hardest; c sets how sharp the stroke is</td></tr>
+    <tr><td>Wave</td><td>p′ = p + A · sin(2π x / λ) · ŷ</td><td>Bends every stripe into the feather curve</td></tr>
+  </table></div>
+  <p>Long, stretched edges are split as you go (the <code>refine</code> step) so curves stay smooth. This follows the published "mathematical marbling" approach by its authors; the code below is written from scratch.</p>
+  <div class="code" data-src="marbling.js"><div class="bar"><span>marbling.js · <span class="lines"></span></span><button class="copy" type="button">Copy</button></div><pre>Loading…</pre></div>
+
+  <h2>Human makes, AI refines</h2>
+  <ol class="steps">
+    <li><b>Make real prints.</b> The look comes from the marbler's hand: palette, comb spacing, how far each pull goes. That's where the point of view lives. <span class="tag s">her words</span></li>
+    <li><b>Lay out the wall.</b> Put every print in one grid (the slide shows about 30 around three cover mock-ups). Pick by looking at all of them at once.</li>
+    <li><b>Refine with AI.</b> Use image editing to adjust colour balance and clean or move lines on the chosen print. She says AI was used "to fine-tune the details"; which tool is not stated. <span class="tag u">tool unknown</span></li>
+    <li><b>Explore before committing.</b> A Stripe Press designer describes the same split for another Stripe Press cover: AI used to test directions, while "the concept still comes from us. The final cover is still made by us." <span class="tag s">Designer Fund, 2026</span></li>
+  </ol>
+</div>
+<script src="ui.js"></script>
+<script src="marbling.js"></script>
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Scroll Scrub</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+  :root {
+    --bg: #ffffff;
+    --ink: #14110f;
+    --muted: #6b645c;
+    --accent: #c46248;
+    --edge-fade: 14%;            /* inward gradient mask strength on the stage */
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: auto; }
+  html { background: var(--bg); }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 17px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  a { color: inherit; }
+
+  .hero, .outro { min-height: 70svh; display: grid; place-content: center; text-align: center;
+                  padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px)); }
+  h1 { font-size: clamp(2.2rem, 6.5vw, 5rem); line-height: 1.02; margin: 0 0 .4em;
+       letter-spacing: -.02em; max-width: 14ch; margin-inline: auto; }
+  .sub { color: var(--muted); max-width: 40ch; margin: 0 auto 1.6em; }
+  .cta { display: inline-block; padding: .85em 1.6em; border-radius: 999px;
+         background: var(--ink); color: #fff; text-decoration: none; font-weight: 600; }
+  .cta:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+  /* The tall native-scroll track. Its height comes from CONFIG.scrollVh (set in JS). */
+  .track { position: relative; }
+  .stage { position: sticky; top: 0; height: 100svh; overflow: hidden; background: var(--bg); }
+  .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+                  -webkit-mask-image: radial-gradient(ellipse at center, #000 calc(100% - var(--edge-fade) * 3), transparent 100%);
+                          mask-image: radial-gradient(ellipse at center, #000 calc(100% - var(--edge-fade) * 3), transparent 100%); }
+  .poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+
+  .copy { position: absolute; inset: 0; display: grid; align-content: end; padding: 0 max(16px, env(safe-area-inset-right, 0px)) 9svh max(16px, env(safe-area-inset-left, 0px));
+          pointer-events: none; }
+  .copy .line { grid-area: 1 / 1; max-width: 34ch; margin-inline: auto; text-align: center;
+                opacity: 0; transform: translateY(14px); transition: opacity .35s ease, transform .35s ease; }
+  .copy .line.on { opacity: 1; transform: none; }
+  .copy h2 { margin: 0 0 .25em; font-size: clamp(1.4rem, 3.6vw, 2.4rem); letter-spacing: -.01em; }
+  .copy p { margin: 0; color: var(--muted); }
+
+  .progress { position: absolute; left: max(16px, env(safe-area-inset-left, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); bottom: 3svh; height: 2px; background: #0001; }
+  .progress i { display: block; height: 100%; width: 100%; background: var(--accent);
+                transform-origin: 0 50%; transform: scaleX(0); }
+
+  .loading { position: absolute; top: 16px; right: max(16px, env(safe-area-inset-right, 0px)); font-size: 12px; color: var(--muted); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stage { position: relative; height: auto; aspect-ratio: 16 / 9; max-height: 80svh; }
+    .copy .line { position: static; opacity: 1; transform: none; transition: none; }
+    .copy { position: static; padding: 24px 0; pointer-events: auto; }
+    .progress { display: none; }
+  }
+</style>
+
+<header class="hero">
+  <h1>Built from one video</h1>
+  <p class="sub">Scroll down. Each pixel of scroll picks an exact frame, forwards and backwards.</p>
+  <p><a class="cta" href="#outro">Skip to the end</a></p>
+</header>
+
+<section class="track" id="track" aria-label="Scroll sequence">
+  <div class="stage" id="stage">
+    <img class="poster" id="poster" alt="" decoding="async">
+    <canvas id="canvas" aria-hidden="true"></canvas>
+    <div class="copy" id="copy">
+      <!-- Real HTML text, never baked into frames. One .line per copy stop. -->
+      <div class="line"><h2>Everything starts scattered</h2><p>Pieces drift apart until you scroll.</p></div>
+      <div class="line"><h2>Scroll to assemble</h2><p>Position decides the frame, not time or wheel speed.</p></div>
+      <div class="line"><h2>Resolved</h2><p>Scroll back up and it comes apart again, exactly.</p></div>
+    </div>
+    <div class="progress" aria-hidden="true"><i id="bar"></i></div>
+    <div class="loading" id="loading" aria-live="polite"></div>
+  </div>
+</section>
+
+<footer class="outro" id="outro">
+  <h1>That's the whole trick</h1>
+  <p class="sub">Swap the frames folder for your own video and you're done.</p>
+</footer>
+
+<script>
+(() => {
+  /* ---------- Configuration: every tunable lives here ---------- */
+  const CONFIG = {
+    framesDir: "frames/",         // folder with f_0001.jpg ... and frames.json
+    scrollVh: 320,                // how many viewport-heights the sequence lasts
+    fit: "contain",               // "contain" | "cover"
+    posterFrame: 1,               // 1-based frame shown before anything loads
+    reducedMotionFrame: "last",   // "first" | "last"
+    copyStops: [0, 0.38, 0.74],   // progress where each .line turns on
+    preloadAhead: 12,             // frames loaded around the current one first
+    maxConcurrent: 6,             // parallel image requests
+    maxDpr: 2                     // cap devicePixelRatio for the canvas
+  };
+
+  const $ = (id) => document.getElementById(id);
+  const track = $("track"), stage = $("stage"), canvas = $("canvas"), poster = $("poster");
+  const bar = $("bar"), loading = $("loading");
+  const lines = [...document.querySelectorAll(".copy .line")];
+  const ctx = canvas.getContext("2d");
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  let meta, frames = [], loaded = 0, current = -1, wantFrame = 0, rafId = 0, dirty = true;
+  let inFlight = 0, queue = [], queued = new Set();
+
+  const frameURL = (i) => CONFIG.framesDir +
+    meta.pattern.replace("{n}", String(i + 1).padStart(meta.pad, "0"));
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+
+  /* ---------- Layout ---------- */
+  function sizeTrack() {
+    track.style.height = reduced ? "auto" : `${CONFIG.scrollVh}svh`;
+  }
+  function sizeCanvas() {
+    const dpr = Math.min(window.devicePixelRatio || 1, CONFIG.maxDpr);
+    const r = stage.getBoundingClientRect();
+    canvas.width = Math.round(r.width * dpr);
+    canvas.height = Math.round(r.height * dpr);
+    current = -1; dirty = true;      // force a redraw at the new size
+  }
+
+  /* ---------- One normalized progress value, from native scroll position ---------- */
+  function getProgress() {
+    const top = track.getBoundingClientRect().top;                 // distance from viewport top
+    const scrollable = track.offsetHeight - window.innerHeight;
+    return clamp(-top / Math.max(1, scrollable), 0, 1);
+  }
+
+  /* ---------- Frame loading: nearby frames first, never block first paint ---------- */
+  function request(i) {
+    if (i < 0 || i >= meta.count || frames[i] || queued.has(i)) return;
+    queued.add(i); queue.push(i);
+  }
+  function pump() {
+    // Closest-to-current first so a fast scroll doesn't wait behind far-away frames.
+    queue.sort((a, b) => Math.abs(a - wantFrame) - Math.abs(b - wantFrame));
+    while (inFlight < CONFIG.maxConcurrent && queue.length) {
+      const i = queue.shift(); queued.delete(i);
+      if (frames[i]) continue;
+      inFlight++;
+      const img = new Image();
+      img.decoding = "async";
+      img.onload = () => {
+        frames[i] = img; loaded++; inFlight--;
+        loading.textContent = loaded < meta.count ? `Loading ${Math.round(loaded / meta.count * 100)}%` : "";
+        if (i === current || i === nearestLoaded(wantFrame)) dirty = true;
+        pump();
+      };
+      img.onerror = () => { inFlight--; pump(); };
+      img.src = frameURL(i);
+    }
+  }
+  function prioritize(center) {
+    for (let d = 0; d <= CONFIG.preloadAhead; d++) { request(center + d); request(center - d); }
+    pump();
+  }
+  function nearestLoaded(i) {              // fall back to the closest frame we already have
+    if (frames[i]) return i;
+    for (let d = 1; d < meta.count; d++) {
+      if (frames[i - d]) return i - d;
+      if (frames[i + d]) return i + d;
+    }
+    return -1;
+  }
+
+  /* ---------- Rendering: redraw only when the frame actually changes ---------- */
+  function draw(i) {
+    const img = frames[i];
+    if (!img) return;
+    const cw = canvas.width, ch = canvas.height;
+    const s = (CONFIG.fit === "cover" ? Math.max : Math.min)(cw / img.naturalWidth, ch / img.naturalHeight);
+    const w = img.naturalWidth * s, h = img.naturalHeight * s;
+    ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--bg") || "#fff";
+    ctx.fillRect(0, 0, cw, ch);
+    ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+    if (poster.style.display !== "none") poster.style.display = "none";   // real frame painted
+  }
+  function updateCopy(p) {
+    let active = 0;
+    CONFIG.copyStops.forEach((s, k) => { if (p >= s) active = k; });
+    lines.forEach((el, k) => el.classList.toggle("on", k === active));
+  }
+  function frame() {
+    rafId = 0;
+    const p = reduced ? (CONFIG.reducedMotionFrame === "first" ? 0 : 1) : getProgress();
+    wantFrame = clamp(Math.round(p * (meta.count - 1)), 0, meta.count - 1);
+    const show = nearestLoaded(wantFrame);
+    if (show !== current || dirty) { if (show >= 0) { draw(show); current = show; } dirty = false; }
+    bar.style.transform = `scaleX(${p})`;
+    updateCopy(p);
+  }
+  function schedule() { if (!rafId) rafId = requestAnimationFrame(frame); }
+  function onScroll() {
+    const p = getProgress();
+    prioritize(clamp(Math.round(p * (meta.count - 1)), 0, meta.count - 1));
+    schedule();
+  }
+
+  /* ---------- Boot ---------- */
+  fetch(CONFIG.framesDir + "frames.json").then((r) => r.json()).then((m) => {
+    meta = m;
+    poster.src = frameURL(clamp(CONFIG.posterFrame - 1, 0, meta.count - 1));
+    sizeTrack(); sizeCanvas();
+    const start = reduced ? (CONFIG.reducedMotionFrame === "first" ? 0 : meta.count - 1)
+                          : clamp(Math.round(getProgress() * (meta.count - 1)), 0, meta.count - 1);
+    prioritize(start);
+    // Then fill in everything else in the background, nearest-first.
+    for (let i = 0; i < meta.count; i++) request(i);
+    pump(); schedule();
+    if (!reduced) addEventListener("scroll", onScroll, { passive: true });
+    addEventListener("resize", () => { sizeTrack(); sizeCanvas(); schedule(); });
+    addEventListener("pageshow", schedule);
+    // Stop work while the tab is hidden.
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) schedule(); });
+  }).catch(() => {
+    loading.textContent = "Could not load frames/frames.json. Make frames with ../../intake/frames.py your-clip.mp4 frames, then serve this folder over http.";
+  });
+})();
+</script>
+
+</body></html>

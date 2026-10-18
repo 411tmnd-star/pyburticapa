@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Prune and Grow</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
+<link rel="stylesheet" href="ui.css">
+<style>
+.stage{position:relative;background:#f7f7f5;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;aspect-ratio:16/9;max-width:100%}
+.stage canvas{width:100%;height:100%;display:block}
+.cap{position:absolute;left:16px;right:16px;bottom:14px;font:500 15px/1.4 var(--display);color:#2a2b30;text-align:center;text-wrap:balance;text-shadow:0 1px 0 #fff}
+.controls{display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap}
+.controls input[type=range]{flex:1;min-width:180px}
+.time{font:500 13px var(--mono);font-variant-numeric:tabular-nums;color:var(--ember);min-width:70px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="index.html">UI Specifics</a><span>/</span><span>Prune and grow</span></nav>
+  <h1>Prune and grow</h1>
+  <p class="lede">The tree animation under "Refuse to confuse done with good" at <span class="tc">12:28</span>–<span class="tc">12:54</span>. A tidy tree drops leaves while she says "we pruned along the way", then the shot cuts to a tree growing wild as she says "now we can build 20 ideas in a week". Rebuilt here as a procedural canvas animation with the same timing; the drawing is original.</p>
+  <div class="stage"><canvas id="c" width="1600" height="900" aria-label="Animated tree: pruned, then growing wild"></canvas><div class="cap" id="cap"></div></div>
+  <div class="controls"><button id="play" class="primary" type="button">Pause</button><input id="scrub" type="range" min="0" max="25.8" step="0.05" value="0" aria-label="Scrub the animation"><span class="time" id="time">0.0 s</span><button id="seed" type="button">New tree</button></div>
+
+  <h2>Timing, from your recording</h2>
+  <div class="tablewrap"><table>
+    <tr><th>Recording</th><th>Talk</th><th>Picture</th><th>She says</th></tr>
+    <tr><td>0–6 s</td><td><span class="tc">12:28</span></td><td>Full, neat tree; slight sway</td><td>"Quality filter was essentially built into every stage… We've got 20 ideas and we can only staff one."</td></tr>
+    <tr><td>6–9 s</td><td><span class="tc">12:34</span></td><td>Leaves fall from the crown</td><td>"And then we poked and we prodded and we pruned along the way"</td></tr>
+    <tr><td>9–15.7 s</td><td><span class="tc">12:37</span></td><td>Thinner, shaped tree holds</td><td>"…and products grew somewhat methodically."</td></tr>
+    <tr><td>15.7 s</td><td><span class="tc">12:44</span></td><td>Hard cut to a wider, bare tree</td><td>"Well, now we can build 20 ideas in a week."</td></tr>
+    <tr><td>15.7–25.8 s</td><td><span class="tc">12:44</span></td><td>Branches sprawl outward and fill in</td><td>"This is awesome in many ways and we can finally skip theoretical meetings…"</td></tr>
+  </table></div>
+  <p>The same image appears in writing: the Designer Fund article describes her picturing AI-assisted creation as "a tree growing wild" that someone with taste still has to prune. <span class="tag s">source</span></p>
+
+  <h2>How it's built</h2>
+  <ol class="steps">
+    <li><b>Seeded recursion.</b> A branch splits into 2–3 children with random angle and length. A fixed seed means the "same" tree every play.</li>
+    <li><b>Two trees, one cut.</b> Phase 1 is a compact tree with a depth limit of 7. Phase 2 is a wider, deeper tree (depth 9, wider angles, longer arms) that grows from 0 to full length in 10 s, branch by branch in order of depth.</li>
+    <li><b>Pruning.</b> In phase 1, a third of the leaves are flagged at random. From 6–9 s each flagged leaf detaches, falls with gravity and a sine drift, and fades.</li>
+    <li><b>Ease.</b> Growth uses an ease-out per branch, staggered by depth, so the tree swells rather than ticks.</li>
+  </ol>
+  <div class="code" data-src="tree.js"><div class="bar"><span>tree.js · <span class="lines"></span></span><button class="copy" type="button">Copy</button></div><pre>Loading…</pre></div>
+</div>
+<script src="ui.js"></script>
+<script src="tree.js"></script>
+</body>
+</html>
